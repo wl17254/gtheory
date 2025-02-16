@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Generalisability Theory Demo</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="g_theory_demo_files/libs/clipboard/clipboard.min.js"></script>
+<script src="g_theory_demo_files/libs/quarto-html/quarto.js"></script>
+<script src="g_theory_demo_files/libs/quarto-html/popper.min.js"></script>
+<script src="g_theory_demo_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="g_theory_demo_files/libs/quarto-html/anchor.min.js"></script>
+<link href="g_theory_demo_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="g_theory_demo_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="g_theory_demo_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="g_theory_demo_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="g_theory_demo_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="g_theory_demo_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="g_theory_demo_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="g_theory_demo_files/libs/plotly-binding-4.10.4/plotly.js"></script>
+
+<script src="g_theory_demo_files/libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="g_theory_demo_files/libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="g_theory_demo_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="g_theory_demo_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="g_theory_demo_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="g_theory_demo_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Generalisability Theory Demo</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="create-a-data-frame-simulated-data" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-data-frame-simulated-data">1. Create a Data Frame (Simulated Data)</h2>
+<p>The dataset is based on a two-facet design <span class="citation" data-cites="huebner2019">(see “Two-facet p x i x o design” in <a href="#ref-huebner2019" role="doc-biblioref">Huebner &amp; Lucht, 2019</a> for more details)</span>, with raters and criteria items as facets, and theories/gaps as the object of measurement.</p>
+<p>The initial scenario assumes that each of 3 raters evaluates 10 theories over 4 criteria items (on a scale of 1 to 10), resulting in a 3 x 4 x 10 = 120-row dataset. The scores are taken from Table 3.2 of <span class="citation" data-cites="brennan2001">Brennan (<a href="#ref-brennan2001" role="doc-biblioref">2001</a>)</span>.</p>
+<section id="running-r-code" class="level3">
+<h3 class="anchored" data-anchor-id="running-r-code">Running R Code</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"pacman"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(<span class="st">"gtheory"</span>, <span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span>, <span class="st">"plotly"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Create a Data Frame (Simulated Data)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># For reproducibility</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>n_theories <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>n_raters <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>n_items <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create all combinations of theories, raters, and items</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">theory =</span> <span class="dv">1</span><span class="sc">:</span>n_theories,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">rater =</span> <span class="dv">1</span><span class="sc">:</span>n_raters,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">item =</span> <span class="dv">1</span><span class="sc">:</span>n_items</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Random scores below won't work as variance is 100% from residual</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># data$score &lt;- sample(1:10, nrow(data), replace = TRUE)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Instead, using sample data from Table 3.2 in:</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Brennan, R. L. (2001) Generalizability theory. New York: Springer.</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Brennan.<span class="fl">3.2</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>score <span class="ot">&lt;-</span> Brennan.<span class="fl">3.2</span><span class="sc">$</span>Score</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>theory <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>theory)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>rater <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>rater)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>item <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>item)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  theory rater item score
+1      1     1    1     5
+2      2     1    1     9
+3      3     1    1     3
+4      4     1    1     7
+5      5     1    1     9
+6      6     1    1     3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    theory rater item score
+115      5     3    4     3
+116      6     3    4     2
+117      7     3    4     4
+118      8     3    4     1
+119      9     3    4     1
+120     10     3    4     1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="g-study-generalisability-study" class="level2">
+<h2 class="anchored" data-anchor-id="g-study-generalisability-study">2. G Study (Generalisability Study)</h2>
+<p>The G study estimates the amount of error caused by each facet (source of error) and interaction of facets. The estimation represents the variance expected if we were to sample one rater/item from the universe admissible/available raters/items. This provides building blocks for the D study.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One-facet design:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Facets: raters</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># g_study_formula &lt;- score ~ (1 | theory) + (1 | rater)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Two-facet design: includes all main effects and two-way interactions.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Facets: raters and items</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Object: theories</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>g_study_formula <span class="ot">&lt;-</span> score <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> theory) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> rater) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">|</span> item) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> theory<span class="sc">:</span>rater) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">|</span> theory<span class="sc">:</span>item) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> rater<span class="sc">:</span>item)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>g_study_results <span class="ot">&lt;-</span> <span class="fu">gstudy</span>(data, g_study_formula)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show variance components</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> g_study_results<span class="sc">$</span>components</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        source       var percent n
+1  theory:item 0.4415520    10.0 1
+2 theory:rater 0.0000000     0.0 1
+3   rater:item 0.4538083    10.3 1
+4       theory 0.5454735    12.3 1
+5         item 0.3299985     7.5 1
+6        rater 0.2202742     5.0 1
+7     Residual 2.4259318    54.9 1</code></pre>
+</div>
+</div>
+</section>
+<section id="d-study-decision-study" class="level2">
+<h2 class="anchored" data-anchor-id="d-study-decision-study">3. D Study (Decision Study)</h2>
+<p>The D study (re)estimates the variance components with specified numbers of facets. Ideally, nearly all of the measured variance will be attributed to the object of measurement (i.e., differences across theories), with only a negligible amount of variance attributed to the remaining facets (e.g., raters, items, and various interactions).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the D-study with the original numbers of raters and items</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>d_study_results <span class="ot">&lt;-</span> <span class="fu">dstudy</span>(g_study_results, <span class="at">colname.objects =</span> <span class="st">"theory"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colname.scores =</span> <span class="st">"score"</span>, <span class="at">data =</span> data)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d_study_results<span class="sc">$</span>components</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        source        var percent  n
+1  theory:item 0.11038799    10.5  4
+2 theory:rater 0.00000000     0.0  3
+3   rater:item 0.03781736     3.6 12
+4       theory 0.54547350    51.9  1
+5         item 0.08249961     7.8  4
+6        rater 0.07342474     7.0  3
+7     Residual 0.20216098    19.2 12</code></pre>
+</div>
+</div>
+<p>Plot the percentages of variance by source:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>variance_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Facet =</span> d[, <span class="st">"source"</span>], <span class="at">Percent =</span> d[, <span class="st">"percent"</span>])</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plotly_dstudy <span class="ot">&lt;-</span> <span class="fu">ggplotly</span>(<span class="fu">ggplot</span>(variance_df, <span class="fu">aes</span>(<span class="at">x =</span> Facet, <span class="at">y =</span> Percent)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"darkturquoise"</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Source of Variance"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent"</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tooltip =</span> <span class="fu">c</span>(<span class="st">"Percent"</span>))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>plotly_dstudy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-dstudy" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dstudy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-9eceb20dc2a931752ae4" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-9eceb20dc2a931752ae4">{"x":{"data":[{"orientation":"v","width":[0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.89999999999999991,0.90000000000000013,0.90000000000000036],"base":[0,0,0,0,0,0,0],"x":[6,7,3,5,1,2,4],"y":[10.5,0,3.6000000000000001,51.899999999999999,7.7999999999999998,7,19.199999999999999],"text":["Percent: 10.5","Percent:  0.0","Percent:  3.6","Percent: 51.9","Percent:  7.8","Percent:  7.0","Percent: 19.2"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,206,209,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":37.260273972602747},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,7.5999999999999996],"tickmode":"array","ticktext":["item","rater","rater:item","Residual","theory","theory:item","theory:rater"],"tickvals":[1,2,3,4.0000000000000009,5,6,7],"categoryorder":"array","categoryarray":["item","rater","rater:item","Residual","theory","theory:item","theory:rater"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Source of Variance","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.5950000000000002,54.494999999999997],"tickmode":"array","ticktext":["0","10","20","30","40","50"],"tickvals":[0,10,20,30,40,50],"categoryorder":"array","categoryarray":["0","10","20","30","40","50"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Percent","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48bc6e6151c8":{"x":{},"y":{},"type":"bar"}},"cur_data":"48bc6e6151c8","visdat":{"48bc6e6151c8":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dstudy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: D Study: Variance Components
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-dstudy" class="quarto-xref">Figure&nbsp;1</a> shows that differences between theories are indeed the biggest source of variation (51.9%), which indicates a potenially good reliability.</p>
+<p>Interactions (theory:rater, etc.) show how the effects of one facet depend on the levels of another. For example, theory:rater indicates how much the rater variance/disagreement differs across different theories.</p>
+<p>The next step is to quantify the reliability by calculating the generalisability coefficient (<span class="math inline">\(\varepsilon\)</span>) and dependability coefficient (<span class="math inline">\(\phi\)</span>) based on the estimated variance.</p>
+</section>
+<section id="generalisability-coefficient-and-dependability-coefficient" class="level2">
+<h2 class="anchored" data-anchor-id="generalisability-coefficient-and-dependability-coefficient">4. Generalisability Coefficient and Dependability Coefficient</h2>
+<p>The generalisability coefficient assesses the relative consistency or reliability of the relative standing of individuals. For example, it answers the question, “how reliably can we <em>rank</em> theories based on this measurement design?” A higher coefficient (closer to 1) indicates higher generalisability. A coefficient of 0 means none of the observed variance is due to true score differences (it’s all error). A coefficient of 1 means the observed scores perfectly reflect the universe scores (no error in ranking individuals).</p>
+<p>The dependability coefficient is similar to the generalisability coefficient, but it focuses on the absolute level of scores, rather than just their rank - i.e., a theory’s score in relation to some absolute standard or cut-off value, not just their position relative to others. It answers the question, “How confident can we be in the <em>absolute value</em> of this score?” A higher coefficient (closer to 1) indicates greater dependability.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> d_study_results<span class="sc">$</span>generalizability</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> d_study_results<span class="sc">$</span>dependability</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Generalisability coefficient ="</span>, epsilon, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalisability coefficient = 0.6357333 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Dependability coefficient ="</span>, phi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dependability coefficient = 0.5186272</code></pre>
+</div>
+</div>
+<p>A generalisability coefficient of 0.64 is reasonably good, but could potentially be improved further if needed.</p>
+<p>The final step, depending on the purpose, is to predict and identify the optimal numbers of facets to maximise the generalisability through D studies.</p>
+</section>
+<section id="optimisation-optional" class="level2">
+<h2 class="anchored" data-anchor-id="optimisation-optional">5. Optimisation (Optional)</h2>
+<p>This optional D study explores different “designs” by changing the number of levels for each facet (e.g., how many raters, how many items). A grid search can be used to search for the optimal combinations of raters and items to use for achieving a desired level of reliability.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a range of possible numbers of raters and items as alternatives</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>n_raters_range <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>n_items_range <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate combinations of n_raters_range and n_items_range</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>n_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">n_raters =</span> n_raters_range,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">n_items =</span> n_items_range)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Define function: Calculate generalisability coefficient</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>calculate_epsilon <span class="ot">&lt;-</span> <span class="cf">function</span>(g_study_results, n_raters, n_items) {</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> g_study_results</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  var_t <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory"</span>]</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  var_r <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"rater"</span>]</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  var_i <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"item"</span>]</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  var_tr <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory:rater"</span>]</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  var_ti <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory:item"</span>]</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  var_ri <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"rater:item"</span>]</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  var_resid <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"Residual"</span>]</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> ((n_items <span class="sc">|</span> n_raters) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="dv">0</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Relative error variance</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    var_rel_error <span class="ot">&lt;-</span> (var_tr <span class="sc">/</span> n_raters) <span class="sc">+</span> (var_ti <span class="sc">/</span> n_items) <span class="sc">+</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>      (var_resid <span class="sc">/</span> (n_raters <span class="sc">*</span> n_items))</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    epsilon <span class="ot">&lt;-</span> var_t <span class="sc">/</span> (var_t <span class="sc">+</span> var_rel_error)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Define function: Calculate dependability coefficient</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>calculate_phi <span class="ot">&lt;-</span> <span class="cf">function</span>(g_study_results, n_raters, n_items) {</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> g_study_results</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  var_t <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory"</span>]</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  var_r <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"rater"</span>]</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  var_i <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"item"</span>]</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>  var_tr <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory:rater"</span>]</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>  var_ti <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory:item"</span>]</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  var_ri <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"rater:item"</span>]</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>  var_resid <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"Residual"</span>]</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> ((n_items <span class="sc">|</span> n_raters) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="dv">0</span>)</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Absolute error variance</span></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>    var_abs_error <span class="ot">&lt;-</span> (var_r <span class="sc">/</span> n_raters) <span class="sc">+</span> (var_i <span class="sc">/</span> n_items) <span class="sc">+</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>      (var_tr <span class="sc">/</span> n_raters) <span class="sc">+</span> (var_ti <span class="sc">/</span> n_items) <span class="sc">+</span></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>      (var_ri <span class="sc">/</span> (n_raters <span class="sc">*</span> n_items)) <span class="sc">+</span></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>      (var_resid <span class="sc">/</span> (n_raters <span class="sc">*</span> n_items))</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>    phi <span class="ot">&lt;-</span> var_t <span class="sc">/</span> (var_t <span class="sc">+</span> var_abs_error)</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate epsilon and phi for each combination</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> n_grid <span class="sc">%&gt;%</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">epsilon =</span> <span class="fu">calculate_epsilon</span>(g, n_raters, n_items),</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>         <span class="at">phi =</span> <span class="fu">calculate_phi</span>(g, n_raters, n_items))</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 100 × 4
+# Rowwise: 
+   n_raters n_items epsilon   phi
+      &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;
+ 1        1       1   0.160 0.123
+ 2        2       1   0.248 0.190
+ 3        3       1   0.304 0.232
+ 4        4       1   0.342 0.261
+ 5        5       1   0.371 0.282
+ 6        6       1   0.392 0.297
+ 7        7       1   0.409 0.310
+ 8        8       1   0.423 0.320
+ 9        9       1   0.434 0.328
+10       10       1   0.444 0.335
+# ℹ 90 more rows</code></pre>
+</div>
+</div>
+<p>Plot epsilon variation on a heatmap:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plot_epsilon <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">x =</span> n_raters, <span class="at">y =</span> n_items,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">fill =</span> epsilon)) <span class="sc">+</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Raters"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Items"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"epsilon"</span>) <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>plotly_epsilon <span class="ot">&lt;-</span> <span class="fu">ggplotly</span>(plot_epsilon, </span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>                           <span class="at">tooltip =</span> <span class="fu">c</span>(<span class="st">"n_raters"</span>, <span class="st">"n_items"</span>, <span class="st">"epsilon"</span>))</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>plotly_epsilon</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-plotly_epsilon" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotly_epsilon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-f30d7598595affc4f25a" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-f30d7598595affc4f25a">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10],"y":[1,2,3,4,5,6,7,8,9,10],"z":[[0,0.12092138889825504,0.19753154383372981,0.25041538105379024,0.28911710312411726,0.31866712462421193,0.34196834486549987,0.36081333650698522,0.37636887340062569,0.38942709763460631],[0.15887421802673016,0.32596250453576792,0.42013408968074795,0.48057050019569586,0.52264552690738619,0.55362334205513053,0.57738273747126212,0.59618347314097719,0.61143119889346476,0.62404614594679242],[0.27926552400238491,0.46303243222663709,0.55860783343495601,0.61719192328872041,0.65677818523266485,0.685318327735148,0.7068697191031702,0.72371939120247397,0.73725462952844856,0.74836581640678768],[0.373645598432995,0.56112426482479505,0.65306538884344145,0.70766783184525295,0.74383817431569288,0.76956177392940606,0.78879337741127131,0.80371523876988771,0.81563008864918163,0.82536367279803158],[0.44962238486354533,0.63479442007717402,0.72161557926134223,0.7719996608614248,0.80490607710606332,0.82808483803810429,0.84529395266573271,0.85857652851303823,0.86913880890211392,0.87773885028415033],[0.51210043133124483,0.6921535581904853,0.77363160772384743,0.82008880731406597,0.85011004682141011,0.87110657168665695,0.88661604444070385,0.89854080351816956,0.90799490787517401,0.91567411298148227],[0.56438369855095893,0.73807880330312814,0.81445169778278093,0.8573972420688003,0.88492105844459024,0.90406558339533438,0.9181517658254913,0.92895042706658026,0.93749219344238444,0.94441765286556756],[0.60877924208739309,0.77567911287381752,0.84733935418920103,0.88718482375495711,0.91255377317088815,0.93012270100394123,0.94300960339724726,0.95286601935165138,0.96064845718577141,0.96694920901180859],[0.64694683505921091,0.80702998250180469,0.87440203482569756,0.91151746907087383,0.93502099301377284,0.95124041542674631,0.96310760286645747,0.97216711037444381,0.97930994657702686,0.98508617432217127],[0.68011109631752997,0.83356991941605763,0.89706139636678173,0.93176791145481208,0.95364732144491415,0.96870160911514902,0.97969344731561681,0.98807173865776088,0.99466958049269094,1]],"text":[["n_raters:  1<br />n_items:  1<br />epsilon: 0.1598243","n_raters:  2<br />n_items:  1<br />epsilon: 0.2479435","n_raters:  3<br />n_items:  1<br />epsilon: 0.3037717","n_raters:  4<br />n_items:  1<br />epsilon: 0.3423098","n_raters:  5<br />n_items:  1<br />epsilon: 0.3705129","n_raters:  6<br />n_items:  1<br />epsilon: 0.3920469","n_raters:  7<br />n_items:  1<br />epsilon: 0.4090273","n_raters:  8<br />n_items:  1<br />epsilon: 0.4227602","n_raters:  9<br />n_items:  1<br />epsilon: 0.4340960","n_raters: 10<br />n_items:  1<br />epsilon: 0.4436119"],["n_raters:  1<br />n_items:  2<br />epsilon: 0.2756009","n_raters:  2<br />n_items:  2<br />epsilon: 0.3973633","n_raters:  3<br />n_items:  2<br />epsilon: 0.4659891","n_raters:  4<br />n_items:  2<br />epsilon: 0.5100310","n_raters:  5<br />n_items:  2<br />epsilon: 0.5406923","n_raters:  6<br />n_items:  2<br />epsilon: 0.5632668","n_raters:  7<br />n_items:  2<br />epsilon: 0.5805810","n_raters:  8<br />n_items:  2<br />epsilon: 0.5942817","n_raters:  9<br />n_items:  2<br />epsilon: 0.6053932","n_raters: 10<br />n_items:  2<br />epsilon: 0.6145861"],["n_raters:  1<br />n_items:  3<br />epsilon: 0.3633338","n_raters:  2<br />n_items:  3<br />epsilon: 0.4972504","n_raters:  3<br />n_items:  3<br />epsilon: 0.5668992","n_raters:  4<br />n_items:  3<br />epsilon: 0.6095912","n_raters:  5<br />n_items:  3<br />epsilon: 0.6384390","n_raters:  6<br />n_items:  3<br />epsilon: 0.6592371","n_raters:  7<br />n_items:  3<br />epsilon: 0.6749422","n_raters:  8<br />n_items:  3<br />epsilon: 0.6872211","n_raters:  9<br />n_items:  3<br />epsilon: 0.6970847","n_raters: 10<br />n_items:  3<br />epsilon: 0.7051817"],["n_raters:  1<br />n_items:  4<br />epsilon: 0.4321115","n_raters:  2<br />n_items:  4<br />epsilon: 0.5687330","n_raters:  3<br />n_items:  4<br />epsilon: 0.6357333","n_raters:  4<br />n_items:  4<br />epsilon: 0.6755238","n_raters:  5<br />n_items:  4<br />epsilon: 0.7018823","n_raters:  6<br />n_items:  4<br />epsilon: 0.7206279","n_raters:  7<br />n_items:  4<br />epsilon: 0.7346426","n_raters:  8<br />n_items:  4<br />epsilon: 0.7455166","n_raters:  9<br />n_items:  4<br />epsilon: 0.7541993","n_raters: 10<br />n_items:  4<br />epsilon: 0.7612925"],["n_raters:  1<br />n_items:  5<br />epsilon: 0.4874781","n_raters:  2<br />n_items:  5<br />epsilon: 0.6224187","n_raters:  3<br />n_items:  5<br />epsilon: 0.6856880","n_raters:  4<br />n_items:  5<br />epsilon: 0.7224044","n_raters:  5<br />n_items:  5<br />epsilon: 0.7463844","n_raters:  6<br />n_items:  5<br />epsilon: 0.7632755","n_raters:  7<br />n_items:  5<br />epsilon: 0.7758163","n_raters:  8<br />n_items:  5<br />epsilon: 0.7854957","n_raters:  9<br />n_items:  5<br />epsilon: 0.7931928","n_raters: 10<br />n_items:  5<br />epsilon: 0.7994599"],["n_raters:  1<br />n_items:  6<br />epsilon: 0.5330078","n_raters:  2<br />n_items:  6<br />epsilon: 0.6642181","n_raters:  3<br />n_items:  6<br />epsilon: 0.7235937","n_raters:  4<br />n_items:  6<br />epsilon: 0.7574485","n_raters:  5<br />n_items:  6<br />epsilon: 0.7793259","n_raters:  6<br />n_items:  6<br />epsilon: 0.7946267","n_raters:  7<br />n_items:  6<br />epsilon: 0.8059290","n_raters:  8<br />n_items:  6<br />epsilon: 0.8146189","n_raters:  9<br />n_items:  6<br />epsilon: 0.8215084","n_raters: 10<br />n_items:  6<br />epsilon: 0.8271045"],["n_raters:  1<br />n_items:  7<br />epsilon: 0.5711082","n_raters:  2<br />n_items:  7<br />epsilon: 0.6976853","n_raters:  3<br />n_items:  7<br />epsilon: 0.7533406","n_raters:  4<br />n_items:  7<br />epsilon: 0.7846363","n_raters:  5<br />n_items:  7<br />epsilon: 0.8046938","n_raters:  6<br />n_items:  7<br />epsilon: 0.8186450","n_raters:  7<br />n_items:  7<br />epsilon: 0.8289100","n_raters:  8<br />n_items:  7<br />epsilon: 0.8367794","n_raters:  9<br />n_items:  7<br />epsilon: 0.8430040","n_raters: 10<br />n_items:  7<br />epsilon: 0.8480508"],["n_raters:  1<br />n_items:  8<br />epsilon: 0.6034607","n_raters:  2<br />n_items:  8<br />epsilon: 0.7250858","n_raters:  3<br />n_items:  8<br />epsilon: 0.7773068","n_raters:  4<br />n_items:  8<br />epsilon: 0.8063435","n_raters:  5<br />n_items:  8<br />epsilon: 0.8248306","n_raters:  6<br />n_items:  8<br />epsilon: 0.8376336","n_raters:  7<br />n_items:  8<br />epsilon: 0.8470247","n_raters:  8<br />n_items:  8<br />epsilon: 0.8542074","n_raters:  9<br />n_items:  8<br />epsilon: 0.8598787","n_raters: 10<br />n_items:  8<br />epsilon: 0.8644702"],["n_raters:  1<br />n_items:  9<br />epsilon: 0.6312746","n_raters:  2<br />n_items:  9<br />epsilon: 0.7479321","n_raters:  3<br />n_items:  9<br />epsilon: 0.7970282","n_raters:  4<br />n_items:  9<br />epsilon: 0.8240754","n_raters:  5<br />n_items:  9<br />epsilon: 0.8412032","n_raters:  6<br />n_items:  9<br />epsilon: 0.8530228","n_raters:  7<br />n_items:  9<br />epsilon: 0.8616707","n_raters:  8<br />n_items:  9<br />epsilon: 0.8682727","n_raters:  9<br />n_items:  9<br />epsilon: 0.8734779","n_raters: 10<br />n_items:  9<br />epsilon: 0.8776872"],["n_raters:  1<br />n_items: 10<br />epsilon: 0.6554424","n_raters:  2<br />n_items: 10<br />epsilon: 0.7672726","n_raters:  3<br />n_items: 10<br />epsilon: 0.8135408","n_raters:  4<br />n_items: 10<br />epsilon: 0.8388325","n_raters:  5<br />n_items: 10<br />epsilon: 0.8547767","n_raters:  6<br />n_items: 10<br />epsilon: 0.8657473","n_raters:  7<br />n_items: 10<br />epsilon: 0.8737574","n_raters:  8<br />n_items: 10<br />epsilon: 0.8798629","n_raters:  9<br />n_items: 10<br />epsilon: 0.8846709","n_raters: 10<br />n_items: 10<br />epsilon: 0.8885554"]],"colorscale":[[0,"#440154"],[0.12092138889825504,"#452E72"],[0.15887421802673016,"#44397C"],[0.19753154383372981,"#414386"],[0.25041538105379024,"#3F5189"],[0.27926552400238491,"#3D598A"],[0.28911710312411726,"#3C5C8A"],[0.31866712462421193,"#39638B"],[0.32596250453576792,"#38658C"],[0.34196834486549987,"#36698C"],[0.36081333650698522,"#336E8D"],[0.373645598432995,"#30718D"],[0.37636887340062569,"#30728D"],[0.38942709763460631,"#2D758E"],[0.42013408968074795,"#2B7D8D"],[0.44962238486354533,"#2C848C"],[0.46303243222663709,"#2C878B"],[0.48057050019569586,"#2C8B8A"],[0.51210043133124483,"#2B9389"],[0.52264552690738619,"#2A9588"],[0.55362334205513053,"#289D87"],[0.55860783343495601,"#279E86"],[0.56112426482479505,"#279F86"],[0.56438369855095893,"#279F86"],[0.57738273747126212,"#25A285"],[0.59618347314097719,"#23A784"],[0.60877924208739309,"#2AAA82"],[0.61143119889346476,"#2CAA82"],[0.61719192328872041,"#31AB80"],[0.62404614594679242,"#35AD7F"],[0.63479442007717402,"#3CAF7C"],[0.64694683505921091,"#42B17A"],[0.65306538884344145,"#46B378"],[0.65677818523266485,"#47B377"],[0.68011109631752997,"#52B872"],[0.685318327735148,"#54B971"],[0.6921535581904853,"#57BB6F"],[0.7068697191031702,"#5CBE6B"],[0.70766783184525295,"#5DBE6B"],[0.72161557926134223,"#62C168"],[0.72371939120247397,"#62C167"],[0.73725462952844856,"#67C463"],[0.73807880330312814,"#67C463"],[0.74383817431569288,"#69C562"],[0.74836581640678768,"#6AC660"],[0.76956177392940606,"#71CB5A"],[0.7719996608614248,"#72CB5A"],[0.77363160772384743,"#72CB59"],[0.77567911287381752,"#73CC59"],[0.78879337741127131,"#77CF55"],[0.80371523876988771,"#7DD150"],[0.80490607710606332,"#7ED250"],[0.80702998250180469,"#80D250"],[0.81445169778278093,"#85D34F"],[0.81563008864918163,"#86D34F"],[0.82008880731406597,"#8AD44E"],[0.82536367279803158,"#8ED44D"],[0.82808483803810429,"#90D44D"],[0.83356991941605763,"#94D54C"],[0.84529395266573271,"#9CD74A"],[0.84733935418920103,"#9DD749"],[0.85011004682141011,"#9FD749"],[0.8573972420688003,"#A4D848"],[0.85857652851303823,"#A5D847"],[0.86913880890211392,"#ACD946"],[0.87110657168665695,"#ADDA45"],[0.87440203482569756,"#B0DA45"],[0.87773885028415033,"#B2DA44"],[0.88492105844459024,"#B7DB43"],[0.88661604444070385,"#B8DB42"],[0.88718482375495711,"#B8DB42"],[0.89706139636678173,"#BEDD40"],[0.89854080351816956,"#BFDD40"],[0.90406558339533438,"#C3DD3F"],[0.90799490787517401,"#C5DE3E"],[0.91151746907087383,"#C7DE3D"],[0.91255377317088815,"#C8DE3D"],[0.91567411298148227,"#CADF3C"],[0.9181517658254913,"#CCDF3C"],[0.92895042706658026,"#D2E039"],[0.93012270100394123,"#D3E039"],[0.93176791145481208,"#D4E039"],[0.93502099301377284,"#D6E138"],[0.93749219344238444,"#D8E137"],[0.94300960339724726,"#DBE136"],[0.94441765286556756,"#DCE236"],[0.95124041542674631,"#E0E234"],[0.95286601935165138,"#E1E234"],[0.95364732144491415,"#E1E333"],[0.96064845718577141,"#E6E331"],[0.96310760286645747,"#E7E331"],[0.96694920901180859,"#E9E430"],[0.96870160911514902,"#EAE42F"],[0.97216711037444381,"#EDE42E"],[0.97930994657702686,"#F1E52C"],[0.97969344731561681,"#F1E52C"],[0.98508617432217127,"#F4E62A"],[0.98807173865776088,"#F6E629"],[0.99466958049269094,"#FAE727"],[1,"#FDE725"]],"type":"heatmap","showscale":false,"autocolorscale":false,"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0],"y":[0],"name":"1928279de52cc746487394e8cc66b646","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#440154"],[0.003344481605351187,"#440355"],[0.0066889632107023358,"#440456"],[0.010033444816053522,"#440656"],[0.013377926421404672,"#450857"],[0.016722408026755859,"#450958"],[0.020066889632107007,"#450B59"],[0.023411371237458196,"#450D5A"],[0.026755852842809381,"#450E5B"],[0.030100334448160529,"#45105B"],[0.033444816053511718,"#45115C"],[0.036789297658862866,"#45135D"],[0.040133779264214055,"#45145E"],[0.043478260869565202,"#45155F"],[0.046822742474916391,"#451760"],[0.050167224080267574,"#451860"],[0.053511705685618728,"#451961"],[0.056856187290969876,"#461A62"],[0.060200668896321058,"#461B63"],[0.063545150501672254,"#461D64"],[0.066889632107023395,"#461E65"],[0.070234113712374591,"#461F65"],[0.073578595317725773,"#462066"],[0.076923076923076913,"#462167"],[0.080267558528428068,"#462268"],[0.08361204013377925,"#462369"],[0.086956521739130446,"#46246A"],[0.090301003344481587,"#46256B"],[0.093645484949832783,"#46266B"],[0.096989966555183965,"#46276C"],[0.10033444816053512,"#46286D"],[0.10367892976588626,"#46296E"],[0.10702341137123746,"#462A6F"],[0.11036789297658864,"#452B70"],[0.11371237458193979,"#452C70"],[0.11705685618729093,"#452D71"],[0.12040133779264212,"#452E72"],[0.12374581939799331,"#452F73"],[0.12709030100334445,"#453074"],[0.13043478260869562,"#453175"],[0.13377926421404684,"#453276"],[0.13712374581939799,"#453377"],[0.14046822742474913,"#453477"],[0.14381270903010035,"#443578"],[0.14715719063545152,"#443679"],[0.15050167224080266,"#44367A"],[0.15384615384615388,"#44377B"],[0.15719063545150502,"#44387C"],[0.16053511705685616,"#44397D"],[0.16387959866220733,"#443A7D"],[0.16722408026755847,"#433B7E"],[0.1705685618729097,"#433C7F"],[0.17391304347826084,"#433D80"],[0.17725752508361201,"#433E81"],[0.18060200668896323,"#433F82"],[0.18394648829431437,"#424083"],[0.18729096989966551,"#424184"],[0.19063545150501673,"#424185"],[0.1939799331103679,"#424285"],[0.19732441471571904,"#414386"],[0.20066889632107027,"#414487"],[0.20401337792642135,"#414587"],[0.20735785953177258,"#414687"],[0.21070234113712372,"#414787"],[0.21404682274247486,"#414888"],[0.21739130434782608,"#404988"],[0.22073578595317725,"#404A88"],[0.22408026755852839,"#404A88"],[0.22742474916387961,"#404B88"],[0.23076923076923075,"#404C88"],[0.23411371237458192,"#404D88"],[0.23745819397993315,"#404E88"],[0.2408026755852842,"#3F4F89"],[0.24414715719063543,"#3F5089"],[0.24749163879598665,"#3F5189"],[0.25083612040133774,"#3F5289"],[0.25418060200668896,"#3F5289"],[0.25752508361204013,"#3E5389"],[0.26086956521739124,"#3E5489"],[0.26421404682274247,"#3E5589"],[0.26755852842809363,"#3E568A"],[0.2709030100334448,"#3D578A"],[0.27424749163879603,"#3D588A"],[0.27759197324414714,"#3D598A"],[0.28093645484949831,"#3D598A"],[0.28428093645484953,"#3C5A8A"],[0.28762541806020059,"#3C5B8A"],[0.29096989966555181,"#3C5C8A"],[0.29431438127090304,"#3B5D8A"],[0.29765886287625409,"#3B5E8B"],[0.30100334448160532,"#3B5F8B"],[0.30434782608695649,"#3A5F8B"],[0.30769230769230765,"#3A608B"],[0.31103678929765888,"#3A618B"],[0.31438127090300999,"#39628B"],[0.31772575250836116,"#39638B"],[0.32107023411371238,"#38648B"],[0.32441471571906355,"#38658C"],[0.32775919732441466,"#38658C"],[0.33110367892976589,"#37668C"],[0.334448160535117,"#37678C"],[0.33779264214046822,"#36688C"],[0.34113712374581934,"#36698C"],[0.34448160535117056,"#356A8C"],[0.34782608695652178,"#356B8C"],[0.35117056856187301,"#346B8C"],[0.35451505016722407,"#346C8D"],[0.35785953177257529,"#336D8D"],[0.36120401337792635,"#326E8D"],[0.36454849498327757,"#326F8D"],[0.3678929765886288,"#31708D"],[0.37123745819397991,"#31718D"],[0.37458193979933113,"#30718D"],[0.37792642140468236,"#2F728D"],[0.38127090301003341,"#2F738D"],[0.38461538461538464,"#2E748E"],[0.38795986622073586,"#2D758E"],[0.39130434782608692,"#2C768E"],[0.39464882943143814,"#2B778E"],[0.39799331103678925,"#2B778E"],[0.40133779264214048,"#2A788E"],[0.4046822742474917,"#2A798E"],[0.40802675585284276,"#2A7A8E"],[0.41137123745819398,"#2B7B8E"],[0.41471571906354521,"#2B7B8D"],[0.41806020066889626,"#2B7C8D"],[0.42140468227424749,"#2B7D8D"],[0.42474916387959871,"#2B7E8D"],[0.42809364548494983,"#2B7F8D"],[0.43143812709030105,"#2B7F8D"],[0.43478260869565227,"#2B808D"],[0.43812709030100333,"#2B818C"],[0.44147157190635455,"#2B828C"],[0.44481605351170561,"#2B838C"],[0.44816053511705684,"#2C838C"],[0.45150501672240806,"#2C848C"],[0.45484949832775917,"#2C858C"],[0.4581939799331104,"#2C868B"],[0.46153846153846162,"#2C878B"],[0.46488294314381268,"#2C878B"],[0.4682274247491639,"#2C888B"],[0.47157190635451512,"#2C898B"],[0.47491638795986618,"#2C8A8B"],[0.47826086956521741,"#2C8B8B"],[0.48160535117056846,"#2B8B8A"],[0.48494983277591974,"#2B8C8A"],[0.48829431438127097,"#2B8D8A"],[0.49163879598662202,"#2B8E8A"],[0.49498327759197325,"#2B8F8A"],[0.49832775919732447,"#2B8F8A"],[0.50167224080267558,"#2B9089"],[0.50501672240802675,"#2B9189"],[0.50836120401337803,"#2B9289"],[0.51170568561872909,"#2B9389"],[0.51505016722408026,"#2A9389"],[0.51839464882943154,"#2A9489"],[0.52173913043478259,"#2A9588"],[0.52508361204013376,"#2A9688"],[0.52842809364548493,"#2A9788"],[0.5317725752508361,"#2A9788"],[0.53511705685618738,"#299888"],[0.53846153846153844,"#299987"],[0.5418060200668896,"#299A87"],[0.54515050167224088,"#299B87"],[0.54849498327759194,"#289B87"],[0.55183946488294311,"#289C87"],[0.55518394648829439,"#289D87"],[0.55852842809364545,"#279E86"],[0.56187290969899673,"#279F86"],[0.56521739130434789,"#27A086"],[0.56856187290969895,"#26A086"],[0.57190635451505023,"#26A186"],[0.57525083612040129,"#26A285"],[0.57859531772575246,"#25A385"],[0.58193979933110374,"#25A485"],[0.58528428093645479,"#24A485"],[0.58862876254180607,"#24A585"],[0.59197324414715724,"#23A684"],[0.5953177257525083,"#23A784"],[0.59866220735785958,"#22A884"],[0.60200668896321075,"#24A884"],[0.6053511705685618,"#27A983"],[0.60869565217391308,"#2AAA82"],[0.61204013377926414,"#2DAA81"],[0.61538461538461531,"#2FAB81"],[0.61872909698996659,"#32AC80"],[0.62207357859531764,"#34AC7F"],[0.62541806020066892,"#36AD7E"],[0.62876254180602009,"#38AE7E"],[0.63210702341137115,"#3AAE7D"],[0.63545150501672243,"#3CAF7C"],[0.6387959866220736,"#3EB07B"],[0.64214046822742465,"#40B07B"],[0.64548494983277593,"#42B17A"],[0.6488294314381271,"#43B279"],[0.65217391304347827,"#45B278"],[0.65551839464882944,"#47B378"],[0.6588628762541805,"#48B477"],[0.66220735785953178,"#4AB476"],[0.66555183946488294,"#4BB575"],[0.668896321070234,"#4DB675"],[0.67224080267558528,"#4EB674"],[0.67558528428093645,"#50B773"],[0.67892976588628762,"#51B872"],[0.68227424749163879,"#53B971"],[0.68561872909699006,"#54B971"],[0.68896321070234112,"#55BA70"],[0.69230769230769229,"#57BB6F"],[0.69565217391304335,"#58BB6E"],[0.69899665551839463,"#59BC6D"],[0.7023411371237458,"#5BBD6C"],[0.70568561872909696,"#5CBD6C"],[0.70903010033444813,"#5DBE6B"],[0.71237458193979919,"#5EBF6A"],[0.71571906354515047,"#5FBF69"],[0.71906354515050164,"#61C068"],[0.72240802675585269,"#62C167"],[0.72575250836120397,"#63C166"],[0.72909698996655514,"#64C266"],[0.73244147157190631,"#65C365"],[0.73578595317725748,"#66C464"],[0.73913043478260876,"#67C463"],[0.74247491638795982,"#69C562"],[0.74581939799331098,"#6AC661"],[0.74916387959866226,"#6BC660"],[0.75250836120401332,"#6CC75F"],[0.75585284280936449,"#6DC85E"],[0.75919732441471566,"#6EC85D"],[0.76254180602006683,"#6FC95C"],[0.76588628762541811,"#70CA5B"],[0.76923076923076916,"#71CB5A"],[0.77257525083612033,"#72CB59"],[0.77591973244147161,"#73CC58"],[0.77926421404682267,"#74CD57"],[0.78260869565217384,"#75CD56"],[0.78595317725752512,"#76CE55"],[0.78929765886287617,"#77CF54"],[0.79264214046822734,"#78CF53"],[0.79598662207357851,"#79D052"],[0.79933110367892968,"#7AD151"],[0.80267558528428096,"#7CD151"],[0.80602006688963201,"#7FD250"],[0.80936454849498318,"#81D250"],[0.81270903010033446,"#84D34F"],[0.81605351170568552,"#87D34F"],[0.81939799331103669,"#89D34E"],[0.82274247491638797,"#8CD44D"],[0.82608695652173902,"#8ED44D"],[0.8294314381270903,"#91D54C"],[0.83277591973244147,"#93D54C"],[0.83612040133779253,"#95D54B"],[0.83946488294314381,"#98D64B"],[0.84280936454849487,"#9AD64A"],[0.84615384615384603,"#9DD74A"],[0.84949832775919731,"#9FD749"],[0.85284280936454837,"#A1D748"],[0.85618729096989965,"#A3D848"],[0.85953177257525082,"#A6D847"],[0.86287625418060188,"#A8D947"],[0.86622073578595316,"#AAD946"],[0.86956521739130432,"#ACD946"],[0.87290969899665538,"#AFDA45"],[0.87625418060200666,"#B1DA44"],[0.87959866220735772,"#B3DB44"],[0.882943143812709,"#B5DB43"],[0.88628762541806017,"#B7DB42"],[0.88963210702341122,"#BADC42"],[0.8929765886287625,"#BCDC41"],[0.89632107023411367,"#BEDC40"],[0.89966555183946473,"#C0DD40"],[0.90301003344481601,"#C2DD3F"],[0.90635451505016718,"#C4DE3E"],[0.90969899665551834,"#C6DE3E"],[0.91304347826086951,"#C8DE3D"],[0.91638795986622079,"#CBDF3C"],[0.91973244147157185,"#CDDF3B"],[0.92307692307692302,"#CFDF3B"],[0.92642140468227407,"#D1E03A"],[0.92976588628762535,"#D3E039"],[0.93311036789297652,"#D5E038"],[0.93645484949832769,"#D7E138"],[0.93979933110367886,"#D9E137"],[0.94314381270903014,"#DBE136"],[0.9464882943143812,"#DDE235"],[0.94983277591973236,"#DFE234"],[0.95317725752508364,"#E1E233"],[0.9565217391304347,"#E3E333"],[0.95986622073578587,"#E5E332"],[0.96321070234113693,"#E7E331"],[0.96655518394648821,"#E9E430"],[0.96989966555183948,"#EBE42F"],[0.97324414715719054,"#EDE42E"],[0.97658862876254171,"#EFE52D"],[0.97993311036789299,"#F1E52C"],[0.98327759197324405,"#F3E52B"],[0.98662207357859522,"#F5E62A"],[0.98996655518394649,"#F7E629"],[0.99331103678929755,"#F9E627"],[0.99665551839464872,"#FBE726"],[1,"#FDE725"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"thickness":23.039999999999996,"title":"epsilon","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"tickmode":"array","ticktext":["0.3","0.5","0.7"],"tickvals":[0.19338134999122727,0.46691617992426265,0.74045100985729828],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":48.949771689497723},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0,11],"tickmode":"array","ticktext":["0.0","2.5","5.0","7.5","10.0"],"tickvals":[0,2.5,5,7.4999999999999991,10],"categoryorder":"array","categoryarray":["0.0","2.5","5.0","7.5","10.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Number of Raters","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0,11],"tickmode":"array","ticktext":["0.0","2.5","5.0","7.5","10.0"],"tickvals":[0,2.5,5,7.4999999999999991,10],"categoryorder":"array","categoryarray":["0.0","2.5","5.0","7.5","10.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Items","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176002,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"epsilon","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48bc2f6e21b7":{"x":{},"y":{},"fill":{},"type":"heatmap"}},"cur_data":"48bc2f6e21b7","visdat":{"48bc2f6e21b7":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotly_epsilon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Gneralisability Coefficient Variation
+</figcaption>
+</figure>
+</div>
+</div>
+<p>And finally, plot phi variation on a heatmap:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>plot_phi <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">aes</span>(<span class="at">x =</span> n_raters, <span class="at">y =</span> n_items, <span class="at">fill =</span> phi)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"magma"</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Raters"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Items"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"phi"</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>plotly_phi <span class="ot">&lt;-</span> <span class="fu">ggplotly</span>(plot_phi, </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">tooltip =</span> <span class="fu">c</span>(<span class="st">"n_raters"</span>, <span class="st">"n_items"</span>, <span class="st">"phi"</span>))</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>plotly_phi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-plotly_phi" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotly_phi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-b85bf888dc62471906a9" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b85bf888dc62471906a9">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10],"y":[1,2,3,4,5,6,7,8,9,10],"z":[[0,0.097257062306990466,0.15818216766313448,0.1999297475441183,0.23032331581947416,0.25344030124314831,0.27161448714915265,0.28627804287316161,0.29835857751160388,0.30848335244499497],[0.1267368654991865,0.27124592845461609,0.35532517977976669,0.4103248872086504,0.44910696893637447,0.47792283243260136,0.50017674158571657,0.5178810086936857,0.53230144996004058,0.54427416161737174],[0.22084435677149836,0.39063352185256178,0.4844603471663278,0.54398340536636391,0.58510775315455632,0.61522208356513908,0.638225886913244,0.65637162257781112,0.67105124035045993,0.68317128211233069],[0.29348637986681114,0.47763634372313191,0.57560148087681817,0.63641197956808626,0.67783561991022612,0.70786877078706212,0.73064172677326178,0.74850321084464688,0.76288745647776479,0.77471980475199698],[0.35125534226715782,0.5438575831953425,0.643366065314118,0.70413880539478368,0.74510880825668258,0.77459910213371919,0.79684167549175755,0.81421599962145452,0.82816269578680168,0.83960500490787748],[0.39829482408717221,0.59594871596715093,0.69572550279453815,0.75589903628775446,0.79614365768636253,0.8249532275902266,0.84659518379785115,0.86344847030565219,0.87694413303326346,0.88799466746883016],[0.43734001466197231,0.6379963162329001,0.73739678331712,0.79674349258688681,0.83618639590298027,0.86430058904145379,0.88535388871829368,0.90170954902720146,0.91478204542385588,0.92546977932298324],[0.47026923243800578,0.67264967724129376,0.77134948414044513,0.82979585623296193,0.8684430526572432,0.89589452321988539,0.91639970094446088,0.93229900208676808,0.94498759442895608,0.95534884162598599],[0.49841510095927033,0.70170162145319293,0.79954634608085129,0.85709175616454458,0.89498334422562098,0.92182121592658273,0.94182654876044625,0.95731391449919689,0.96965851997534003,0.97972885887623062],[0.52274930136982178,0.72640872274528656,0.82333664106240401,0.88001456248859045,0.91720312624404476,0.94348002412919418,0.96303330174809598,0.97815086598877088,0.99018833430978226,1]],"text":[["n_raters:  1<br />n_items:  1<br />phi: 0.1234930","n_raters:  2<br />n_items:  1<br />phi: 0.1902573","n_raters:  3<br />n_items:  1<br />phi: 0.2320806","n_raters:  4<br />n_items:  1<br />phi: 0.2607392","n_raters:  5<br />n_items:  1<br />phi: 0.2816035","n_raters:  6<br />n_items:  1<br />phi: 0.2974726","n_raters:  7<br />n_items:  1<br />phi: 0.3099487","n_raters:  8<br />n_items:  1<br />phi: 0.3200148","n_raters:  9<br />n_items:  1<br />phi: 0.3283078","n_raters: 10<br />n_items:  1<br />phi: 0.3352581"],["n_raters:  1<br />n_items:  2<br />phi: 0.2104943","n_raters:  2<br />n_items:  2<br />phi: 0.3096957","n_raters:  3<br />n_items:  2<br />phi: 0.3674137","n_raters:  4<br />n_items:  2<br />phi: 0.4051695","n_raters:  5<br />n_items:  2<br />phi: 0.4317923","n_raters:  6<br />n_items:  2<br />phi: 0.4515736","n_raters:  7<br />n_items:  2<br />phi: 0.4668502","n_raters:  8<br />n_items:  2<br />phi: 0.4790037","n_raters:  9<br />n_items:  2<br />phi: 0.4889029","n_raters: 10<br />n_items:  2<br />phi: 0.4971219"],["n_raters:  1<br />n_items:  3<br />phi: 0.2750965","n_raters:  2<br />n_items:  3<br />phi: 0.3916519","n_raters:  3<br />n_items:  3<br />phi: 0.4560614","n_raters:  4<br />n_items:  3<br />phi: 0.4969223","n_raters:  5<br />n_items:  3<br />phi: 0.5251530","n_raters:  6<br />n_items:  3<br />phi: 0.5458256","n_raters:  7<br />n_items:  3<br />phi: 0.5616171","n_raters:  8<br />n_items:  3<br />phi: 0.5740736","n_raters:  9<br />n_items:  3<br />phi: 0.5841507","n_raters: 10<br />n_items:  3<br />phi: 0.5924708"],["n_raters:  1<br />n_items:  4<br />phi: 0.3249631","n_raters:  2<br />n_items:  4<br />phi: 0.4513769","n_raters:  3<br />n_items:  4<br />phi: 0.5186272","n_raters:  4<br />n_items:  4<br />phi: 0.5603719","n_raters:  5<br />n_items:  4<br />phi: 0.5888080","n_raters:  6<br />n_items:  4<br />phi: 0.6094249","n_raters:  7<br />n_items:  4<br />phi: 0.6250579","n_raters:  8<br />n_items:  4<br />phi: 0.6373193","n_raters:  9<br />n_items:  4<br />phi: 0.6471937","n_raters: 10<br />n_items:  4<br />phi: 0.6553163"],["n_raters:  1<br />n_items:  5<br />phi: 0.3646199","n_raters:  2<br />n_items:  5<br />phi: 0.4968359","n_raters:  3<br />n_items:  5<br />phi: 0.5651457","n_raters:  4<br />n_items:  5<br />phi: 0.6068644","n_raters:  5<br />n_items:  5<br />phi: 0.6349892","n_raters:  6<br />n_items:  5<br />phi: 0.6552334","n_raters:  7<br />n_items:  5<br />phi: 0.6705023","n_raters:  8<br />n_items:  5<br />phi: 0.6824293","n_raters:  9<br />n_items:  5<br />phi: 0.6920033","n_raters: 10<br />n_items:  5<br />phi: 0.6998581"],["n_raters:  1<br />n_items:  6<br />phi: 0.3969112","n_raters:  2<br />n_items:  6<br />phi: 0.5325950","n_raters:  3<br />n_items:  6<br />phi: 0.6010889","n_raters:  4<br />n_items:  6<br />phi: 0.6423964","n_raters:  5<br />n_items:  6<br />phi: 0.6700232","n_raters:  6<br />n_items:  6<br />phi: 0.6898001","n_raters:  7<br />n_items:  6<br />phi: 0.7046567","n_raters:  8<br />n_items:  6<br />phi: 0.7162260","n_raters:  9<br />n_items:  6<br />phi: 0.7254904","n_raters: 10<br />n_items:  6<br />phi: 0.7330763"],["n_raters:  1<br />n_items:  7<br />phi: 0.4237146","n_raters:  2<br />n_items:  7<br />phi: 0.5614595","n_raters:  3<br />n_items:  7<br />phi: 0.6296951","n_raters:  4<br />n_items:  7<br />phi: 0.6704349","n_raters:  5<br />n_items:  7<br />phi: 0.6975114","n_raters:  6<br />n_items:  7<br />phi: 0.7168110","n_raters:  7<br />n_items:  7<br />phi: 0.7312635","n_raters:  8<br />n_items:  7<br />phi: 0.7424912","n_raters:  9<br />n_items:  7<br />phi: 0.7514651","n_raters: 10<br />n_items:  7<br />phi: 0.7588019"],["n_raters:  1<br />n_items:  8<br />phi: 0.4463196","n_raters:  2<br />n_items:  8<br />phi: 0.5852480","n_raters:  3<br />n_items:  8<br />phi: 0.6530027","n_raters:  4<br />n_items:  8<br />phi: 0.6931244","n_raters:  5<br />n_items:  8<br />phi: 0.7196546","n_raters:  6<br />n_items:  8<br />phi: 0.7384993","n_raters:  7<br />n_items:  8<br />phi: 0.7525755","n_raters:  8<br />n_items:  8<br />phi: 0.7634900","n_raters:  9<br />n_items:  8<br />phi: 0.7722003","n_raters: 10<br />n_items:  8<br />phi: 0.7793130"],["n_raters:  1<br />n_items:  9<br />phi: 0.4656409","n_raters:  2<br />n_items:  9<br />phi: 0.6051914","n_raters:  3<br />n_items:  9<br />phi: 0.6723590","n_raters:  4<br />n_items:  9<br />phi: 0.7118623","n_raters:  5<br />n_items:  9<br />phi: 0.7378738","n_raters:  6<br />n_items:  9<br />phi: 0.7562972","n_raters:  7<br />n_items:  9<br />phi: 0.7700303","n_raters:  8<br />n_items:  9<br />phi: 0.7806620","n_raters:  9<br />n_items:  9<br />phi: 0.7891362","n_raters: 10<br />n_items:  9<br />phi: 0.7960492"],["n_raters:  1<br />n_items: 10<br />phi: 0.4823457","n_raters:  2<br />n_items: 10<br />phi: 0.6221521","n_raters:  3<br />n_items: 10<br />phi: 0.6886904","n_raters:  4<br />n_items: 10<br />phi: 0.7275982","n_raters:  5<br />n_items: 10<br />phi: 0.7531271","n_raters:  6<br />n_items: 10<br />phi: 0.7711654","n_raters:  7<br />n_items: 10<br />phi: 0.7845882","n_raters:  8<br />n_items: 10<br />phi: 0.7949660","n_raters:  9<br />n_items: 10<br />phi: 0.8032293","n_raters: 10<br />n_items: 10<br />phi: 0.8099648"]],"colorscale":[[0,"#000004"],[0.097257062306990466,"#220F38"],[0.1267368654991865,"#291048"],[0.15818216766313448,"#311059"],[0.1999297475441183,"#3B0F70"],[0.22084435677149836,"#451172"],[0.23032331581947416,"#491273"],[0.25344030124314831,"#531575"],[0.27124592845461609,"#5A1776"],[0.27161448714915265,"#5A1776"],[0.28627804287316161,"#601977"],[0.29348637986681114,"#631A78"],[0.29835857751160388,"#651B78"],[0.30848335244499497,"#691C79"],[0.35125534226715782,"#79227D"],[0.35532517977976669,"#7B237D"],[0.39063352185256178,"#882880"],[0.39829482408717221,"#8B2981"],[0.4103248872086504,"#912A80"],[0.43734001466197231,"#9C2E7D"],[0.44910696893637447,"#A1307B"],[0.47026923243800578,"#AA3379"],[0.47763634372313191,"#AD3578"],[0.47792283243260136,"#AD3578"],[0.4844603471663278,"#B03677"],[0.49841510095927033,"#B63875"],[0.50017674158571657,"#B63875"],[0.5178810086936857,"#BD3B73"],[0.52274930136982178,"#BF3C72"],[0.53230144996004058,"#C33D71"],[0.5438575831953425,"#C83F70"],[0.54398340536636391,"#C83F70"],[0.54427416161737174,"#C83F6F"],[0.57560148087681817,"#D4456B"],[0.58510775315455632,"#D8466A"],[0.59594871596715093,"#DC4869"],[0.61522208356513908,"#E15169"],[0.63641197956808626,"#E45B69"],[0.6379963162329001,"#E45C69"],[0.638225886913244,"#E55C69"],[0.643366065314118,"#E55E69"],[0.65637162257781112,"#E8646A"],[0.67105124035045993,"#EA6A6A"],[0.67264967724129376,"#EA6B6A"],[0.67783561991022612,"#EB6D6B"],[0.68317128211233069,"#EC6F6B"],[0.69572550279453815,"#EE756B"],[0.70170162145319293,"#EF776B"],[0.70413880539478368,"#EF786B"],[0.70786877078706212,"#F07A6B"],[0.72640872274528656,"#F3826C"],[0.73064172677326178,"#F4836C"],[0.73739678331712,"#F5866C"],[0.74510880825668258,"#F6896C"],[0.74850321084464688,"#F68B6C"],[0.75589903628775446,"#F78D6C"],[0.76288745647776479,"#F8906C"],[0.77134948414044513,"#FA946D"],[0.77459910213371919,"#FA956D"],[0.77471980475199698,"#FA956D"],[0.79614365768636253,"#FD9D6D"],[0.79674349258688681,"#FE9E6D"],[0.79684167549175755,"#FE9E6D"],[0.79954634608085129,"#FE9F6D"],[0.81421599962145452,"#FFA673"],[0.82333664106240401,"#FFAA76"],[0.8249532275902266,"#FFAB77"],[0.82816269578680168,"#FFAD78"],[0.82979585623296193,"#FFAD79"],[0.83618639590298027,"#FFB07B"],[0.83960500490787748,"#FFB27D"],[0.84659518379785115,"#FFB57F"],[0.85709175616454458,"#FFBA84"],[0.86344847030565219,"#FFBD86"],[0.86430058904145379,"#FFBE87"],[0.8684430526572432,"#FFC088"],[0.87694413303326346,"#FFC48C"],[0.88001456248859045,"#FFC58D"],[0.88535388871829368,"#FFC88F"],[0.88799466746883016,"#FFC990"],[0.89498334422562098,"#FFCC93"],[0.89589452321988539,"#FFCD93"],[0.90170954902720146,"#FFCF96"],[0.91478204542385588,"#FFD59B"],[0.91639970094446088,"#FFD69C"],[0.91720312624404476,"#FFD79C"],[0.92182121592658273,"#FFD99E"],[0.92546977932298324,"#FFDAA0"],[0.93229900208676808,"#FFDEA2"],[0.94182654876044625,"#FFE2A6"],[0.94348002412919418,"#FFE3A7"],[0.94498759442895608,"#FFE3A8"],[0.95534884162598599,"#FFE8AC"],[0.95731391449919689,"#FFE9AD"],[0.96303330174809598,"#FFECAF"],[0.96965851997534003,"#FEEFB2"],[0.97815086598877088,"#FEF3B6"],[0.97972885887623062,"#FEF4B6"],[0.99018833430978226,"#FDF8BB"],[1,"#FCFDBF"]],"type":"heatmap","showscale":false,"autocolorscale":false,"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0],"y":[0],"name":"8f80528a76559f4fd0f8012fcd87aba1","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#000004"],[0.0033444816053511692,"#020107"],[0.0066889632107023384,"#04010A"],[0.010033444816053508,"#06020D"],[0.013377926421404677,"#08020F"],[0.016722408026755845,"#0A0311"],[0.020066889632107017,"#0C0413"],[0.023411371237458185,"#0D0415"],[0.026755852842809354,"#0F0517"],[0.030100334448160525,"#100618"],[0.03344481605351169,"#12061A"],[0.036789297658862866,"#13071B"],[0.040133779264214034,"#14071D"],[0.043478260869565202,"#15081E"],[0.046822742474916412,"#160920"],[0.050167224080267539,"#170921"],[0.053511705685618749,"#180A23"],[0.056856187290969876,"#180B24"],[0.060200668896321086,"#190B26"],[0.063545150501672212,"#1A0C28"],[0.066889632107023422,"#1A0C29"],[0.070234113712374591,"#1B0D2B"],[0.073578595317725773,"#1C0D2C"],[0.076923076923076941,"#1D0E2E"],[0.08026755852842811,"#1D0E30"],[0.083612040133779278,"#1E0E31"],[0.086956521739130446,"#1F0E33"],[0.090301003344481615,"#200E35"],[0.093645484949832783,"#210F36"],[0.096989966555183951,"#220F38"],[0.10033444816053512,"#220F3A"],[0.10367892976588629,"#230F3C"],[0.10702341137123746,"#240F3D"],[0.11036789297658862,"#250F3F"],[0.11371237458193979,"#260F41"],[0.11705685618729096,"#260F43"],[0.12040133779264214,"#270F44"],[0.12374581939799331,"#281046"],[0.12709030100334448,"#291048"],[0.13043478260869565,"#2A104A"],[0.13377926421404682,"#2B104B"],[0.13712374581939801,"#2B104D"],[0.14046822742474915,"#2C104F"],[0.14381270903010035,"#2D1051"],[0.14715719063545149,"#2E1053"],[0.15050167224080271,"#2F1054"],[0.15384615384615383,"#301056"],[0.15719063545150505,"#301058"],[0.16053511705685616,"#31105A"],[0.16387959866220739,"#32105C"],[0.1672240802675585,"#33105E"],[0.17056856187290972,"#34105F"],[0.17391304347826084,"#351061"],[0.17725752508361206,"#351063"],[0.18060200668896317,"#361065"],[0.1839464882943144,"#371067"],[0.18729096989966559,"#380F69"],[0.19063545150501673,"#390F6B"],[0.19397993311036787,"#3A0F6D"],[0.19732441471571907,"#3A0F6E"],[0.20066889632107029,"#3B0F70"],[0.20401337792642141,"#3D0F70"],[0.20735785953177255,"#3E1071"],[0.21070234113712374,"#401071"],[0.21404682274247497,"#421071"],[0.21739130434782608,"#431172"],[0.22073578595317722,"#451172"],[0.22408026755852842,"#461272"],[0.22742474916387964,"#471272"],[0.23076923076923075,"#491273"],[0.23411371237458189,"#4A1373"],[0.23745819397993309,"#4C1373"],[0.24080267558528431,"#4D1474"],[0.24414715719063546,"#4F1474"],[0.24749163879598657,"#501474"],[0.25083612040133779,"#521574"],[0.25418060200668902,"#531575"],[0.25752508361204013,"#541675"],[0.26086956521739124,"#561675"],[0.26421404682274247,"#571676"],[0.26755852842809369,"#581776"],[0.2709030100334448,"#5A1776"],[0.27424749163879603,"#5B1876"],[0.27759197324414719,"#5C1877"],[0.28093645484949836,"#5E1877"],[0.28428093645484948,"#5F1977"],[0.2876254180602007,"#611978"],[0.29096989966555187,"#621A78"],[0.29431438127090304,"#631A78"],[0.29765886287625415,"#651B78"],[0.30100334448160537,"#661B79"],[0.3043478260869566,"#671C79"],[0.30769230769230771,"#681C79"],[0.31103678929765882,"#6A1C7A"],[0.31438127090301005,"#6B1D7A"],[0.31772575250836127,"#6C1D7A"],[0.32107023411371238,"#6E1E7A"],[0.3244147157190635,"#6F1E7B"],[0.32775919732441472,"#701F7B"],[0.33110367892976594,"#721F7B"],[0.33444816053511706,"#73207B"],[0.33779264214046817,"#74207C"],[0.34113712374581939,"#75217C"],[0.34448160535117062,"#77217C"],[0.34782608695652173,"#78217D"],[0.35117056856187284,"#79227D"],[0.35451505016722407,"#7B227D"],[0.35785953177257529,"#7C237D"],[0.3612040133779264,"#7D237E"],[0.36454849498327757,"#7E247E"],[0.36789297658862885,"#80247E"],[0.37123745819398002,"#81257F"],[0.37458193979933113,"#82257F"],[0.37792642140468224,"#84267F"],[0.38127090301003352,"#85267F"],[0.38461538461538469,"#862780"],[0.38795986622073581,"#872780"],[0.39130434782608692,"#892880"],[0.39464882943143825,"#8A2881"],[0.39799331103678937,"#8B2981"],[0.40133779264214048,"#8D2981"],[0.40468227424749159,"#8E2A80"],[0.40802675585284293,"#902A80"],[0.41137123745819404,"#912B80"],[0.41471571906354515,"#932B7F"],[0.41806020066889626,"#942C7F"],[0.4214046822742476,"#952C7F"],[0.42474916387959871,"#972D7E"],[0.42809364548494983,"#982D7E"],[0.4314381270903011,"#9A2D7D"],[0.43478260869565227,"#9B2E7D"],[0.43812709030100339,"#9D2E7D"],[0.4414715719063545,"#9E2F7C"],[0.44481605351170583,"#9F2F7C"],[0.44816053511705695,"#A1307B"],[0.45150501672240806,"#A2307B"],[0.45484949832775917,"#A4317B"],[0.45819397993311051,"#A5327A"],[0.46153846153846162,"#A6327A"],[0.46488294314381273,"#A83379"],[0.46822742474916385,"#A93379"],[0.47157190635451518,"#AB3479"],[0.47491638795986629,"#AC3478"],[0.47826086956521741,"#AD3578"],[0.48160535117056857,"#AF3577"],[0.48494983277591985,"#B03677"],[0.48829431438127097,"#B23677"],[0.49163879598662208,"#B33776"],[0.49498327759197325,"#B43776"],[0.49832775919732453,"#B63875"],[0.5016722408026757,"#B73875"],[0.50501672240802675,"#B83974"],[0.50836120401337792,"#BA3974"],[0.5117056856187292,"#BB3A74"],[0.51505016722408037,"#BC3B73"],[0.51839464882943143,"#BE3B73"],[0.52173913043478259,"#BF3C72"],[0.52508361204013387,"#C03C72"],[0.52842809364548504,"#C23D72"],[0.5317725752508361,"#C33D71"],[0.53511705685618727,"#C43E71"],[0.53846153846153855,"#C63E70"],[0.54180602006688972,"#C73F70"],[0.54515050167224077,"#C8406F"],[0.54849498327759205,"#CA406F"],[0.55183946488294322,"#CB416F"],[0.55518394648829439,"#CC416E"],[0.55852842809364545,"#CE426E"],[0.56187290969899673,"#CF426D"],[0.56521739130434789,"#D0436D"],[0.56856187290969906,"#D2446C"],[0.57190635451505012,"#D3446C"],[0.5752508361204014,"#D4456B"],[0.57859531772575257,"#D6456B"],[0.58193979933110374,"#D7466A"],[0.58528428093645479,"#D8466A"],[0.58862876254180618,"#DA476A"],[0.59197324414715724,"#DB4869"],[0.59531772575250841,"#DC4869"],[0.59866220735785947,"#DD4968"],[0.60200668896321086,"#DE4A68"],[0.60535117056856191,"#DF4C68"],[0.60869565217391308,"#E04D68"],[0.61204013377926414,"#E04F68"],[0.61538461538461553,"#E15169"],[0.61872909698996659,"#E15269"],[0.62207357859531776,"#E25469"],[0.62541806020066892,"#E25669"],[0.6287625418060202,"#E35769"],[0.63210702341137126,"#E45969"],[0.63545150501672243,"#E45A69"],[0.6387959866220736,"#E55C69"],[0.64214046822742488,"#E55D69"],[0.64548494983277593,"#E65F6A"],[0.6488294314381271,"#E6606A"],[0.65217391304347838,"#E7626A"],[0.65551839464882955,"#E7636A"],[0.65886287625418061,"#E8656A"],[0.66220735785953178,"#E9666A"],[0.66555183946488305,"#E9686A"],[0.66889632107023422,"#EA696A"],[0.67224080267558528,"#EA6B6A"],[0.67558528428093645,"#EB6C6A"],[0.67892976588628773,"#EB6E6B"],[0.6822742474916389,"#EC6F6B"],[0.68561872909698995,"#EC716B"],[0.68896321070234112,"#ED726B"],[0.6923076923076924,"#ED736B"],[0.69565217391304357,"#EE756B"],[0.69899665551839463,"#EF766B"],[0.7023411371237458,"#EF786B"],[0.70568561872909707,"#F0796B"],[0.70903010033444824,"#F07A6B"],[0.7123745819397993,"#F17C6B"],[0.71571906354515047,"#F17D6B"],[0.71906354515050175,"#F27F6C"],[0.72240802675585292,"#F2806C"],[0.72575250836120409,"#F3816C"],[0.72909698996655514,"#F3836C"],[0.73244147157190631,"#F4846C"],[0.73578595317725759,"#F4856C"],[0.73913043478260876,"#F5876C"],[0.74247491638795982,"#F5886C"],[0.74581939799331098,"#F6896C"],[0.74916387959866226,"#F68B6C"],[0.75250836120401343,"#F78C6C"],[0.75585284280936449,"#F78D6C"],[0.75919732441471577,"#F88F6C"],[0.76254180602006694,"#F8906C"],[0.76588628762541811,"#F9916C"],[0.76923076923076916,"#F9936D"],[0.77257525083612044,"#FA946D"],[0.77591973244147161,"#FA956D"],[0.77926421404682278,"#FB976D"],[0.78260869565217384,"#FB986D"],[0.78595317725752512,"#FC996D"],[0.78929765886287628,"#FC9B6D"],[0.79264214046822745,"#FD9C6D"],[0.79598662207357851,"#FD9D6D"],[0.79933110367892979,"#FE9F6D"],[0.80267558528428096,"#FEA06E"],[0.80602006688963213,"#FEA26F"],[0.80936454849498318,"#FEA471"],[0.81270903010033446,"#FFA572"],[0.81605351170568563,"#FFA773"],[0.8193979933110368,"#FFA875"],[0.82274247491638786,"#FFAA76"],[0.82608695652173925,"#FFAC77"],[0.8294314381270903,"#FFAD79"],[0.83277591973244147,"#FFAF7A"],[0.83612040133779253,"#FFB07B"],[0.83946488294314392,"#FFB27D"],[0.84280936454849498,"#FFB47E"],[0.84615384615384615,"#FFB57F"],[0.8494983277591972,"#FFB781"],[0.85284280936454859,"#FFB882"],[0.85618729096989965,"#FFBA83"],[0.85953177257525082,"#FFBB85"],[0.8628762541806021,"#FFBD86"],[0.86622073578595327,"#FFBF87"],[0.86956521739130432,"#FFC089"],[0.87290969899665549,"#FFC28A"],[0.87625418060200677,"#FFC38B"],[0.87959866220735794,"#FFC58D"],[0.882943143812709,"#FFC78E"],[0.88628762541806017,"#FFC890"],[0.88963210702341144,"#FFCA91"],[0.89297658862876261,"#FFCB92"],[0.89632107023411367,"#FFCD94"],[0.89966555183946484,"#FFCE95"],[0.90301003344481612,"#FFD096"],[0.90635451505016729,"#FFD198"],[0.90969899665551834,"#FFD399"],[0.91304347826086951,"#FFD59A"],[0.91638795986622079,"#FFD69C"],[0.91973244147157196,"#FFD89D"],[0.92307692307692302,"#FFD99F"],[0.92642140468227419,"#FFDBA0"],[0.92976588628762546,"#FFDCA1"],[0.93311036789297663,"#FFDEA3"],[0.93645484949832769,"#FFDFA4"],[0.93979933110367886,"#FFE1A6"],[0.94314381270903014,"#FFE3A7"],[0.94648829431438131,"#FFE4A8"],[0.94983277591973236,"#FFE6AA"],[0.95317725752508353,"#FFE7AB"],[0.95652173913043481,"#FFE9AD"],[0.95986622073578598,"#FFEAAE"],[0.96321070234113715,"#FEECAF"],[0.96655518394648843,"#FEEDB1"],[0.96989966555183948,"#FEEFB2"],[0.97324414715719065,"#FEF1B4"],[0.97658862876254182,"#FEF2B5"],[0.9799331103678931,"#FDF4B6"],[0.98327759197324416,"#FDF5B8"],[0.98662207357859533,"#FDF7B9"],[0.98996655518394649,"#FDF8BB"],[0.99331103678929777,"#FDFABC"],[0.99665551839464883,"#FCFBBE"],[1,"#FCFDBF"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"thickness":23.039999999999996,"title":"phi","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"tickmode":"array","ticktext":["0.2","0.4","0.6","0.8"],"tickvals":[0.11274470345869191,0.40311840114263803,0.69349209882658425,0.9838657965105303],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":48.949771689497723},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0,11],"tickmode":"array","ticktext":["0.0","2.5","5.0","7.5","10.0"],"tickvals":[0,2.5,5,7.4999999999999991,10],"categoryorder":"array","categoryarray":["0.0","2.5","5.0","7.5","10.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Number of Raters","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0,11],"tickmode":"array","ticktext":["0.0","2.5","5.0","7.5","10.0"],"tickvals":[0,2.5,5,7.4999999999999991,10],"categoryorder":"array","categoryarray":["0.0","2.5","5.0","7.5","10.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Items","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176002,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"phi","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48bc65c1091":{"x":{},"y":{},"fill":{},"type":"heatmap"}},"cur_data":"48bc65c1091","visdat":{"48bc65c1091":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotly_phi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Dependability Coefficient Variation
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-plotly_epsilon" class="quarto-xref">Figure&nbsp;2</a> and <a href="#fig-plotly_phi" class="quarto-xref">Figure&nbsp;3</a> show that it could potentially achieve a generalisability coefficient &gt; 0.8 by increasing raters and/or items, e.g., with combinations such as [3 raters, 10 items], [5 raters, 7 items] or [10 raters, 6 items], assuming variance components remain unchanged.</p>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-brennan2001" class="csl-entry" role="listitem">
+Brennan, R. L. (2001). <em>Generalizability Theory</em>. Springer New York. <a href="https://doi.org/10.1007/978-1-4757-3456-0">https://doi.org/10.1007/978-1-4757-3456-0</a>
+</div>
+<div id="ref-huebner2019" class="csl-entry" role="listitem">
+Huebner, A., &amp; Lucht, M. (2019). Generalizability theory in r. <em>University of Massachusetts Amherst</em>. <a href="https://doi.org/10.7275/5065-GC10">https://doi.org/10.7275/5065-GC10</a>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
