@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Generalisability Theory Demo</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="g_theory_09032025_files/libs/clipboard/clipboard.min.js"></script>
+<script src="g_theory_09032025_files/libs/quarto-html/quarto.js"></script>
+<script src="g_theory_09032025_files/libs/quarto-html/popper.min.js"></script>
+<script src="g_theory_09032025_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="g_theory_09032025_files/libs/quarto-html/anchor.min.js"></script>
+<link href="g_theory_09032025_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="g_theory_09032025_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="g_theory_09032025_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="g_theory_09032025_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="g_theory_09032025_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="g_theory_09032025_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="g_theory_09032025_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="g_theory_09032025_files/libs/plotly-binding-4.10.4/plotly.js"></script>
+
+<script src="g_theory_09032025_files/libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="g_theory_09032025_files/libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="g_theory_09032025_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="g_theory_09032025_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="g_theory_09032025_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="g_theory_09032025_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Generalisability Theory Demo</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="study-design" class="level2">
+<h2 class="anchored" data-anchor-id="study-design">1. Study Design</h2>
+<p>The study is based on a two-facet design <span class="citation" data-cites="huebner2019">(see “Two-facet p x i x o design” in <a href="#ref-huebner2019" role="doc-biblioref">Huebner &amp; Lucht, 2019</a> for more details)</span>, with raters and criteria items as facets, and theories/gaps as the object of measurement.</p>
+<p>In this study, each of 3 raters evaluates 73 theories over 4 criteria items (on a scale of 1 to 10), resulting in a 3 x 4 x 73 = 876-row dataset.</p>
+<section id="running-r-code" class="level3">
+<h3 class="anchored" data-anchor-id="running-r-code">Running R Code</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"pacman"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(<span class="st">"gtheory"</span>, <span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span>, <span class="st">"plotly"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the data</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/data.csv"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>theory <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>theory)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>rater <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>rater)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>item <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>item)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  theory rater item score
+1      1     1    1    10
+2      2     1    1     9
+3      3     1    1    10
+4      4     1    1     6
+5      5     1    1     8
+6      6     1    1    10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    theory rater item score
+871     68     3    4     7
+872     69     3    4     7
+873     70     3    4     6
+874     71     3    4     7
+875     72     3    4     7
+876     73     3    4     6</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="g-study-generalisability-study" class="level2">
+<h2 class="anchored" data-anchor-id="g-study-generalisability-study">2. G Study (Generalisability Study)</h2>
+<p>The G study estimates the amount of error caused by each facet (source of error) and interaction of facets. The estimation represents the variance expected if we were to sample one rater/item from the universe admissible/available raters/items. This provides building blocks for the D study.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One-facet design:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Facets: raters</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># g_study_formula &lt;- score ~ (1 | theory) + (1 | rater)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Two-facet design: includes all main effects and two-way interactions.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Facets: raters and items</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Object: theories</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>g_study_formula <span class="ot">&lt;-</span> score <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> theory) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> rater) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">|</span> item) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> theory<span class="sc">:</span>rater) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">|</span> theory<span class="sc">:</span>item) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> rater<span class="sc">:</span>item)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>g_study_results <span class="ot">&lt;-</span> <span class="fu">gstudy</span>(data, g_study_formula)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Show variance components</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> g_study_results<span class="sc">$</span>components</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        source        var percent n
+1  theory:item 0.08546178     1.4 1
+2 theory:rater 1.92266903    31.1 1
+3       theory 0.46908821     7.6 1
+4   rater:item 0.71109685    11.5 1
+5         item 0.16855303     2.7 1
+6        rater 1.50234457    24.3 1
+7     Residual 1.31757436    21.3 1</code></pre>
+</div>
+</div>
+</section>
+<section id="d-study-decision-study" class="level2">
+<h2 class="anchored" data-anchor-id="d-study-decision-study">3. D Study (Decision Study)</h2>
+<p>The D study (re)estimates the variance components with specified numbers of facets. Ideally, nearly all of the measured variance will be attributed to the object of measurement (i.e., differences across theories), with only a negligible amount of variance attributed to the remaining facets (e.g., raters, items, and various interactions).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the D-study with the original numbers of raters and items</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>d_study_results <span class="ot">&lt;-</span> <span class="fu">dstudy</span>(g_study_results, <span class="at">colname.objects =</span> <span class="st">"theory"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colname.scores =</span> <span class="st">"score"</span>, <span class="at">data =</span> data)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d_study_results<span class="sc">$</span>components</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        source        var percent  n
+1  theory:item 0.02136544     1.2  4
+2 theory:rater 0.64088968    34.8  3
+3       theory 0.46908821    25.4  1
+4   rater:item 0.05925807     3.2 12
+5         item 0.04213826     2.3  4
+6        rater 0.50078152    27.2  3
+7     Residual 0.10979786     6.0 12</code></pre>
+</div>
+</div>
+<p>Plot the percentages of variance by source:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>variance_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Facet =</span> d[, <span class="st">"source"</span>], <span class="at">Percent =</span> d[, <span class="st">"percent"</span>])</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plotly_dstudy <span class="ot">&lt;-</span> <span class="fu">ggplotly</span>(<span class="fu">ggplot</span>(variance_df, <span class="fu">aes</span>(<span class="at">x =</span> Facet, <span class="at">y =</span> Percent)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"darkturquoise"</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Source of Variance"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent"</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tooltip =</span> <span class="fu">c</span>(<span class="st">"Percent"</span>))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>plotly_dstudy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-dstudy" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dstudy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-bdf2c7c5b9d87b560966" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-bdf2c7c5b9d87b560966">{"x":{"data":[{"orientation":"v","width":[0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.89999999999999991,0.90000000000000013,0.90000000000000036],"base":[0,0,0,0,0,0,0],"x":[6,7,5,3,1,2,4],"y":[1.2,34.799999999999997,25.399999999999999,3.2000000000000002,2.2999999999999998,27.199999999999999,6],"text":["Percent:  1.2","Percent: 34.8","Percent: 25.4","Percent:  3.2","Percent:  2.3","Percent: 27.2","Percent:  6.0"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,206,209,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":37.260273972602747},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,7.5999999999999996],"tickmode":"array","ticktext":["item","rater","rater:item","Residual","theory","theory:item","theory:rater"],"tickvals":[1,2,3,4.0000000000000009,5,6,7],"categoryorder":"array","categoryarray":["item","rater","rater:item","Residual","theory","theory:item","theory:rater"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Source of Variance","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1.74,36.539999999999999],"tickmode":"array","ticktext":["0","10","20","30"],"tickvals":[0,10,20,30],"categoryorder":"array","categoryarray":["0","10","20","30"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Percent","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"5b0c260f1fd0":{"x":{},"y":{},"type":"bar"}},"cur_data":"5b0c260f1fd0","visdat":{"5b0c260f1fd0":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dstudy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: D Study: Variance Components
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-dstudy" class="quarto-xref">Figure&nbsp;1</a> shows that theory:rater interaction and differences between raters are the biggest sources of variation, followed by differences across theories.</p>
+<p>Interactions (theory:rater, etc.) show how the effects of one facet depend on the levels of another. For example, theory:rater indicates how much the rater variance/disagreement differs across different theories.</p>
+<p>The next step is to quantify the reliability by calculating the generalisability coefficient (<span class="math inline">\(\varepsilon\)</span>) and dependability coefficient (<span class="math inline">\(\phi\)</span>) based on the estimated variance.</p>
+</section>
+<section id="generalisability-coefficient-and-dependability-coefficient" class="level2">
+<h2 class="anchored" data-anchor-id="generalisability-coefficient-and-dependability-coefficient">4. Generalisability Coefficient and Dependability Coefficient</h2>
+<p>The generalisability coefficient assesses the relative consistency or reliability of the relative standing of individuals. For example, it answers the question, “how reliably can we <em>rank</em> theories based on this measurement design?” A higher coefficient (closer to 1) indicates higher generalisability. A coefficient of 0 means none of the observed variance is due to true score differences (it’s all error). A coefficient of 1 means the observed scores perfectly reflect the universe scores (no error in ranking individuals).</p>
+<p>The dependability coefficient is similar to the generalisability coefficient, but it focuses on the absolute level of scores, rather than just their rank - i.e., a theory’s score in relation to some absolute standard or cut-off value, not just their position relative to others. It answers the question, “How confident can we be in the <em>absolute value</em> of this score?” A higher coefficient (closer to 1) indicates greater dependability.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> d_study_results<span class="sc">$</span>generalizability</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> d_study_results<span class="sc">$</span>dependability</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Generalisability coefficient ="</span>, epsilon, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalisability coefficient = 0.3779491 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Dependability coefficient ="</span>, phi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dependability coefficient = 0.2544802</code></pre>
+</div>
+</div>
+<p>A generalisability coefficient of 0.38 could potentially be improved further.</p>
+<p>The final step, depending on the purpose, is to predict and identify the optimal numbers of facets to maximise the generalisability through D studies.</p>
+</section>
+<section id="optimisation-optional" class="level2">
+<h2 class="anchored" data-anchor-id="optimisation-optional">5. Optimisation (Optional)</h2>
+<p>This optional D study explores different “designs” by changing the number of levels for each facet (e.g., how many raters, how many items). A grid search can be used to search for the optimal combinations of raters and items to use for achieving a desired level of reliability.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a range of possible numbers of raters and items as alternatives</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>n_raters_range <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>n_items_range <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate combinations of n_raters_range and n_items_range</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>n_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">n_raters =</span> n_raters_range,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">n_items =</span> n_items_range)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Define function: Calculate generalisability coefficient</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>calculate_epsilon <span class="ot">&lt;-</span> <span class="cf">function</span>(g_study_results, n_raters, n_items) {</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> g_study_results</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  var_t <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory"</span>]</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  var_r <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"rater"</span>]</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  var_i <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"item"</span>]</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  var_tr <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory:rater"</span>]</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  var_ti <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory:item"</span>]</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  var_ri <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"rater:item"</span>]</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  var_resid <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"Residual"</span>]</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> ((n_items <span class="sc">|</span> n_raters) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="dv">0</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Relative error variance</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    var_rel_error <span class="ot">&lt;-</span> (var_tr <span class="sc">/</span> n_raters) <span class="sc">+</span> (var_ti <span class="sc">/</span> n_items) <span class="sc">+</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>      (var_resid <span class="sc">/</span> (n_raters <span class="sc">*</span> n_items))</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    epsilon <span class="ot">&lt;-</span> var_t <span class="sc">/</span> (var_t <span class="sc">+</span> var_rel_error)</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Define function: Calculate dependability coefficient</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>calculate_phi <span class="ot">&lt;-</span> <span class="cf">function</span>(g_study_results, n_raters, n_items) {</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> g_study_results</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>  var_t <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory"</span>]</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>  var_r <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"rater"</span>]</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>  var_i <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"item"</span>]</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>  var_tr <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory:rater"</span>]</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>  var_ti <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"theory:item"</span>]</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>  var_ri <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"rater:item"</span>]</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>  var_resid <span class="ot">&lt;-</span> g<span class="sc">$</span>var[g<span class="sc">$</span>source <span class="sc">==</span> <span class="st">"Residual"</span>]</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> ((n_items <span class="sc">|</span> n_raters) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="dv">0</span>)</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Absolute error variance</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>    var_abs_error <span class="ot">&lt;-</span> (var_r <span class="sc">/</span> n_raters) <span class="sc">+</span> (var_i <span class="sc">/</span> n_items) <span class="sc">+</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>      (var_tr <span class="sc">/</span> n_raters) <span class="sc">+</span> (var_ti <span class="sc">/</span> n_items) <span class="sc">+</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>      (var_ri <span class="sc">/</span> (n_raters <span class="sc">*</span> n_items)) <span class="sc">+</span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>      (var_resid <span class="sc">/</span> (n_raters <span class="sc">*</span> n_items))</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    phi <span class="ot">&lt;-</span> var_t <span class="sc">/</span> (var_t <span class="sc">+</span> var_abs_error)</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate epsilon and phi for each combination</span></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> n_grid <span class="sc">%&gt;%</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">epsilon =</span> <span class="fu">calculate_epsilon</span>(g, n_raters, n_items),</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>         <span class="at">phi =</span> <span class="fu">calculate_phi</span>(g, n_raters, n_items))</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 400 × 4
+# Rowwise: 
+   n_raters n_items epsilon    phi
+      &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+ 1        1       1   0.124 0.0759
+ 2        2       1   0.216 0.136 
+ 3        3       1   0.287 0.185 
+ 4        4       1   0.344 0.225 
+ 5        5       1   0.390 0.259 
+ 6        6       1   0.429 0.287 
+ 7        7       1   0.461 0.312 
+ 8        8       1   0.489 0.334 
+ 9        9       1   0.513 0.353 
+10       10       1   0.534 0.370 
+# ℹ 390 more rows</code></pre>
+</div>
+</div>
+<p>Plot epsilon variation on a heatmap:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plot_epsilon <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results, </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">x =</span> n_raters, <span class="at">y =</span> n_items,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">fill =</span> epsilon)) <span class="sc">+</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Raters"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Items"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"epsilon"</span>) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plotly_epsilon <span class="ot">&lt;-</span> <span class="fu">ggplotly</span>(plot_epsilon, </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                           <span class="at">tooltip =</span> <span class="fu">c</span>(<span class="st">"n_raters"</span>, <span class="st">"n_items"</span>, <span class="st">"epsilon"</span>))</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>plotly_epsilon</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-plotly_epsilon" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotly_epsilon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-7f9da8b751e652d00585" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-7f9da8b751e652d00585">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"y":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"z":[[0,0.13244092349889983,0.23492805037108636,0.3165908391988857,0.38319088111825073,0.43854377916792359,0.4852767539716375,0.5252578791644954,0.55985180674015145,0.59007864516488873,0.61671624021779059,0.64036806225613074,0.6615094767909161,0.68052002407036871,0.69770640646125148,0.71331916148698693,0.72756495548623412,0.7406157836210171,0.75261594793028153,0.76368741528135875],[0.040317031486731207,0.19648283540889763,0.31381923930974309,0.40520685013802571,0.47839644365059719,0.53833148151304699,0.5883135823406741,0.63063188471176346,0.66692352227336071,0.69839032755055308,0.72593449311795244,0.75024647509142117,0.77186366640208159,0.79121058417461343,0.80862702717069945,0.82438820495079734,0.83871938814478608,0.85180674415868252,0.86380546887695309,0.87484597016085186],[0.058152111160001171,0.22414039840598474,0.34727496257175644,0.44225398782543418,0.517743616092882,0.57918439963814927,0.63016427354364635,0.67314525816120974,0.70987297979711284,0.74161956986536814,0.76933401186296024,0.79373862222264469,0.81539291192554642,0.8347370088420788,0.85212188629662544,0.86783084946821631,0.88209509361923077,0.89510515846660099,0.90701948841965752,0.91797091733527458],[0.068210175737560802,0.23956091388870518,0.36577061796399241,0.46260119829747215,0.5392414846467749,0.60141013773131236,0.65285247049311967,0.69612403287530766,0.73302828874401138,0.76487432444225123,0.79263538650911725,0.81705008827138514,0.83868909809575576,0.85800030580774334,0.8753401568653072,0.89099585643761214,0.90520140334033428,0.918149365627974,0.92999966135030243,0.94088619694633213],[0.074667466683349171,0.24939458972268444,0.37750699298838403,0.4754634169038382,0.55279016143822424,0.61538330174377853,0.66708750666768035,0.710516821233796,0.74751056636944391,0.77940054687703786,0.80717480170266809,0.83158179656101539,0.85319888653514209,0.87247857056857925,0.88978051136068192,0.90539418205364608,0.91955519192899182,0.93245725793672729,0.94426111922811018,0.95510126823898778],[0.079164025810215394,0.25621193936927722,0.38561692790293367,0.48432917328583824,0.56211070277709718,0.62498053750897087,0.67685172564342466,0.72037831976336775,0.75742402219988136,0.78933599829783596,0.8171122323729213,0.84150777617793093,0.86310442782152974,0.8823577290988055,0.8996294517144463,0.91521054383216105,0.92933765270371416,0.94220522796344541,0.95397452578989639,0.96478040185516911],[0.082475191912464052,0.26121623644135167,0.39155630398600694,0.4908106370560969,0.5689151773291139,0.63197914187127024,0.68396549778978133,0.72755737467697867,0.76463612093169497,0.79655997394584488,0.82433405760028322,0.84871813182611933,0.87029715689335962,0.88952882988964233,0.90677640845986118,0.92233187380115433,0.93643259506159127,0.94927352723806524,0.96101627951487967,0.97179595238858063],[0.085015118863206493,0.26504585725400909,0.39609367194316736,0.49575562680584861,0.57410123797797408,0.63730870505774684,0.68937903342590978,0.73301743550331466,0.77011861901703715,0.80204917795732522,0.82981960813415834,0.85419320067416449,0.87575727946295734,0.8949711466492698,0.91219916190624029,0.92773406895543309,0.94181376685928342,0.95463357910526336,0.96635537013653705,0.9771144155792203],[0.087025155450535394,0.26807096123234875,0.39967304854948627,0.49965259422858394,0.57818491567940378,0.641502672876612,0.69363681597228355,0.73730989645263889,0.77442708581041209,0.8063615076608257,0.83412784511626281,0.8584921348575324,0.88004353357192899,0.89924258434354809,0.91645449604799534,0.93197259775395525,0.94603519347309573,0.95883788673476622,0.97054273462219154,0.98128514371878106],[0.088655460282747123,0.27052096678656784,0.40256885991185315,0.50280278743579843,0.58148393609810012,0.64488905056630386,0.69707326538636583,0.74077310651887507,0.77790216214456165,0.80983879793086611,0.8376010520237237,0.86195715646433901,0.88349773025540701,0.9026843041904804,0.91988276122369073,0.93538689359652039,0.94943532454463864,0.96222387733499881,0.97391475931447968,0.98464347840915012],[0.09000435331366631,0.27254563523112468,0.4049598521926403,0.5054020935810003,0.58420462838248011,0.6476806161125308,0.6999051307741041,0.74362620031205573,0.7807643292392249,0.81270218398555205,0.84046055084593851,0.86480945707744505,0.88634071529794967,0.90551666090584637,0.92270372472480311,0.93819607445234376,0.95223259127072513,0.96500927530432179,0.97668845422573225,0.98740571655355791],[0.091138908616112582,0.27424688196165925,0.40696744744876484,0.50758339739991187,0.58648681119247925,0.6500214339510445,0.70227906115577232,0.74601735274169545,0.78316259727325321,0.81510105307919223,0.84285579854360304,0.86719835609984497,0.88872153097090889,0.90788832652924056,0.92506562755782928,0.94054791215182287,0.95457427416300811,0.96734085903379075,0.97901009286708174,0.98971762970916954],[0.092106453156748411,0.27569647055896396,0.40867701785035548,0.50944002518784193,0.58842859372413625,0.65201252044432312,0.70429782486793213,0.7480503504625885,0.78520129441096975,0.81713995985524346,0.84489136592473368,0.86922829951217917,0.89074440418443646,0.90990324666038724,0.92707209394316004,0.94254568496498525,0.95656329186908373,0.9693211815641134,0.98098186210778782,0.99168104181260419],[0.092941335710156656,0.27694639543081323,0.41015034015073931,0.51103944535456192,0.59010084929856166,0.65372680528322291,0.70603557986767207,0.74980005533895144,0.78695564672722229,0.81889427096399625,0.84664261154251763,0.87097453861438634,0.89248441314375149,0.91163628331769353,0.92879774233696777,0.94426375136220586,0.95827373412407313,0.97102406053540713,0.98267730791311281,0.99336923020935342],[0.093669090108416883,0.27803525062345613,0.41143322055558995,0.51243164382649253,0.59155605311759196,0.65521825861008576,0.70754718217144497,0.7513218245905029,0.78848126413518793,0.82041968592131753,0.84816521649350873,0.87249266436778428,0.893997011336499,0.91314272178682765,0.93029767054212686,0.9457570103377515,0.95976029534410379,0.97250398390346127,0.98415071260966736,0.99483627430803878],[0.094309092487177393,0.27899228554745703,0.41256034231219774,0.51365444213809408,0.59283388843191254,0.65652767617441321,0.70887408210530778,0.75265747455873733,0.78982014302653936,0.82175825946216918,0.84950121350869501,0.87382463437440516,0.89532404635663854,0.91446427718285805,0.93161344725730755,0.94706687615177665,0.96106423144854425,0.97380204821700167,0.98544301434201165,0.99612295619109015],[0.09487631196283064,0.27984007178011278,0.41355844866845493,0.51473698556912739,0.59396492052703154,0.6576864680442096,0.71004818361693411,0.7538391823874081,0.79100459182695404,0.82294233864529021,0.85068292729521056,0.87500271081528092,0.89649769161087223,0.91563301734445779,0.93277702444901545,0.9482251790832682,0.96221724833172584,0.97494983445583283,0.98658567014592424,0.99726061094930818],[0.095382496168369246,0.28059630590700069,0.4144484919935309,0.51570209611632489,0.59497307324426751,0.658719210952603,0.71109444292245427,0.75489211213151886,0.79205987226416796,0.82399721110728419,0.85173562428568117,0.87605210798598387,0.89754308913710146,0.91667399926060278,0.93381336628827738,0.94925678618328169,0.96324411402550769,0.97597201139867962,0.98760325046178177,0.9982737123832881],[0.095836993622057942,0.28127505821992832,0.41524712070255321,0.51656789911975964,0.59587733991542602,0.65964541070420624,0.71203266211934368,0.7558362266793287,0.79300602119824692,0.8249429312369172,0.85267933943117913,0.87699281720209588,0.89848017093980415,0.91760708571798932,0.93474226038421937,0.95018140664338024,0.96416445794485206,0.97688812862510221,0.98851522586890228,0.99918165351455934],[0.096247336415492671,0.2818876563038617,0.41596773040285462,0.51734897233122523,0.59669299129883524,0.66048074588028649,0.7128787544367774,0.75668756551559113,0.79385913502853422,0.82579560734874835,0.85353016355385991,0.87784089259663656,0.89932494207351144,0.91844822490571087,0.93557959341793173,0.95101486315735717,0.96499403781014403,0.97771387892569217,0.98933722497752608,1]],"text":[["n_raters:  1<br />n_items:  1<br />epsilon: 0.1236136","n_raters:  2<br />n_items:  1<br />epsilon: 0.2157053","n_raters:  3<br />n_items:  1<br />epsilon: 0.2869688","n_raters:  4<br />n_items:  1<br />epsilon: 0.3437524","n_raters:  5<br />n_items:  1<br />epsilon: 0.3900621","n_raters:  6<br />n_items:  1<br />epsilon: 0.4285513","n_raters:  7<br />n_items:  1<br />epsilon: 0.4610467","n_raters:  8<br />n_items:  1<br />epsilon: 0.4888472","n_raters:  9<br />n_items:  1<br />epsilon: 0.5129018","n_raters: 10<br />n_items:  1<br />epsilon: 0.5339198","n_raters: 11<br />n_items:  1<br />epsilon: 0.5524420","n_raters: 12<br />n_items:  1<br />epsilon: 0.5688881","n_raters: 13<br />n_items:  1<br />epsilon: 0.5835886","n_raters: 14<br />n_items:  1<br />epsilon: 0.5968074","n_raters: 15<br />n_items:  1<br />epsilon: 0.6087578","n_raters: 16<br />n_items:  1<br />epsilon: 0.6196140","n_raters: 17<br />n_items:  1<br />epsilon: 0.6295197","n_raters: 18<br />n_items:  1<br />epsilon: 0.6385945","n_raters: 19<br />n_items:  1<br />epsilon: 0.6469387","n_raters: 20<br />n_items:  1<br />epsilon: 0.6546372"],["n_raters:  1<br />n_items:  2<br />epsilon: 0.1516477","n_raters:  2<br />n_items:  2<br />epsilon: 0.2602363","n_raters:  3<br />n_items:  2<br />epsilon: 0.3418252","n_raters:  4<br />n_items:  2<br />epsilon: 0.4053708","n_raters:  5<br />n_items:  2<br />epsilon: 0.4562625","n_raters:  6<br />n_items:  2<br />epsilon: 0.4979378","n_raters:  7<br />n_items:  2<br />epsilon: 0.5326925","n_raters:  8<br />n_items:  2<br />epsilon: 0.5621181","n_raters:  9<br />n_items:  2<br />epsilon: 0.5873532","n_raters: 10<br />n_items:  2<br />epsilon: 0.6092334","n_raters: 11<br />n_items:  2<br />epsilon: 0.6283860","n_raters: 12<br />n_items:  2<br />epsilon: 0.6452911","n_raters: 13<br />n_items:  2<br />epsilon: 0.6603224","n_raters: 14<br />n_items:  2<br />epsilon: 0.6737752","n_raters: 15<br />n_items:  2<br />epsilon: 0.6858855","n_raters: 16<br />n_items:  2<br />epsilon: 0.6968449","n_raters: 17<br />n_items:  2<br />epsilon: 0.7068100","n_raters: 18<br />n_items:  2<br />epsilon: 0.7159102","n_raters: 19<br />n_items:  2<br />epsilon: 0.7242534","n_raters: 20<br />n_items:  2<br />epsilon: 0.7319303"],["n_raters:  1<br />n_items:  3<br />epsilon: 0.1640492","n_raters:  2<br />n_items:  3<br />epsilon: 0.2794677","n_raters:  3<br />n_items:  3<br />epsilon: 0.3650883","n_raters:  4<br />n_items:  3<br />epsilon: 0.4311312","n_raters:  5<br />n_items:  3<br />epsilon: 0.4836222","n_raters:  6<br />n_items:  3<br />epsilon: 0.5263446","n_raters:  7<br />n_items:  3<br />epsilon: 0.5617930","n_raters:  8<br />n_items:  3<br />epsilon: 0.5916794","n_raters:  9<br />n_items:  3<br />epsilon: 0.6172177","n_raters: 10<br />n_items:  3<br />epsilon: 0.6392925","n_raters: 11<br />n_items:  3<br />epsilon: 0.6585635","n_raters: 12<br />n_items:  3<br />epsilon: 0.6755330","n_raters: 13<br />n_items:  3<br />epsilon: 0.6905901","n_raters: 14<br />n_items:  3<br />epsilon: 0.7040409","n_raters: 15<br />n_items:  3<br />epsilon: 0.7161293","n_raters: 16<br />n_items:  3<br />epsilon: 0.7270524","n_raters: 17<br />n_items:  3<br />epsilon: 0.7369709","n_raters: 18<br />n_items:  3<br />epsilon: 0.7460174","n_raters: 19<br />n_items:  3<br />epsilon: 0.7543019","n_raters: 20<br />n_items:  3<br />epsilon: 0.7619169"],["n_raters:  1<br />n_items:  4<br />epsilon: 0.1710430","n_raters:  2<br />n_items:  4<br />epsilon: 0.2901903","n_raters:  3<br />n_items:  4<br />epsilon: 0.3779491","n_raters:  4<br />n_items:  4<br />epsilon: 0.4452794","n_raters:  5<br />n_items:  4<br />epsilon: 0.4985706","n_raters:  6<br />n_items:  4<br />epsilon: 0.5417990","n_raters:  7<br />n_items:  4<br />epsilon: 0.5775690","n_raters:  8<br />n_items:  4<br />epsilon: 0.6076575","n_raters:  9<br />n_items:  4<br />epsilon: 0.6333186","n_raters: 10<br />n_items:  4<br />epsilon: 0.6554625","n_raters: 11<br />n_items:  4<br />epsilon: 0.6747659","n_raters: 12<br />n_items:  4<br />epsilon: 0.6917424","n_raters: 13<br />n_items:  4<br />epsilon: 0.7067889","n_raters: 14<br />n_items:  4<br />epsilon: 0.7202168","n_raters: 15<br />n_items:  4<br />epsilon: 0.7322739","n_raters: 16<br />n_items:  4<br />epsilon: 0.7431600","n_raters: 17<br />n_items:  4<br />epsilon: 0.7530377","n_raters: 18<br />n_items:  4<br />epsilon: 0.7620410","n_raters: 19<br />n_items:  4<br />epsilon: 0.7702810","n_raters: 20<br />n_items:  4<br />epsilon: 0.7778508"],["n_raters:  1<br />n_items:  5<br />epsilon: 0.1755330","n_raters:  2<br />n_items:  5<br />epsilon: 0.2970280","n_raters:  3<br />n_items:  5<br />epsilon: 0.3861099","n_raters:  4<br />n_items:  5<br />epsilon: 0.4542231","n_raters:  5<br />n_items:  5<br />epsilon: 0.5079916","n_raters:  6<br />n_items:  5<br />epsilon: 0.5515152","n_raters:  7<br />n_items:  5<br />epsilon: 0.5874672","n_raters:  8<br />n_items:  5<br />epsilon: 0.6176654","n_raters:  9<br />n_items:  5<br />epsilon: 0.6433887","n_raters: 10<br />n_items:  5<br />epsilon: 0.6655631","n_raters: 11<br />n_items:  5<br />epsilon: 0.6848757","n_raters: 12<br />n_items:  5<br />epsilon: 0.7018469","n_raters: 13<br />n_items:  5<br />epsilon: 0.7168782","n_raters: 14<br />n_items:  5<br />epsilon: 0.7302842","n_raters: 15<br />n_items:  5<br />epsilon: 0.7423149","n_raters: 16<br />n_items:  5<br />epsilon: 0.7531717","n_raters: 17<br />n_items:  5<br />epsilon: 0.7630185","n_raters: 18<br />n_items:  5<br />epsilon: 0.7719898","n_raters: 19<br />n_items:  5<br />epsilon: 0.7801975","n_raters: 20<br />n_items:  5<br />epsilon: 0.7877351"],["n_raters:  1<br />n_items:  6<br />epsilon: 0.1786597","n_raters:  2<br />n_items:  6<br />epsilon: 0.3017684","n_raters:  3<br />n_items:  6<br />epsilon: 0.3917491","n_raters:  4<br />n_items:  6<br />epsilon: 0.4603878","n_raters:  5<br />n_items:  6<br />epsilon: 0.5144725","n_raters:  6<br />n_items:  6<br />epsilon: 0.5581885","n_raters:  7<br />n_items:  6<br />epsilon: 0.5942567","n_raters:  8<br />n_items:  6<br />epsilon: 0.6245225","n_raters:  9<br />n_items:  6<br />epsilon: 0.6502820","n_raters: 10<br />n_items:  6<br />epsilon: 0.6724717","n_raters: 11<br />n_items:  6<br />epsilon: 0.6917856","n_raters: 12<br />n_items:  6<br />epsilon: 0.7087489","n_raters: 13<br />n_items:  6<br />epsilon: 0.7237659","n_raters: 14<br />n_items:  6<br />epsilon: 0.7371535","n_raters: 15<br />n_items:  6<br />epsilon: 0.7491633","n_raters: 16<br />n_items:  6<br />epsilon: 0.7599975","n_raters: 17<br />n_items:  6<br />epsilon: 0.7698206","n_raters: 18<br />n_items:  6<br />epsilon: 0.7787680","n_raters: 19<br />n_items:  6<br />epsilon: 0.7869517","n_raters: 20<br />n_items:  6<br />epsilon: 0.7944654"],["n_raters:  1<br />n_items:  7<br />epsilon: 0.1809621","n_raters:  2<br />n_items:  7<br />epsilon: 0.3052481","n_raters:  3<br />n_items:  7<br />epsilon: 0.3958790","n_raters:  4<br />n_items:  7<br />epsilon: 0.4648946","n_raters:  5<br />n_items:  7<br />epsilon: 0.5192039","n_raters:  6<br />n_items:  7<br />epsilon: 0.5630549","n_raters:  7<br />n_items:  7<br />epsilon: 0.5992032","n_raters:  8<br />n_items:  7<br />epsilon: 0.6295144","n_raters:  9<br />n_items:  7<br />epsilon: 0.6552968","n_raters: 10<br />n_items:  7<br />epsilon: 0.6774948","n_raters: 11<br />n_items:  7<br />epsilon: 0.6968073","n_raters: 12<br />n_items:  7<br />epsilon: 0.7137625","n_raters: 13<br />n_items:  7<br />epsilon: 0.7287673","n_raters: 14<br />n_items:  7<br />epsilon: 0.7421399","n_raters: 15<br />n_items:  7<br />epsilon: 0.7541329","n_raters: 16<br />n_items:  7<br />epsilon: 0.7649492","n_raters: 17<br />n_items:  7<br />epsilon: 0.7747540","n_raters: 18<br />n_items:  7<br />epsilon: 0.7836829","n_raters: 19<br />n_items:  7<br />epsilon: 0.7918481","n_raters: 20<br />n_items:  7<br />epsilon: 0.7993436"],["n_raters:  1<br />n_items:  8<br />epsilon: 0.1827282","n_raters:  2<br />n_items:  8<br />epsilon: 0.3079110","n_raters:  3<br />n_items:  8<br />epsilon: 0.3990340","n_raters:  4<br />n_items:  8<br />epsilon: 0.4683331","n_raters:  5<br />n_items:  8<br />epsilon: 0.5228100","n_raters:  6<br />n_items:  8<br />epsilon: 0.5667608","n_raters:  7<br />n_items:  8<br />epsilon: 0.6029675","n_raters:  8<br />n_items:  8<br />epsilon: 0.6333110","n_raters:  9<br />n_items:  8<br />epsilon: 0.6591090","n_raters: 10<br />n_items:  8<br />epsilon: 0.6813117","n_raters: 11<br />n_items:  8<br />epsilon: 0.7006216","n_raters: 12<br />n_items:  8<br />epsilon: 0.7175696","n_raters: 13<br />n_items:  8<br />epsilon: 0.7325640","n_raters: 14<br />n_items:  8<br />epsilon: 0.7459242","n_raters: 15<br />n_items:  8<br />epsilon: 0.7579035","n_raters: 16<br />n_items:  8<br />epsilon: 0.7687056","n_raters: 17<br />n_items:  8<br />epsilon: 0.7784958","n_raters: 18<br />n_items:  8<br />epsilon: 0.7874099","n_raters: 19<br />n_items:  8<br />epsilon: 0.7955606","n_raters: 20<br />n_items:  8<br />epsilon: 0.8030418"],["n_raters:  1<br />n_items:  9<br />epsilon: 0.1841258","n_raters:  2<br />n_items:  9<br />epsilon: 0.3100145","n_raters:  3<br />n_items:  9<br />epsilon: 0.4015229","n_raters:  4<br />n_items:  9<br />epsilon: 0.4710428","n_raters:  5<br />n_items:  9<br />epsilon: 0.5256496","n_raters:  6<br />n_items:  9<br />epsilon: 0.5696770","n_raters:  7<br />n_items:  9<br />epsilon: 0.6059281","n_raters:  8<br />n_items:  9<br />epsilon: 0.6362958","n_raters:  9<br />n_items:  9<br />epsilon: 0.6621049","n_raters: 10<br />n_items:  9<br />epsilon: 0.6843102","n_raters: 11<br />n_items:  9<br />epsilon: 0.7036173","n_raters: 12<br />n_items:  9<br />epsilon: 0.7205588","n_raters: 13<br />n_items:  9<br />epsilon: 0.7355444","n_raters: 14<br />n_items:  9<br />epsilon: 0.7488943","n_raters: 15<br />n_items:  9<br />epsilon: 0.7608624","n_raters: 16<br />n_items:  9<br />epsilon: 0.7716528","n_raters: 17<br />n_items:  9<br />epsilon: 0.7814311","n_raters: 18<br />n_items:  9<br />epsilon: 0.7903334","n_raters: 19<br />n_items:  9<br />epsilon: 0.7984722","n_raters: 20<br />n_items:  9<br />epsilon: 0.8059419"],["n_raters:  1<br />n_items: 10<br />epsilon: 0.1852595","n_raters:  2<br />n_items: 10<br />epsilon: 0.3117181","n_raters:  3<br />n_items: 10<br />epsilon: 0.4035365","n_raters:  4<br />n_items: 10<br />epsilon: 0.4732333","n_raters:  5<br />n_items: 10<br />epsilon: 0.5279435","n_raters:  6<br />n_items: 10<br />epsilon: 0.5720317","n_raters:  7<br />n_items: 10<br />epsilon: 0.6083176","n_raters:  8<br />n_items: 10<br />epsilon: 0.6387039","n_raters:  9<br />n_items: 10<br />epsilon: 0.6645213","n_raters: 10<br />n_items: 10<br />epsilon: 0.6867281","n_raters: 11<br />n_items: 10<br />epsilon: 0.7060324","n_raters: 12<br />n_items: 10<br />epsilon: 0.7229682","n_raters: 13<br />n_items: 10<br />epsilon: 0.7379462","n_raters: 14<br />n_items: 10<br />epsilon: 0.7512875","n_raters: 15<br />n_items: 10<br />epsilon: 0.7632463","n_raters: 16<br />n_items: 10<br />epsilon: 0.7740269","n_raters: 17<br />n_items: 10<br />epsilon: 0.7837954","n_raters: 18<br />n_items: 10<br />epsilon: 0.7926878","n_raters: 19<br />n_items: 10<br />epsilon: 0.8008169","n_raters: 20<br />n_items: 10<br />epsilon: 0.8082771"],["n_raters:  1<br />n_items: 11<br />epsilon: 0.1861974","n_raters:  2<br />n_items: 11<br />epsilon: 0.3131259","n_raters:  3<br />n_items: 11<br />epsilon: 0.4051990","n_raters:  4<br />n_items: 11<br />epsilon: 0.4750407","n_raters:  5<br />n_items: 11<br />epsilon: 0.5298353","n_raters:  6<br />n_items: 11<br />epsilon: 0.5739728","n_raters:  7<br />n_items: 11<br />epsilon: 0.6102867","n_raters:  8<br />n_items: 11<br />epsilon: 0.6406878","n_raters:  9<br />n_items: 11<br />epsilon: 0.6665114","n_raters: 10<br />n_items: 11<br />epsilon: 0.6887192","n_raters: 11<br />n_items: 11<br />epsilon: 0.7080207","n_raters: 12<br />n_items: 11<br />epsilon: 0.7249515","n_raters: 13<br />n_items: 11<br />epsilon: 0.7399231","n_raters: 14<br />n_items: 11<br />epsilon: 0.7532569","n_raters: 15<br />n_items: 11<br />epsilon: 0.7652078","n_raters: 16<br />n_items: 11<br />epsilon: 0.7759803","n_raters: 17<br />n_items: 11<br />epsilon: 0.7857404","n_raters: 18<br />n_items: 11<br />epsilon: 0.7946246","n_raters: 19<br />n_items: 11<br />epsilon: 0.8027456","n_raters: 20<br />n_items: 11<br />epsilon: 0.8101978"],["n_raters:  1<br />n_items: 12<br />epsilon: 0.1869863","n_raters:  2<br />n_items: 12<br />epsilon: 0.3143089","n_raters:  3<br />n_items: 12<br />epsilon: 0.4065950","n_raters:  4<br />n_items: 12<br />epsilon: 0.4765574","n_raters:  5<br />n_items: 12<br />epsilon: 0.5314222","n_raters:  6<br />n_items: 12<br />epsilon: 0.5756005","n_raters:  7<br />n_items: 12<br />epsilon: 0.6119374","n_raters:  8<br />n_items: 12<br />epsilon: 0.6423504","n_raters:  9<br />n_items: 12<br />epsilon: 0.6681791","n_raters: 10<br />n_items: 12<br />epsilon: 0.6903872","n_raters: 11<br />n_items: 12<br />epsilon: 0.7096862","n_raters: 12<br />n_items: 12<br />epsilon: 0.7266126","n_raters: 13<br />n_items: 12<br />epsilon: 0.7415786","n_raters: 14<br />n_items: 12<br />epsilon: 0.7549060","n_raters: 15<br />n_items: 12<br />epsilon: 0.7668501","n_raters: 16<br />n_items: 12<br />epsilon: 0.7776156","n_raters: 17<br />n_items: 12<br />epsilon: 0.7873687","n_raters: 18<br />n_items: 12<br />epsilon: 0.7962458","n_raters: 19<br />n_items: 12<br />epsilon: 0.8043599","n_raters: 20<br />n_items: 12<br />epsilon: 0.8118053"],["n_raters:  1<br />n_items: 13<br />epsilon: 0.1876591","n_raters:  2<br />n_items: 13<br />epsilon: 0.3153168","n_raters:  3<br />n_items: 13<br />epsilon: 0.4077837","n_raters:  4<br />n_items: 13<br />epsilon: 0.4778484","n_raters:  5<br />n_items: 13<br />epsilon: 0.5327724","n_raters:  6<br />n_items: 13<br />epsilon: 0.5769850","n_raters:  7<br />n_items: 13<br />epsilon: 0.6133411","n_raters:  8<br />n_items: 13<br />epsilon: 0.6437641","n_raters:  9<br />n_items: 13<br />epsilon: 0.6695966","n_raters: 10<br />n_items: 13<br />epsilon: 0.6918049","n_raters: 11<br />n_items: 13<br />epsilon: 0.7111016","n_raters: 12<br />n_items: 13<br />epsilon: 0.7280241","n_raters: 13<br />n_items: 13<br />epsilon: 0.7429851","n_raters: 14<br />n_items: 13<br />epsilon: 0.7563071","n_raters: 15<br />n_items: 13<br />epsilon: 0.7682453","n_raters: 16<br />n_items: 13<br />epsilon: 0.7790047","n_raters: 17<br />n_items: 13<br />epsilon: 0.7887517","n_raters: 18<br />n_items: 13<br />epsilon: 0.7976228","n_raters: 19<br />n_items: 13<br />epsilon: 0.8057310","n_raters: 20<br />n_items: 13<br />epsilon: 0.8131706"],["n_raters:  1<br />n_items: 14<br />epsilon: 0.1882396","n_raters:  2<br />n_items: 14<br />epsilon: 0.3161859","n_raters:  3<br />n_items: 14<br />epsilon: 0.4088082","n_raters:  4<br />n_items: 14<br />epsilon: 0.4789605","n_raters:  5<br />n_items: 14<br />epsilon: 0.5339352","n_raters:  6<br />n_items: 14<br />epsilon: 0.5781770","n_raters:  7<br />n_items: 14<br />epsilon: 0.6145494","n_raters:  8<br />n_items: 14<br />epsilon: 0.6449807","n_raters:  9<br />n_items: 14<br />epsilon: 0.6708165","n_raters: 10<br />n_items: 14<br />epsilon: 0.6930248","n_raters: 11<br />n_items: 14<br />epsilon: 0.7123193","n_raters: 12<br />n_items: 14<br />epsilon: 0.7292383","n_raters: 13<br />n_items: 14<br />epsilon: 0.7441950","n_raters: 14<br />n_items: 14<br />epsilon: 0.7575121","n_raters: 15<br />n_items: 14<br />epsilon: 0.7694452","n_raters: 16<br />n_items: 14<br />epsilon: 0.7801994","n_raters: 17<br />n_items: 14<br />epsilon: 0.7899411","n_raters: 18<br />n_items: 14<br />epsilon: 0.7988069","n_raters: 19<br />n_items: 14<br />epsilon: 0.8069099","n_raters: 20<br />n_items: 14<br />epsilon: 0.8143444"],["n_raters:  1<br />n_items: 15<br />epsilon: 0.1887456","n_raters:  2<br />n_items: 15<br />epsilon: 0.3169431","n_raters:  3<br />n_items: 15<br />epsilon: 0.4097002","n_raters:  4<br />n_items: 15<br />epsilon: 0.4799286","n_raters:  5<br />n_items: 15<br />epsilon: 0.5349471","n_raters:  6<br />n_items: 15<br />epsilon: 0.5792141","n_raters:  7<br />n_items: 15<br />epsilon: 0.6156005","n_raters:  8<br />n_items: 15<br />epsilon: 0.6460388","n_raters:  9<br />n_items: 15<br />epsilon: 0.6718773","n_raters: 10<br />n_items: 15<br />epsilon: 0.6940855","n_raters: 11<br />n_items: 15<br />epsilon: 0.7133781","n_raters: 12<br />n_items: 15<br />epsilon: 0.7302940","n_raters: 13<br />n_items: 15<br />epsilon: 0.7452468","n_raters: 14<br />n_items: 15<br />epsilon: 0.7585596","n_raters: 15<br />n_items: 15<br />epsilon: 0.7704882","n_raters: 16<br />n_items: 15<br />epsilon: 0.7812377","n_raters: 17<br />n_items: 15<br />epsilon: 0.7909748","n_raters: 18<br />n_items: 15<br />epsilon: 0.7998360","n_raters: 19<br />n_items: 15<br />epsilon: 0.8079344","n_raters: 20<br />n_items: 15<br />epsilon: 0.8153645"],["n_raters:  1<br />n_items: 16<br />epsilon: 0.1891907","n_raters:  2<br />n_items: 16<br />epsilon: 0.3176085","n_raters:  3<br />n_items: 16<br />epsilon: 0.4104839","n_raters:  4<br />n_items: 16<br />epsilon: 0.4807789","n_raters:  5<br />n_items: 16<br />epsilon: 0.5358356","n_raters:  6<br />n_items: 16<br />epsilon: 0.5801245","n_raters:  7<br />n_items: 16<br />epsilon: 0.6165232","n_raters:  8<br />n_items: 16<br />epsilon: 0.6469676","n_raters:  9<br />n_items: 16<br />epsilon: 0.6728083","n_raters: 10<br />n_items: 16<br />epsilon: 0.6950162","n_raters: 11<br />n_items: 16<br />epsilon: 0.7143070","n_raters: 12<br />n_items: 16<br />epsilon: 0.7312201","n_raters: 13<br />n_items: 16<br />epsilon: 0.7461696","n_raters: 14<br />n_items: 16<br />epsilon: 0.7594786","n_raters: 15<br />n_items: 16<br />epsilon: 0.7714031","n_raters: 16<br />n_items: 16<br />epsilon: 0.7821485","n_raters: 17<br />n_items: 16<br />epsilon: 0.7918814","n_raters: 18<br />n_items: 16<br />epsilon: 0.8007386","n_raters: 19<br />n_items: 16<br />epsilon: 0.8088330","n_raters: 20<br />n_items: 16<br />epsilon: 0.8162592"],["n_raters:  1<br />n_items: 17<br />epsilon: 0.1895851","n_raters:  2<br />n_items: 17<br />epsilon: 0.3181980","n_raters:  3<br />n_items: 17<br />epsilon: 0.4111780","n_raters:  4<br />n_items: 17<br />epsilon: 0.4815316","n_raters:  5<br />n_items: 17<br />epsilon: 0.5366221","n_raters:  6<br />n_items: 17<br />epsilon: 0.5809303","n_raters:  7<br />n_items: 17<br />epsilon: 0.6173396","n_raters:  8<br />n_items: 17<br />epsilon: 0.6477893","n_raters:  9<br />n_items: 17<br />epsilon: 0.6736319","n_raters: 10<br />n_items: 17<br />epsilon: 0.6958396","n_raters: 11<br />n_items: 17<br />epsilon: 0.7151287","n_raters: 12<br />n_items: 17<br />epsilon: 0.7320393","n_raters: 13<br />n_items: 17<br />epsilon: 0.7469856","n_raters: 14<br />n_items: 17<br />epsilon: 0.7602912","n_raters: 15<br />n_items: 17<br />epsilon: 0.7722122","n_raters: 16<br />n_items: 17<br />epsilon: 0.7829539","n_raters: 17<br />n_items: 17<br />epsilon: 0.7926832","n_raters: 18<br />n_items: 17<br />epsilon: 0.8015367","n_raters: 19<br />n_items: 17<br />epsilon: 0.8096275","n_raters: 20<br />n_items: 17<br />epsilon: 0.8170503"],["n_raters:  1<br />n_items: 18<br />epsilon: 0.1899370","n_raters:  2<br />n_items: 18<br />epsilon: 0.3187239","n_raters:  3<br />n_items: 18<br />epsilon: 0.4117969","n_raters:  4<br />n_items: 18<br />epsilon: 0.4822027","n_raters:  5<br />n_items: 18<br />epsilon: 0.5373231","n_raters:  6<br />n_items: 18<br />epsilon: 0.5816484","n_raters:  7<br />n_items: 18<br />epsilon: 0.6180671","n_raters:  8<br />n_items: 18<br />epsilon: 0.6485214","n_raters:  9<br />n_items: 18<br />epsilon: 0.6743657","n_raters: 10<br />n_items: 18<br />epsilon: 0.6965731","n_raters: 11<br />n_items: 18<br />epsilon: 0.7158607","n_raters: 12<br />n_items: 18<br />epsilon: 0.7327690","n_raters: 13<br />n_items: 18<br />epsilon: 0.7477126","n_raters: 14<br />n_items: 18<br />epsilon: 0.7610151","n_raters: 15<br />n_items: 18<br />epsilon: 0.7729328","n_raters: 16<br />n_items: 18<br />epsilon: 0.7836712","n_raters: 17<br />n_items: 18<br />epsilon: 0.7933972","n_raters: 18<br />n_items: 18<br />epsilon: 0.8022474","n_raters: 19<br />n_items: 18<br />epsilon: 0.8103351","n_raters: 20<br />n_items: 18<br />epsilon: 0.8177547"],["n_raters:  1<br />n_items: 19<br />epsilon: 0.1902531","n_raters:  2<br />n_items: 19<br />epsilon: 0.3191958","n_raters:  3<br />n_items: 19<br />epsilon: 0.4123522","n_raters:  4<br />n_items: 19<br />epsilon: 0.4828047","n_raters:  5<br />n_items: 19<br />epsilon: 0.5379519","n_raters:  6<br />n_items: 19<br />epsilon: 0.5822924","n_raters:  7<br />n_items: 19<br />epsilon: 0.6187195","n_raters:  8<br />n_items: 19<br />epsilon: 0.6491779","n_raters:  9<br />n_items: 19<br />epsilon: 0.6750236","n_raters: 10<br />n_items: 19<br />epsilon: 0.6972307","n_raters: 11<br />n_items: 19<br />epsilon: 0.7165169","n_raters: 12<br />n_items: 19<br />epsilon: 0.7334231","n_raters: 13<br />n_items: 19<br />epsilon: 0.7483641","n_raters: 14<br />n_items: 19<br />epsilon: 0.7616639","n_raters: 15<br />n_items: 19<br />epsilon: 0.7735787","n_raters: 16<br />n_items: 19<br />epsilon: 0.7843142","n_raters: 17<br />n_items: 19<br />epsilon: 0.7940372","n_raters: 18<br />n_items: 19<br />epsilon: 0.8028844","n_raters: 19<br />n_items: 19<br />epsilon: 0.8109692","n_raters: 20<br />n_items: 19<br />epsilon: 0.8183861"],["n_raters:  1<br />n_items: 20<br />epsilon: 0.1905384","n_raters:  2<br />n_items: 20<br />epsilon: 0.3196218","n_raters:  3<br />n_items: 20<br />epsilon: 0.4128532","n_raters:  4<br />n_items: 20<br />epsilon: 0.4833478","n_raters:  5<br />n_items: 20<br />epsilon: 0.5385190","n_raters:  6<br />n_items: 20<br />epsilon: 0.5828733","n_raters:  7<br />n_items: 20<br />epsilon: 0.6193078","n_raters:  8<br />n_items: 20<br />epsilon: 0.6497699","n_raters:  9<br />n_items: 20<br />epsilon: 0.6756168","n_raters: 10<br />n_items: 20<br />epsilon: 0.6978236","n_raters: 11<br />n_items: 20<br />epsilon: 0.7171085","n_raters: 12<br />n_items: 20<br />epsilon: 0.7340128","n_raters: 13<br />n_items: 20<br />epsilon: 0.7489515","n_raters: 14<br />n_items: 20<br />epsilon: 0.7622488","n_raters: 15<br />n_items: 20<br />epsilon: 0.7741609","n_raters: 16<br />n_items: 20<br />epsilon: 0.7848937","n_raters: 17<br />n_items: 20<br />epsilon: 0.7946140","n_raters: 18<br />n_items: 20<br />epsilon: 0.8034586","n_raters: 19<br />n_items: 20<br />epsilon: 0.8115408","n_raters: 20<br />n_items: 20<br />epsilon: 0.8189551"]],"colorscale":[[0,"#440154"],[0.040317031486731207,"#45145E"],[0.058152111160001171,"#461B62"],[0.068210175737560802,"#461E65"],[0.074667466683349171,"#462067"],[0.079164025810215394,"#462268"],[0.082475191912464052,"#462369"],[0.085015118863206493,"#462369"],[0.087025155450535394,"#46246A"],[0.088655460282747123,"#46256A"],[0.09000435331366631,"#46256A"],[0.091138908616112582,"#46256B"],[0.092106453156748411,"#46266B"],[0.092941335710156656,"#46266B"],[0.093669090108416883,"#46266B"],[0.094309092487177393,"#46266C"],[0.09487631196283064,"#46266C"],[0.095382496168369246,"#46276C"],[0.095836993622057942,"#46276C"],[0.096247336415492671,"#46276C"],[0.13244092349889983,"#453175"],[0.19648283540889763,"#414386"],[0.22414039840598474,"#404A88"],[0.23492805037108636,"#404D88"],[0.23956091388870518,"#3F4F89"],[0.24939458972268444,"#3F5189"],[0.25621193936927722,"#3E5389"],[0.26121623644135167,"#3E5489"],[0.26504585725400909,"#3E5589"],[0.26807096123234875,"#3E568A"],[0.27052096678656784,"#3D578A"],[0.27254563523112468,"#3D578A"],[0.27424688196165925,"#3D588A"],[0.27569647055896396,"#3D588A"],[0.27694639543081323,"#3D588A"],[0.27803525062345613,"#3D598A"],[0.27899228554745703,"#3D598A"],[0.27984007178011278,"#3D598A"],[0.28059630590700069,"#3D598A"],[0.28127505821992832,"#3D598A"],[0.2818876563038617,"#3D5A8A"],[0.31381923930974309,"#39628B"],[0.3165908391988857,"#39638B"],[0.34727496257175644,"#356B8C"],[0.36577061796399241,"#326F8D"],[0.37750699298838403,"#2F728D"],[0.38319088111825073,"#2E748D"],[0.38561692790293367,"#2E748E"],[0.39155630398600694,"#2C768E"],[0.39609367194316736,"#2B778E"],[0.39967304854948627,"#2A788E"],[0.40256885991185315,"#2A798E"],[0.4049598521926403,"#2A798E"],[0.40520685013802571,"#2A798E"],[0.40696744744876484,"#2A7A8E"],[0.40867701785035548,"#2A7A8E"],[0.41015034015073931,"#2A7A8E"],[0.41143322055558995,"#2B7B8E"],[0.41256034231219774,"#2B7B8D"],[0.41355844866845493,"#2B7B8D"],[0.4144484919935309,"#2B7B8D"],[0.41524712070255321,"#2B7C8D"],[0.41596773040285462,"#2B7C8D"],[0.43854377916792359,"#2B818C"],[0.44225398782543418,"#2B828C"],[0.46260119829747215,"#2C878B"],[0.4754634169038382,"#2C8A8B"],[0.47839644365059719,"#2C8B8B"],[0.48432917328583824,"#2B8C8A"],[0.4852767539716375,"#2B8C8A"],[0.4908106370560969,"#2B8E8A"],[0.49575562680584861,"#2B8F8A"],[0.49965259422858394,"#2B9089"],[0.50280278743579843,"#2B9089"],[0.5054020935810003,"#2B9189"],[0.50758339739991187,"#2B9289"],[0.50944002518784193,"#2B9289"],[0.51103944535456192,"#2B9289"],[0.51243164382649253,"#2B9389"],[0.51365444213809408,"#2B9389"],[0.51473698556912739,"#2A9389"],[0.51570209611632489,"#2A9489"],[0.51656789911975964,"#2A9489"],[0.51734897233122523,"#2A9489"],[0.517743616092882,"#2A9489"],[0.5252578791644954,"#2A9688"],[0.53833148151304699,"#299987"],[0.5392414846467749,"#299987"],[0.55279016143822424,"#289C87"],[0.55985180674015145,"#279E86"],[0.56211070277709718,"#279F86"],[0.5689151773291139,"#26A086"],[0.57410123797797408,"#26A286"],[0.57818491567940378,"#25A385"],[0.57918439963814927,"#25A385"],[0.58148393609810012,"#25A385"],[0.58420462838248011,"#24A485"],[0.58648681119247925,"#24A585"],[0.5883135823406741,"#24A585"],[0.58842859372413625,"#24A585"],[0.59007864516488873,"#24A685"],[0.59010084929856166,"#24A685"],[0.59155605311759196,"#23A685"],[0.59283388843191254,"#23A684"],[0.59396492052703154,"#23A784"],[0.59497307324426751,"#23A784"],[0.59587733991542602,"#23A784"],[0.59669299129883524,"#23A784"],[0.60141013773131236,"#23A884"],[0.61538330174377853,"#2FAB81"],[0.61671624021779059,"#30AB80"],[0.62498053750897087,"#36AD7F"],[0.63016427354364635,"#39AE7D"],[0.63063188471176346,"#39AE7D"],[0.63197914187127024,"#3AAE7D"],[0.63730870505774684,"#3DAF7C"],[0.64036806225613074,"#3FB07B"],[0.641502672876612,"#40B07B"],[0.64488905056630386,"#41B17A"],[0.6476806161125308,"#43B279"],[0.6500214339510445,"#44B279"],[0.65201252044432312,"#45B278"],[0.65285247049311967,"#45B378"],[0.65372680528322291,"#46B378"],[0.65521825861008576,"#47B378"],[0.65652767617441321,"#47B377"],[0.6576864680442096,"#48B477"],[0.658719210952603,"#48B477"],[0.65964541070420624,"#49B477"],[0.66048074588028649,"#49B477"],[0.6615094767909161,"#4AB476"],[0.66692352227336071,"#4CB575"],[0.66708750666768035,"#4CB575"],[0.67314525816120974,"#4FB774"],[0.67685172564342466,"#50B773"],[0.68052002407036871,"#52B872"],[0.68396549778978133,"#53B971"],[0.68937903342590978,"#56BA70"],[0.69363681597228355,"#57BB6F"],[0.69612403287530766,"#58BB6E"],[0.69707326538636583,"#59BC6E"],[0.69770640646125148,"#59BC6E"],[0.69839032755055308,"#59BC6D"],[0.6999051307741041,"#5ABC6D"],[0.70227906115577232,"#5BBD6C"],[0.70429782486793213,"#5BBD6C"],[0.70603557986767207,"#5CBD6C"],[0.70754718217144497,"#5CBE6B"],[0.70887408210530778,"#5DBE6B"],[0.70987297979711284,"#5DBE6B"],[0.71004818361693411,"#5DBE6B"],[0.710516821233796,"#5EBE6A"],[0.71109444292245427,"#5EBE6A"],[0.71203266211934368,"#5EBF6A"],[0.7128787544367774,"#5EBF6A"],[0.71331916148698693,"#5FBF6A"],[0.72037831976336775,"#61C068"],[0.72593449311795244,"#63C266"],[0.72755737467697867,"#64C266"],[0.72756495548623412,"#64C266"],[0.73301743550331466,"#65C365"],[0.73302828874401138,"#65C365"],[0.73730989645263889,"#67C463"],[0.7406157836210171,"#68C563"],[0.74077310651887507,"#68C562"],[0.74161956986536814,"#68C562"],[0.74362620031205573,"#69C562"],[0.74601735274169545,"#6AC661"],[0.74751056636944391,"#6AC661"],[0.7480503504625885,"#6AC660"],[0.74980005533895144,"#6BC660"],[0.75024647509142117,"#6BC760"],[0.7513218245905029,"#6BC760"],[0.75261594793028153,"#6CC75F"],[0.75265747455873733,"#6CC75F"],[0.7538391823874081,"#6CC75F"],[0.75489211213151886,"#6DC85F"],[0.7558362266793287,"#6DC85E"],[0.75668756551559113,"#6DC85E"],[0.75742402219988136,"#6DC85E"],[0.76368741528135875,"#6FC95C"],[0.76463612093169497,"#70CA5C"],[0.76487432444225123,"#70CA5C"],[0.76933401186296024,"#71CB5A"],[0.77011861901703715,"#71CB5A"],[0.77186366640208159,"#72CB5A"],[0.77442708581041209,"#73CC59"],[0.77790216214456165,"#74CC58"],[0.77940054687703786,"#74CD57"],[0.7807643292392249,"#74CD57"],[0.78316259727325321,"#75CD56"],[0.78520129441096975,"#76CE56"],[0.78695564672722229,"#76CE55"],[0.78848126413518793,"#77CF55"],[0.78933599829783596,"#77CF54"],[0.78982014302653936,"#77CF54"],[0.79100459182695404,"#77CF54"],[0.79121058417461343,"#77CF54"],[0.79205987226416796,"#78CF54"],[0.79263538650911725,"#78CF53"],[0.79300602119824692,"#78D053"],[0.79373862222264469,"#78D053"],[0.79385913502853422,"#78D053"],[0.79655997394584488,"#79D052"],[0.80204917795732522,"#7CD151"],[0.8063615076608257,"#7FD250"],[0.80717480170266809,"#80D250"],[0.80862702717069945,"#81D250"],[0.80983879793086611,"#82D250"],[0.81270218398555205,"#84D34F"],[0.81510105307919223,"#86D34F"],[0.81539291192554642,"#86D34F"],[0.81705008827138514,"#87D34E"],[0.8171122323729213,"#87D34E"],[0.81713995985524346,"#87D34E"],[0.81889427096399625,"#89D34E"],[0.82041968592131753,"#8AD44E"],[0.82175825946216918,"#8BD44E"],[0.82294233864529021,"#8CD44D"],[0.82399721110728419,"#8DD44D"],[0.82433405760028322,"#8DD44D"],[0.82438820495079734,"#8DD44D"],[0.8249429312369172,"#8DD44D"],[0.82579560734874835,"#8ED44D"],[0.82981960813415834,"#91D54C"],[0.83158179656101539,"#92D54C"],[0.83412784511626281,"#94D54C"],[0.8347370088420788,"#94D54C"],[0.8376010520237237,"#96D64B"],[0.83868909809575576,"#97D64B"],[0.83871938814478608,"#97D64B"],[0.84046055084593851,"#99D64B"],[0.84150777617793093,"#99D64A"],[0.84285579854360304,"#9AD64A"],[0.84489136592473368,"#9CD74A"],[0.84664261154251763,"#9DD74A"],[0.84816521649350873,"#9ED749"],[0.84871813182611933,"#9ED749"],[0.84950121350869501,"#9FD749"],[0.85068292729521056,"#A0D749"],[0.85173562428568117,"#A0D749"],[0.85180674415868252,"#A0D749"],[0.85212188629662544,"#A1D749"],[0.85267933943117913,"#A1D749"],[0.85319888653514209,"#A1D848"],[0.85353016355385991,"#A2D848"],[0.85419320067416449,"#A2D848"],[0.85800030580774334,"#A5D848"],[0.8584921348575324,"#A5D848"],[0.86195715646433901,"#A7D947"],[0.86310442782152974,"#A8D947"],[0.86380546887695309,"#A9D947"],[0.86480945707744505,"#A9D946"],[0.86719835609984497,"#ABD946"],[0.86783084946821631,"#ABD946"],[0.86922829951217917,"#ACD946"],[0.87029715689335962,"#ADDA45"],[0.87097453861438634,"#ADDA45"],[0.87247857056857925,"#AEDA45"],[0.87249266436778428,"#AEDA45"],[0.87382463437440516,"#AFDA45"],[0.87484597016085186,"#B0DA45"],[0.87500271081528092,"#B0DA45"],[0.8753401568653072,"#B0DA44"],[0.87575727946295734,"#B1DA44"],[0.87605210798598387,"#B1DA44"],[0.87699281720209588,"#B1DA44"],[0.87784089259663656,"#B2DA44"],[0.88004353357192899,"#B3DB44"],[0.88209509361923077,"#B5DB43"],[0.8823577290988055,"#B5DB43"],[0.88349773025540701,"#B6DB43"],[0.88634071529794967,"#B7DB42"],[0.88872153097090889,"#B9DC42"],[0.88952882988964233,"#BADC42"],[0.88978051136068192,"#BADC42"],[0.89074440418443646,"#BADC42"],[0.89099585643761214,"#BADC41"],[0.89248441314375149,"#BBDC41"],[0.893997011336499,"#BCDC41"],[0.8949711466492698,"#BDDC41"],[0.89510515846660099,"#BDDC41"],[0.89532404635663854,"#BDDC41"],[0.89649769161087223,"#BEDC40"],[0.89754308913710146,"#BFDD40"],[0.89848017093980415,"#BFDD40"],[0.89924258434354809,"#C0DD40"],[0.89932494207351144,"#C0DD40"],[0.8996294517144463,"#C0DD40"],[0.9026843041904804,"#C2DD3F"],[0.90520140334033428,"#C4DD3F"],[0.90539418205364608,"#C4DD3F"],[0.90551666090584637,"#C4DD3F"],[0.90677640845986118,"#C5DE3E"],[0.90701948841965752,"#C5DE3E"],[0.90788832652924056,"#C5DE3E"],[0.90990324666038724,"#C6DE3E"],[0.91163628331769353,"#C8DE3D"],[0.91219916190624029,"#C8DE3D"],[0.91314272178682765,"#C9DE3D"],[0.91446427718285805,"#C9DE3D"],[0.91521054383216105,"#CADF3C"],[0.91563301734445779,"#CADF3C"],[0.91645449604799534,"#CBDF3C"],[0.91667399926060278,"#CBDF3C"],[0.91760708571798932,"#CBDF3C"],[0.91797091733527458,"#CCDF3C"],[0.918149365627974,"#CCDF3C"],[0.91844822490571087,"#CCDF3C"],[0.91955519192899182,"#CDDF3C"],[0.91988276122369073,"#CDDF3B"],[0.92233187380115433,"#CEDF3B"],[0.92270372472480311,"#CEDF3B"],[0.92506562755782928,"#D0E03A"],[0.92707209394316004,"#D1E03A"],[0.92773406895543309,"#D2E03A"],[0.92879774233696777,"#D2E039"],[0.92933765270371416,"#D3E039"],[0.92999966135030243,"#D3E039"],[0.93029767054212686,"#D3E039"],[0.93161344725730755,"#D4E039"],[0.93197259775395525,"#D4E039"],[0.93245725793672729,"#D4E039"],[0.93277702444901545,"#D5E039"],[0.93381336628827738,"#D5E038"],[0.93474226038421937,"#D6E138"],[0.93538689359652039,"#D6E138"],[0.93557959341793173,"#D6E138"],[0.93643259506159127,"#D7E138"],[0.93819607445234376,"#D8E137"],[0.94054791215182287,"#D9E137"],[0.94088619694633213,"#DAE137"],[0.94181376685928342,"#DAE136"],[0.94220522796344541,"#DAE136"],[0.94254568496498525,"#DBE136"],[0.94426111922811018,"#DCE236"],[0.94426375136220586,"#DCE236"],[0.9457570103377515,"#DDE235"],[0.94603519347309573,"#DDE235"],[0.94706687615177665,"#DDE235"],[0.9482251790832682,"#DEE235"],[0.94925678618328169,"#DFE234"],[0.94927352723806524,"#DFE234"],[0.94943532454463864,"#DFE234"],[0.95018140664338024,"#DFE234"],[0.95101486315735717,"#E0E234"],[0.95223259127072513,"#E1E234"],[0.95397452578989639,"#E2E333"],[0.95457427416300811,"#E2E333"],[0.95463357910526336,"#E2E333"],[0.95510126823898778,"#E2E333"],[0.95656329186908373,"#E3E333"],[0.95827373412407313,"#E4E332"],[0.95883788673476622,"#E5E332"],[0.95976029534410379,"#E5E332"],[0.96101627951487967,"#E6E331"],[0.96106423144854425,"#E6E331"],[0.96221724833172584,"#E7E331"],[0.96222387733499881,"#E7E331"],[0.96324411402550769,"#E7E331"],[0.96416445794485206,"#E8E431"],[0.96478040185516911,"#E8E430"],[0.96499403781014403,"#E8E430"],[0.96500927530432179,"#E8E430"],[0.96635537013653705,"#E9E430"],[0.96734085903379075,"#EAE430"],[0.9693211815641134,"#EBE42F"],[0.97054273462219154,"#ECE42F"],[0.97102406053540713,"#ECE42F"],[0.97179595238858063,"#ECE42E"],[0.97250398390346127,"#EDE42E"],[0.97380204821700167,"#EDE52E"],[0.97391475931447968,"#EEE52E"],[0.97494983445583283,"#EEE52D"],[0.97597201139867962,"#EFE52D"],[0.97668845422573225,"#EFE52D"],[0.97688812862510221,"#EFE52D"],[0.9771144155792203,"#EFE52D"],[0.97771387892569217,"#F0E52D"],[0.97901009286708174,"#F1E52C"],[0.98098186210778782,"#F2E52C"],[0.98128514371878106,"#F2E52B"],[0.98267730791311281,"#F3E52B"],[0.98415071260966736,"#F4E62B"],[0.98464347840915012,"#F4E62A"],[0.98544301434201165,"#F4E62A"],[0.98658567014592424,"#F5E62A"],[0.98740571655355791,"#F6E629"],[0.98760325046178177,"#F6E629"],[0.98851522586890228,"#F6E629"],[0.98933722497752608,"#F7E629"],[0.98971762970916954,"#F7E629"],[0.99168104181260419,"#F8E628"],[0.99336923020935342,"#F9E627"],[0.99483627430803878,"#FAE727"],[0.99612295619109015,"#FBE726"],[0.99726061094930818,"#FBE726"],[0.9982737123832881,"#FCE726"],[0.99918165351455934,"#FDE725"],[1,"#FDE725"]],"type":"heatmap","showscale":false,"autocolorscale":false,"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0],"y":[0],"name":"1add9b7e345ce5e69c356cb71a1f1c1e","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#440154"],[0.003344481605351151,"#440355"],[0.0066889632107023419,"#440456"],[0.010033444816053493,"#440656"],[0.013377926421404684,"#450857"],[0.016722408026755835,"#450958"],[0.020066889632107024,"#450B59"],[0.023411371237458175,"#450D5A"],[0.026755852842809368,"#450E5B"],[0.030100334448160519,"#45105B"],[0.033444816053511711,"#45115C"],[0.036789297658862859,"#45135D"],[0.040133779264214048,"#45145E"],[0.043478260869565202,"#45155F"],[0.046822742474916391,"#451760"],[0.050167224080267546,"#451860"],[0.053511705685618735,"#451961"],[0.056856187290969883,"#461A62"],[0.060200668896321079,"#461B63"],[0.063545150501672226,"#461D64"],[0.066889632107023422,"#461E65"],[0.070234113712374563,"#461F65"],[0.073578595317725759,"#462066"],[0.076923076923076913,"#462167"],[0.080267558528428096,"#462268"],[0.08361204013377925,"#462369"],[0.086956521739130405,"#46246A"],[0.090301003344481601,"#46256B"],[0.093645484949832783,"#46266B"],[0.096989966555183937,"#46276C"],[0.10033444816053509,"#46286D"],[0.10367892976588627,"#46296E"],[0.10702341137123747,"#462A6F"],[0.11036789297658862,"#452B70"],[0.11371237458193977,"#452C70"],[0.11705685618729096,"#452D71"],[0.12040133779264216,"#452E72"],[0.1237458193979933,"#452F73"],[0.12709030100334445,"#453074"],[0.13043478260869565,"#453175"],[0.13377926421404684,"#453276"],[0.13712374581939799,"#453377"],[0.14046822742474913,"#453477"],[0.14381270903010032,"#443578"],[0.14715719063545152,"#443679"],[0.15050167224080266,"#44367A"],[0.15384615384615383,"#44377B"],[0.15719063545150502,"#44387C"],[0.16053511705685616,"#44397D"],[0.1638795986622073,"#443A7D"],[0.1672240802675585,"#433B7E"],[0.1705685618729097,"#433C7F"],[0.17391304347826084,"#433D80"],[0.17725752508361201,"#433E81"],[0.1806020066889632,"#433F82"],[0.18394648829431437,"#424083"],[0.18729096989966557,"#424184"],[0.19063545150501676,"#424185"],[0.19397993311036787,"#424285"],[0.19732441471571907,"#414386"],[0.20066889632107018,"#414487"],[0.20401337792642135,"#414587"],[0.20735785953177255,"#414687"],[0.21070234113712374,"#414787"],[0.21404682274247494,"#414888"],[0.21739130434782605,"#404988"],[0.22073578595317725,"#404A88"],[0.22408026755852836,"#404A88"],[0.22742474916387953,"#404B88"],[0.23076923076923073,"#404C88"],[0.23411371237458192,"#404D88"],[0.23745819397993312,"#404E88"],[0.24080267558528431,"#3F4F89"],[0.24414715719063543,"#3F5089"],[0.2474916387959866,"#3F5189"],[0.25083612040133774,"#3F5289"],[0.2541806020066889,"#3F5289"],[0.25752508361204007,"#3E5389"],[0.2608695652173913,"#3E5489"],[0.26421404682274247,"#3E5589"],[0.26755852842809369,"#3E568A"],[0.2709030100334448,"#3D578A"],[0.27424749163879597,"#3D588A"],[0.27759197324414708,"#3D598A"],[0.28093645484949825,"#3D598A"],[0.28428093645484948,"#3C5A8A"],[0.28762541806020064,"#3C5B8A"],[0.29096989966555187,"#3C5C8A"],[0.29431438127090304,"#3B5D8A"],[0.29765886287625415,"#3B5E8B"],[0.30100334448160532,"#3B5F8B"],[0.30434782608695643,"#3A5F8B"],[0.30769230769230765,"#3A608B"],[0.31103678929765882,"#3A618B"],[0.31438127090301005,"#39628B"],[0.31772575250836121,"#39638B"],[0.32107023411371233,"#38648B"],[0.3244147157190635,"#38658C"],[0.32775919732441461,"#38658C"],[0.33110367892976583,"#37668C"],[0.334448160535117,"#37678C"],[0.33779264214046822,"#36688C"],[0.34113712374581939,"#36698C"],[0.34448160535117056,"#356A8C"],[0.34782608695652167,"#356B8C"],[0.3511705685618729,"#346B8C"],[0.35451505016722401,"#346C8D"],[0.35785953177257518,"#336D8D"],[0.3612040133779264,"#326E8D"],[0.36454849498327757,"#326F8D"],[0.36789297658862874,"#31708D"],[0.37123745819397985,"#31718D"],[0.37458193979933108,"#30718D"],[0.37792642140468224,"#2F728D"],[0.38127090301003347,"#2F738D"],[0.38461538461538458,"#2E748E"],[0.38795986622073575,"#2D758E"],[0.39130434782608692,"#2C768E"],[0.39464882943143814,"#2B778E"],[0.39799331103678925,"#2B778E"],[0.40133779264214042,"#2A788E"],[0.40468227424749165,"#2A798E"],[0.40802675585284282,"#2A7A8E"],[0.41137123745819393,"#2B7B8E"],[0.4147157190635451,"#2B7B8D"],[0.41806020066889632,"#2B7C8D"],[0.42140468227424749,"#2B7D8D"],[0.4247491638795986,"#2B7E8D"],[0.42809364548494977,"#2B7F8D"],[0.43143812709030099,"#2B7F8D"],[0.43478260869565211,"#2B808D"],[0.43812709030100327,"#2B818C"],[0.4414715719063545,"#2B828C"],[0.44481605351170567,"#2B838C"],[0.44816053511705678,"#2C838C"],[0.45150501672240795,"#2C848C"],[0.45484949832775917,"#2C858C"],[0.45819397993311034,"#2C868B"],[0.46153846153846145,"#2C878B"],[0.46488294314381268,"#2C878B"],[0.46822742474916385,"#2C888B"],[0.47157190635451501,"#2C898B"],[0.47491638795986613,"#2C8A8B"],[0.47826086956521735,"#2C8B8B"],[0.48160535117056852,"#2B8B8A"],[0.48494983277591974,"#2B8C8A"],[0.48829431438127086,"#2B8D8A"],[0.49163879598662202,"#2B8E8A"],[0.49498327759197319,"#2B8F8A"],[0.49832775919732442,"#2B8F8A"],[0.50167224080267547,"#2B9089"],[0.50501672240802675,"#2B9189"],[0.50836120401337792,"#2B9289"],[0.51170568561872909,"#2B9389"],[0.51505016722408015,"#2A9389"],[0.51839464882943143,"#2A9489"],[0.52173913043478259,"#2A9588"],[0.52508361204013376,"#2A9688"],[0.52842809364548493,"#2A9788"],[0.5317725752508361,"#2A9788"],[0.53511705685618727,"#299888"],[0.53846153846153832,"#299987"],[0.5418060200668896,"#299A87"],[0.54515050167224077,"#299B87"],[0.54849498327759194,"#289B87"],[0.551839464882943,"#289C87"],[0.55518394648829428,"#289D87"],[0.55852842809364533,"#279E86"],[0.56187290969899673,"#279F86"],[0.56521739130434778,"#27A086"],[0.56856187290969895,"#26A086"],[0.57190635451505012,"#26A186"],[0.57525083612040129,"#26A285"],[0.57859531772575246,"#25A385"],[0.58193979933110351,"#25A485"],[0.5852842809364549,"#24A485"],[0.58862876254180596,"#24A585"],[0.59197324414715713,"#23A684"],[0.5953177257525083,"#23A784"],[0.59866220735785947,"#22A884"],[0.60200668896321063,"#24A884"],[0.60535117056856169,"#27A983"],[0.60869565217391308,"#2AAA82"],[0.61204013377926414,"#2DAA81"],[0.61538461538461542,"#2FAB81"],[0.61872909698996648,"#32AC80"],[0.62207357859531764,"#34AC7F"],[0.62541806020066881,"#36AD7E"],[0.62876254180602009,"#38AE7E"],[0.63210702341137126,"#3AAE7D"],[0.63545150501672232,"#3CAF7C"],[0.6387959866220736,"#3EB07B"],[0.64214046822742465,"#40B07B"],[0.64548494983277582,"#42B17A"],[0.64882943143812699,"#43B279"],[0.65217391304347827,"#45B278"],[0.65551839464882944,"#47B378"],[0.6588628762541805,"#48B477"],[0.66220735785953178,"#4AB476"],[0.66555183946488283,"#4BB575"],[0.668896321070234,"#4DB675"],[0.67224080267558517,"#4EB674"],[0.67558528428093645,"#50B773"],[0.67892976588628762,"#51B872"],[0.68227424749163867,"#53B971"],[0.68561872909698995,"#54B971"],[0.68896321070234101,"#55BA70"],[0.6923076923076924,"#57BB6F"],[0.69565217391304335,"#58BB6E"],[0.69899665551839463,"#59BC6D"],[0.7023411371237458,"#5BBD6C"],[0.70568561872909696,"#5CBD6C"],[0.70903010033444813,"#5DBE6B"],[0.71237458193979919,"#5EBF6A"],[0.71571906354515058,"#5FBF69"],[0.71906354515050153,"#61C068"],[0.72240802675585281,"#62C167"],[0.72575250836120397,"#63C166"],[0.72909698996655514,"#64C266"],[0.73244147157190631,"#65C365"],[0.73578595317725748,"#66C464"],[0.73913043478260876,"#67C463"],[0.7424749163879597,"#69C562"],[0.74581939799331098,"#6AC661"],[0.74916387959866215,"#6BC660"],[0.75250836120401332,"#6CC75F"],[0.75585284280936449,"#6DC85E"],[0.75919732441471566,"#6EC85D"],[0.76254180602006694,"#6FC95C"],[0.76588628762541788,"#70CA5B"],[0.76923076923076916,"#71CB5A"],[0.77257525083612033,"#72CB59"],[0.7759197324414715,"#73CC58"],[0.77926421404682267,"#74CD57"],[0.78260869565217384,"#75CD56"],[0.78595317725752512,"#76CE55"],[0.78929765886287628,"#77CF54"],[0.79264214046822723,"#78CF53"],[0.79598662207357851,"#79D052"],[0.79933110367892968,"#7AD151"],[0.80267558528428085,"#7CD151"],[0.80602006688963201,"#7FD250"],[0.80936454849498329,"#81D250"],[0.81270903010033446,"#84D34F"],[0.81605351170568563,"#87D34F"],[0.81939799331103669,"#89D34E"],[0.82274247491638786,"#8CD44D"],[0.82608695652173902,"#8ED44D"],[0.82943143812709019,"#91D54C"],[0.83277591973244136,"#93D54C"],[0.83612040133779264,"#95D54B"],[0.83946488294314381,"#98D64B"],[0.84280936454849498,"#9AD64A"],[0.84615384615384603,"#9DD74A"],[0.8494983277591972,"#9FD749"],[0.85284280936454837,"#A1D748"],[0.85618729096989954,"#A3D848"],[0.85953177257525082,"#A6D847"],[0.86287625418060199,"#A8D947"],[0.86622073578595316,"#AAD946"],[0.86956521739130421,"#ACD946"],[0.87290969899665538,"#AFDA45"],[0.87625418060200655,"#B1DA44"],[0.87959866220735772,"#B3DB44"],[0.882943143812709,"#B5DB43"],[0.88628762541806017,"#B7DB42"],[0.88963210702341133,"#BADC42"],[0.8929765886287625,"#BCDC41"],[0.89632107023411356,"#BEDC40"],[0.89966555183946473,"#C0DD40"],[0.9030100334448159,"#C2DD3F"],[0.90635451505016718,"#C4DE3E"],[0.90969899665551834,"#C6DE3E"],[0.91304347826086951,"#C8DE3D"],[0.91638795986622068,"#CBDF3C"],[0.91973244147157185,"#CDDF3B"],[0.92307692307692291,"#CFDF3B"],[0.92642140468227407,"#D1E03A"],[0.92976588628762535,"#D3E039"],[0.93311036789297652,"#D5E038"],[0.93645484949832769,"#D7E138"],[0.93979933110367886,"#D9E137"],[0.94314381270903003,"#DBE136"],[0.94648829431438131,"#DDE235"],[0.94983277591973225,"#DFE234"],[0.95317725752508353,"#E1E233"],[0.9565217391304347,"#E3E333"],[0.95986622073578587,"#E5E332"],[0.96321070234113704,"#E7E331"],[0.96655518394648821,"#E9E430"],[0.96989966555183948,"#EBE42F"],[0.97324414715719043,"#EDE42E"],[0.97658862876254171,"#EFE52D"],[0.97993311036789288,"#F1E52C"],[0.98327759197324405,"#F3E52B"],[0.98662207357859522,"#F5E62A"],[0.98996655518394638,"#F7E629"],[0.99331103678929766,"#F9E627"],[0.99665551839464883,"#FBE726"],[1,"#FDE725"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"thickness":23.039999999999996,"title":"epsilon","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"tickmode":"array","ticktext":["0.2","0.4","0.6","0.8"],"tickvals":[0.11115495074585718,0.39782466167737185,0.68449437260888668,0.97116408354040129],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":37.260273972602747},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.5,21.5],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[0,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Number of Raters","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.5,21.5],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[0,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Items","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176002,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"epsilon","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"5b0c1a9a2f31":{"x":{},"y":{},"fill":{},"type":"heatmap"}},"cur_data":"5b0c1a9a2f31","visdat":{"5b0c1a9a2f31":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotly_epsilon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Gneralisability Coefficient Variation
+</figcaption>
+</figure>
+</div>
+</div>
+<p>And finally, plot phi variation on a heatmap:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plot_phi <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results, </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">aes</span>(<span class="at">x =</span> n_raters, <span class="at">y =</span> n_items, <span class="at">fill =</span> phi)) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"magma"</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Raters"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Items"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"phi"</span>) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>plotly_phi <span class="ot">&lt;-</span> <span class="fu">ggplotly</span>(plot_phi, </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">tooltip =</span> <span class="fu">c</span>(<span class="st">"n_raters"</span>, <span class="st">"n_items"</span>, <span class="st">"phi"</span>))</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>plotly_phi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-plotly_phi" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotly_phi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-8ec01511688c31e5b24a" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-8ec01511688c31e5b24a">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"y":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"z":[[0,0.094256699394242,0.17063136844090088,0.23377188636904231,0.28684379855898251,0.33207762399835855,0.37109034567947335,0.40508278986541252,0.43496541356232948,0.46144106825761599,0.48506098224942512,0.50626355471591167,0.52540181866970015,0.54276325479508591,0.55858433145336661,0.57306133897848366,0.58635857522274271,0.59861460826316992,0.60994712338349832,0.62045671414769465],[0.027029795282273204,0.14234361504690132,0.23558226483862515,0.31253095690291982,0.37711580918822574,0.4320950932353349,0.47946340662588804,0.52069885861208898,0.55692008247982805,0.58898925273886737,0.61758159602559648,0.64323345616244698,0.66637625519086219,0.68736095365316119,0.70647597284163965,0.72396053088474122,0.74001470582301465,0.7548071260061946,0.76848091580379452,0.78115834158266761],[0.038985213315580573,0.16357673405571346,0.2642225450339496,0.34722074207571835,0.4168387870141681,0.47607085842136471,0.52707977460902267,0.57146680775234882,0.61044282263178096,0.64494042292204901,0.67568954029067219,0.70326965285330478,0.72814664990093814,0.75069936369973134,0.77123899651460293,0.79002356765706006,0.80726880887787289,0.82315648666961772,0.83784083357851968,0.85145357151670653],[0.045726971919146986,0.17554055527374246,0.28034936455119575,0.36674337055648704,0.43918384651780995,0.50079866101564974,0.55384580958866714,0.59999615125055361,0.64051259813849892,0.6763674555691862,0.70832146386503148,0.73697837294543334,0.76282345226224457,0.78625119502555163,0.80758559605304325,0.82709522641381217,0.84500459862387711,0.86150284536279587,0.87675042449151241,0.89088435491216456],[0.050055007454382835,0.18321733394537615,0.29069338723852994,0.37926152291894716,0.4535079375759058,0.51664657423449634,0.57099664835646735,0.61827374177578454,0.6597741930247647,0.69649578897790287,0.72921903274363487,0.75856323610357435,0.7850260885519913,0.8090121157876079,0.83085350461430951,0.85082558089503713,0.86915847651040778,0.88604603690607309,0.90165270176869827,0.91611887724295571],[0.053068767174327985,0.18856123689608498,0.29789214248713253,0.38797148385861813,0.46347267700837147,0.52766971593930367,0.58292449997219675,0.63098377567559261,0.67316716345259076,0.7104901909873268,0.74374711559201034,0.77356807599455735,0.80045940020740636,0.82483258997110243,0.84702552696935696,0.86731823180674561,0.88594474116716526,0.9031021747120469,0.9189577380466889,0.93365418984351278],[0.055287988538004491,0.19249539697739335,0.30319086724814831,0.3943815815333232,0.47080530200395271,0.53578030182216851,0.59169993948105304,0.64033392190652594,0.68301901643858587,0.7207838128732047,0.75443269273922586,0.78460376241524765,0.81180970574391464,0.83646715614756639,0.85891818382849883,0.87944626177795759,0.89828829775467567,0.91564381852672283,0.93168206287355337,0.94654751857130326],[0.056990281858214517,0.19551265162161294,0.30725410027447164,0.39929649576064147,0.47642702760932304,0.54199796841392822,0.59842682422003324,0.64750092083843847,0.69057018017863747,0.72867321063904456,0.76262215746829876,0.79306123593918798,0.82050800221977183,0.84538302307741142,0.86803157872752357,0.88873978770406559,0.90774675761623957,0.92525385940261229,0.94143188938817712,0.95642665984496078],[0.058337419854587159,0.19790009041034465,0.31046883913332851,0.40318472414159473,0.48087409283682714,0.54691614490151708,0.60374750590561999,0.65316944877711969,0.69654230654556137,0.73491261541700992,0.76909866320174358,0.79974949779807292,0.82738652930338619,0.85243343535304472,0.87523803469576911,0.8960885378150254,0.91522579169531404,0.93285262530992086,0.949141066320488,0.96423797402687772],[0.05943004930441402,0.19983627666542111,0.31307573414557854,0.40633754354403417,0.48447983991651739,0.55090367648129501,0.60806119261640168,0.65776497606541284,0.70138380471588557,0.73997064443605687,0.77434876420859633,0.80517113041434751,0.83296227776257403,0.85814840583358021,0.88107939117113065,0.90204513991861823,0.92128790884216627,0.93901170859470362,0.95538956473118375,0.97056918503378231],[0.060334069834543029,0.20143810119024794,0.31523229160327387,0.40894556777068147,0.48746238398249314,0.55420188388737357,0.61162904704565169,0.66156582465773295,0.70538798216806753,0.74415380496199368,0.7786906827343042,0.80965482317121595,0.83757334540381345,0.86287453480721132,0.88590996972964731,0.90697095854813881,0.92630092379037998,0.9441048532021562,0.96055659742607336,0.97580456576448726],[0.061094437601715075,0.20278529169777276,0.31704592641376506,0.41113877476938793,0.48997044118333899,0.55697529155691283,0.61462910832207218,0.66476171949843654,0.7087547680433427,0.74767101338000286,0.78234131068484181,0.81342459335035611,0.84145015367702936,0.86684803082215101,0.88997123397053846,0.91111225040513433,0.93051548270476592,0.94838674001894319,0.96490056658241197,0.98020596139429306],[0.061742872924034908,0.20393409443636129,0.31859240854693627,0.41300884138471228,0.49210889629108534,0.55933992524433518,0.61718692547411469,0.66748644319059947,0.71162513386679305,0.75066957221367081,0.78545356842940939,0.81663837997473088,0.84475515199442053,0.87023541884443611,0.89343340952253381,0.91464261630705657,0.93410827722002987,0.95203690159061694,0.96860362486496965,0.98395794867899589],[0.062302397393835293,0.20492532605241937,0.31992671705811249,0.41462228327754053,0.49395384263928732,0.56137995604981716,0.61939357366499825,0.66983703938202221,0.71410133405637211,0.75325632444955415,0.78813837036930035,0.81941073438770873,0.8476061601309226,0.87315747183283221,0.89641995075773173,0.91768795610777742,0.93720744654678645,0.95518553535091499,0.97179786790738365,0.98719437938315557],[0.062790124401023495,0.20578932488330978,0.32108971346114701,0.41602853269943862,0.49556182694219569,0.5631579303144465,0.62131672661552306,0.67188561398165547,0.71625934374571998,0.75551065221184299,0.79047812145947394,0.82182676165947266,0.85009070957111577,0.87570391356011701,0.89902257191222235,0.92034179930631099,0.93990818238816221,0.95792936071182422,0.97458142401510461,0.9900146852252002],[0.063219040193770518,0.20654911061739825,0.32211239976740796,0.41726509206747836,0.49697574689881102,0.56472129513307556,0.62300771908211816,0.67368686205693173,0.71815679130901022,0.75749276661027409,0.79253532421033157,0.82395101098050683,0.85227518864655627,0.8779427939781187,0.90131083153684111,0.92267508022380651,0.94228267879858163,0.96034172950142249,0.97702871272026237,0.99249427348309738],[0.063599177282638447,0.20722246565689076,0.32301872306372775,0.41836092807226855,0.49822873500758547,0.56610669538528058,0.62450619721008205,0.67528302374006177,0.71983818111361719,0.75924916554127098,0.7943582450978397,0.82583332846070712,0.85421086287156711,0.87992666095822802,0.90333844173177558,0.9247425726532682,0.94438668169340101,0.96247928105619085,0.97919719725917742,0.99469136957812465],[0.063938409046012779,0.20782334440074413,0.32382747429282205,0.41933876939925963,0.49934678762593915,0.56734288234269248,0.62584326614261987,0.67670723850558467,0.72133842827055505,0.76081632739382288,0.79598474933525887,0.82751281793376952,0.85593794902659814,0.8816967367411912,0.90514753755352551,0.92658724405386583,0.94626392069179532,0.96438644543834873,0.98113195362052252,0.99665164703162135],[0.064243000917471024,0.20836285070435792,0.32455360510682763,0.42021670014352674,0.50035058805031096,0.56845273049379741,0.62704367247296422,0.677985870830769,0.72268530934185859,0.76222327188743655,0.7974449594412989,0.82902058683596958,0.85748843950863185,0.88328581319666588,0.90677163666329552,0.92824327392706107,0.94794918127420336,0.96609856502751301,0.98286883773038758,0.99841143683331024],[0.064518000925450167,0.20884993038479563,0.32520916075217376,0.42100928854409997,0.50125679787054189,0.56945466606999351,0.62812735002465281,0.6791401573510768,0.72390119800921593,0.76349337369094117,0.79876313802852972,0.83038169078672408,0.85888810244595482,0.88472030211833386,0.90823773518663375,0.92973819123340051,0.94947048025496406,0.96764410497221343,0.98443672816418737,1]],"text":[["n_raters:  1<br />n_items:  1<br />phi: 0.07594371","n_raters:  2<br />n_items:  1<br />phi: 0.13596975","n_raters:  3<br />n_items:  1<br />phi: 0.18460787","n_raters:  4<br />n_items:  1<br />phi: 0.22481800","n_raters:  5<br />n_items:  1<br />phi: 0.25861609","n_raters:  6<br />n_items:  1<br />phi: 0.28742261","n_raters:  7<br />n_items:  1<br />phi: 0.31226730","n_raters:  8<br />n_items:  1<br />phi: 0.33391491","n_raters:  9<br />n_items:  1<br />phi: 0.35294523","n_raters: 10<br />n_items:  1<br />phi: 0.36980587","n_raters: 11<br />n_items:  1<br />phi: 0.38484788","n_raters: 12<br />n_items:  1<br />phi: 0.39835043","n_raters: 13<br />n_items:  1<br />phi: 0.41053836","n_raters: 14<br />n_items:  1<br />phi: 0.42159475","n_raters: 15<br />n_items:  1<br />phi: 0.43167017","n_raters: 16<br />n_items:  1<br />phi: 0.44088965","n_raters: 17<br />n_items:  1<br />phi: 0.44935780","n_raters: 18<br />n_items:  1<br />phi: 0.45716288","n_raters: 19<br />n_items:  1<br />phi: 0.46437983","n_raters: 20<br />n_items:  1<br />phi: 0.47107272"],["n_raters:  1<br />n_items:  2<br />phi: 0.09315725","n_raters:  2<br />n_items:  2<br />phi: 0.16659321","n_raters:  3<br />n_items:  2<br />phi: 0.22597092","n_raters:  4<br />n_items:  2<br />phi: 0.27497459","n_raters:  5<br />n_items:  2<br />phi: 0.31610453","n_raters:  6<br />n_items:  2<br />phi: 0.35111731","n_raters:  7<br />n_items:  2<br />phi: 0.38128314","n_raters:  8<br />n_items:  2<br />phi: 0.40754335","n_raters:  9<br />n_items:  2<br />phi: 0.43061032","n_raters: 10<br />n_items:  2<br />phi: 0.45103311","n_raters: 11<br />n_items:  2<br />phi: 0.46924174","n_raters: 12<br />n_items:  2<br />phi: 0.48557776","n_raters: 13<br />n_items:  2<br />phi: 0.50031592","n_raters: 14<br />n_items:  2<br />phi: 0.51367973","n_raters: 15<br />n_items:  2<br />phi: 0.52585285","n_raters: 16<br />n_items:  2<br />phi: 0.53698764","n_raters: 17<br />n_items:  2<br />phi: 0.54721152","n_raters: 18<br />n_items:  2<br />phi: 0.55663186","n_raters: 19<br />n_items:  2<br />phi: 0.56533982","n_raters: 20<br />n_items:  2<br />phi: 0.57341325"],["n_raters:  1<br />n_items:  3<br />phi: 0.10077089","n_raters:  2<br />n_items:  3<br />phi: 0.18011522","n_raters:  3<br />n_items:  3<br />phi: 0.24421007","n_raters:  4<br />n_items:  3<br />phi: 0.29706629","n_raters:  5<br />n_items:  3<br />phi: 0.34140155","n_raters:  6<br />n_items:  3<br />phi: 0.37912264","n_raters:  7<br />n_items:  3<br />phi: 0.41160694","n_raters:  8<br />n_items:  3<br />phi: 0.43987419","n_raters:  9<br />n_items:  3<br />phi: 0.46469551","n_raters: 10<br />n_items:  3<br />phi: 0.48666482","n_raters: 11<br />n_items:  3<br />phi: 0.50624695","n_raters: 12<br />n_items:  3<br />phi: 0.52381095","n_raters: 13<br />n_items:  3<br />phi: 0.53965351","n_raters: 14<br />n_items:  3<br />phi: 0.55401589","n_raters: 15<br />n_items:  3<br />phi: 0.56709626","n_raters: 16<br />n_items:  3<br />phi: 0.57905895","n_raters: 17<br />n_items:  3<br />phi: 0.59004133","n_raters: 18<br />n_items:  3<br />phi: 0.60015917","n_raters: 19<br />n_items:  3<br />phi: 0.60951069","n_raters: 20<br />n_items:  3<br />phi: 0.61817977"],["n_raters:  1<br />n_items:  4<br />phi: 0.10506428","n_raters:  2<br />n_items:  4<br />phi: 0.18773421","n_raters:  3<br />n_items:  4<br />phi: 0.25448020","n_raters:  4<br />n_items:  4<br />phi: 0.30949899","n_raters:  5<br />n_items:  4<br />phi: 0.35563168","n_raters:  6<br />n_items:  4<br />phi: 0.39487019","n_raters:  7<br />n_items:  4<br />phi: 0.42865251","n_raters:  8<br />n_items:  4<br />phi: 0.45804270","n_raters:  9<br />n_items:  4<br />phi: 0.48384502","n_raters: 10<br />n_items:  4<br />phi: 0.50667867","n_raters: 11<br />n_items:  4<br />phi: 0.52702813","n_raters: 12<br />n_items:  4<br />phi: 0.54527787","n_raters: 13<br />n_items:  4<br />phi: 0.56173694","n_raters: 14<br />n_items:  4<br />phi: 0.57665656","n_raters: 15<br />n_items:  4<br />phi: 0.59024307","n_raters: 16<br />n_items:  4<br />phi: 0.60266750","n_raters: 17<br />n_items:  4<br />phi: 0.61407283","n_raters: 18<br />n_items:  4<br />phi: 0.62457950","n_raters: 19<br />n_items:  4<br />phi: 0.63428971","n_raters: 20<br />n_items:  4<br />phi: 0.64329070"],["n_raters:  1<br />n_items:  5<br />phi: 0.10782053","n_raters:  2<br />n_items:  5<br />phi: 0.19262306","n_raters:  3<br />n_items:  5<br />phi: 0.26106765","n_raters:  4<br />n_items:  5<br />phi: 0.31747100","n_raters:  5<br />n_items:  5<br />phi: 0.36475377","n_raters:  6<br />n_items:  5<br />phi: 0.40496271","n_raters:  7<br />n_items:  5<br />phi: 0.43957478","n_raters:  8<br />n_items:  5<br />phi: 0.46968252","n_raters:  9<br />n_items:  5<br />phi: 0.49611149","n_raters: 10<br />n_items:  5<br />phi: 0.51949711","n_raters: 11<br />n_items:  5<br />phi: 0.54033645","n_raters: 12<br />n_items:  5<br />phi: 0.55902388","n_raters: 13<br />n_items:  5<br />phi: 0.57587637","n_raters: 14<br />n_items:  5<br />phi: 0.59115153","n_raters: 15<br />n_items:  5<br />phi: 0.60506091","n_raters: 16<br />n_items:  5<br />phi: 0.61777984","n_raters: 17<br />n_items:  5<br />phi: 0.62945488","n_raters: 18<br />n_items:  5<br />phi: 0.64020948","n_raters: 19<br />n_items:  5<br />phi: 0.65014837","n_raters: 20<br />n_items:  5<br />phi: 0.65936094"],["n_raters:  1<br />n_items:  6<br />phi: 0.10973980","n_raters:  2<br />n_items:  6<br />phi: 0.19602625","n_raters:  3<br />n_items:  6<br />phi: 0.26565207","n_raters:  4<br />n_items:  6<br />phi: 0.32301782","n_raters:  5<br />n_items:  6<br />phi: 0.37109967","n_raters:  6<br />n_items:  6<br />phi: 0.41198264","n_raters:  7<br />n_items:  6<br />phi: 0.44717086","n_raters:  8<br />n_items:  6<br />phi: 0.47777672","n_raters:  9<br />n_items:  6<br />phi: 0.50464061","n_raters: 10<br />n_items:  6<br />phi: 0.52840925","n_raters: 11<br />n_items:  6<br />phi: 0.54958845","n_raters: 12<br />n_items:  6<br />phi: 0.56857950","n_raters: 13<br />n_items:  6<br />phi: 0.58570486","n_raters: 14<br />n_items:  6<br />phi: 0.60122657","n_raters: 15<br />n_items:  6<br />phi: 0.61535983","n_raters: 16<br />n_items:  6<br />phi: 0.62828295","n_raters: 17<br />n_items:  6<br />phi: 0.64014498","n_raters: 18<br />n_items:  6<br />phi: 0.65107144","n_raters: 19<br />n_items:  6<br />phi: 0.66116883","n_raters: 20<br />n_items:  6<br />phi: 0.67052806"],["n_raters:  1<br />n_items:  7<br />phi: 0.11115308","n_raters:  2<br />n_items:  7<br />phi: 0.19853166","n_raters:  3<br />n_items:  7<br />phi: 0.26902649","n_raters:  4<br />n_items:  7<br />phi: 0.32709999","n_raters:  5<br />n_items:  7<br />phi: 0.37576935","n_raters:  6<br />n_items:  7<br />phi: 0.41714775","n_raters:  7<br />n_items:  7<br />phi: 0.45275937","n_raters:  8<br />n_items:  7<br />phi: 0.48373123","n_raters:  9<br />n_items:  7<br />phi: 0.51091462","n_raters: 10<br />n_items:  7<br />phi: 0.53496460","n_raters: 11<br />n_items:  7<br />phi: 0.55639341","n_raters: 12<br />n_items:  7<br />phi: 0.57560742","n_raters: 13<br />n_items:  7<br />phi: 0.59293314","n_raters: 14<br />n_items:  7<br />phi: 0.60863588","n_raters: 15<br />n_items:  7<br />phi: 0.62293350","n_raters: 16<br />n_items:  7<br />phi: 0.63600651","n_raters: 17<br />n_items:  7<br />phi: 0.64800579","n_raters: 18<br />n_items:  7<br />phi: 0.65905841","n_raters: 19<br />n_items:  7<br />phi: 0.66927214","n_raters: 20<br />n_items:  7<br />phi: 0.67873899"],["n_raters:  1<br />n_items:  8<br />phi: 0.11223716","n_raters:  2<br />n_items:  8<br />phi: 0.20045316","n_raters:  3<br />n_items:  8<br />phi: 0.27161410","n_raters:  4<br />n_items:  8<br />phi: 0.33022999","n_raters:  5<br />n_items:  8<br />phi: 0.37934947","n_raters:  6<br />n_items:  8<br />phi: 0.42110738","n_raters:  7<br />n_items:  8<br />phi: 0.45704329","n_raters:  8<br />n_items:  8<br />phi: 0.48829543","n_raters:  9<br />n_items:  8<br />phi: 0.51572348","n_raters: 10<br />n_items:  8<br />phi: 0.53998885","n_raters: 11<br />n_items:  8<br />phi: 0.56160875","n_raters: 12<br />n_items:  8<br />phi: 0.58099344","n_raters: 13<br />n_items:  8<br />phi: 0.59847252","n_raters: 14<br />n_items:  8<br />phi: 0.61431382","n_raters: 15<br />n_items:  8<br />phi: 0.62873723","n_raters: 16<br />n_items:  8<br />phi: 0.64192496","n_raters: 17<br />n_items:  8<br />phi: 0.65402928","n_raters: 18<br />n_items:  8<br />phi: 0.66517843","n_raters: 19<br />n_items:  8<br />phi: 0.67548117","n_raters: 20<br />n_items:  8<br />phi: 0.68503038"],["n_raters:  1<br />n_items:  9<br />phi: 0.11309507","n_raters:  2<br />n_items:  9<br />phi: 0.20197356","n_raters:  3<br />n_items:  9<br />phi: 0.27366136","n_raters:  4<br />n_items:  9<br />phi: 0.33270615","n_raters:  5<br />n_items:  9<br />phi: 0.38218152","n_raters:  6<br />n_items:  9<br />phi: 0.42423945","n_raters:  7<br />n_items:  9<br />phi: 0.46043169","n_raters:  8<br />n_items:  9<br />phi: 0.49190535","n_raters:  9<br />n_items:  9<br />phi: 0.51952674","n_raters: 10<br />n_items:  9<br />phi: 0.54396232","n_raters: 11<br />n_items:  9<br />phi: 0.56573322","n_raters: 12<br />n_items:  9<br />phi: 0.58525277","n_raters: 13<br />n_items:  9<br />phi: 0.60285301","n_raters: 14<br />n_items:  9<br />phi: 0.61880378","n_raters: 15<br />n_items:  9<br />phi: 0.63332656","n_raters: 16<br />n_items:  9<br />phi: 0.64660491","n_raters: 17<br />n_items:  9<br />phi: 0.65879219","n_raters: 18<br />n_items:  9<br />phi: 0.67001759","n_raters: 19<br />n_items:  9<br />phi: 0.68039065","n_raters: 20<br />n_items:  9<br />phi: 0.69000490"],["n_raters:  1<br />n_items: 10<br />phi: 0.11379089","n_raters:  2<br />n_items: 10<br />phi: 0.20320659","n_raters:  3<br />n_items: 10<br />phi: 0.27532153","n_raters:  4<br />n_items: 10<br />phi: 0.33471398","n_raters:  5<br />n_items: 10<br />phi: 0.38447778","n_raters:  6<br />n_items: 10<br />phi: 0.42677886","n_raters:  7<br />n_items: 10<br />phi: 0.46317880","n_raters:  8<br />n_items: 10<br />phi: 0.49483195","n_raters:  9<br />n_items: 10<br />phi: 0.52260998","n_raters: 10<br />n_items: 10<br />phi: 0.54718346","n_raters: 11<br />n_items: 10<br />phi: 0.56907667","n_raters: 12<br />n_items: 10<br />phi: 0.58870545","n_raters: 13<br />n_items: 10<br />phi: 0.60640385","n_raters: 14<br />n_items: 10<br />phi: 0.62244328","n_raters: 15<br />n_items: 10<br />phi: 0.63704655","n_raters: 16<br />n_items: 10<br />phi: 0.65039828","n_raters: 17<br />n_items: 10<br />phi: 0.66265277","n_raters: 18<br />n_items: 10<br />phi: 0.67393992","n_raters: 19<br />n_items: 10<br />phi: 0.68436992","n_raters: 20<br />n_items: 10<br />phi: 0.69403684"],["n_raters:  1<br />n_items: 11<br />phi: 0.11436661","n_raters:  2<br />n_items: 11<br />phi: 0.20422669","n_raters:  3<br />n_items: 11<br />phi: 0.27669490","n_raters:  4<br />n_items: 11<br />phi: 0.33637486","n_raters:  5<br />n_items: 11<br />phi: 0.38637717","n_raters:  6<br />n_items: 11<br />phi: 0.42887927","n_raters:  7<br />n_items: 11<br />phi: 0.46545094","n_raters:  8<br />n_items: 11<br />phi: 0.49725247","n_raters:  9<br />n_items: 11<br />phi: 0.52515998","n_raters: 10<br />n_items: 11<br />phi: 0.54984744","n_raters: 11<br />n_items: 11<br />phi: 0.57184176","n_raters: 12<br />n_items: 11<br />phi: 0.59156083","n_raters: 13<br />n_items: 11<br />phi: 0.60934034","n_raters: 14<br />n_items: 11<br />phi: 0.62545304","n_raters: 15<br />n_items: 11<br />phi: 0.64012283","n_raters: 16<br />n_items: 11<br />phi: 0.65353522","n_raters: 17<br />n_items: 11<br />phi: 0.66584523","n_raters: 18<br />n_items: 11<br />phi: 0.67718341","n_raters: 19<br />n_items: 11<br />phi: 0.68766047","n_raters: 20<br />n_items: 11<br />phi: 0.69737092"],["n_raters:  1<br />n_items: 12<br />phi: 0.11485083","n_raters:  2<br />n_items: 12<br />phi: 0.20508463","n_raters:  3<br />n_items: 12<br />phi: 0.27784989","n_raters:  4<br />n_items: 12<br />phi: 0.33777157","n_raters:  5<br />n_items: 12<br />phi: 0.38797440","n_raters:  6<br />n_items: 12<br />phi: 0.43064548","n_raters:  7<br />n_items: 12<br />phi: 0.46736149","n_raters:  8<br />n_items: 12<br />phi: 0.49928773","n_raters:  9<br />n_items: 12<br />phi: 0.52730407","n_raters: 10<br />n_items: 12<br />phi: 0.55208733","n_raters: 11<br />n_items: 12<br />phi: 0.57416661","n_raters: 12<br />n_items: 12<br />phi: 0.59396155","n_raters: 13<br />n_items: 12<br />phi: 0.61180923","n_raters: 14<br />n_items: 12<br />phi: 0.62798351","n_raters: 15<br />n_items: 12<br />phi: 0.64270919","n_raters: 16<br />n_items: 12<br />phi: 0.65617254","n_raters: 17<br />n_items: 12<br />phi: 0.66852922","n_raters: 18<br />n_items: 12<br />phi: 0.67991027","n_raters: 19<br />n_items: 12<br />phi: 0.69042687","n_raters: 20<br />n_items: 12<br />phi: 0.70017389"],["n_raters:  1<br />n_items: 13<br />phi: 0.11526378","n_raters:  2<br />n_items: 13<br />phi: 0.20581623","n_raters:  3<br />n_items: 13<br />phi: 0.27883474","n_raters:  4<br />n_items: 13<br />phi: 0.33896250","n_raters:  5<br />n_items: 13<br />phi: 0.38933624","n_raters:  6<br />n_items: 13<br />phi: 0.43215136","n_raters:  7<br />n_items: 13<br />phi: 0.46899040","n_raters:  8<br />n_items: 13<br />phi: 0.50102293","n_raters:  9<br />n_items: 13<br />phi: 0.52913202","n_raters: 10<br />n_items: 13<br />phi: 0.55399692","n_raters: 11<br />n_items: 13<br />phi: 0.57614861","n_raters: 12<br />n_items: 13<br />phi: 0.59600821","n_raters: 13<br />n_items: 13<br />phi: 0.61391397","n_raters: 14<br />n_items: 13<br />phi: 0.63014072","n_raters: 15<br />n_items: 13<br />phi: 0.64491403","n_raters: 16<br />n_items: 13<br />phi: 0.65842081","n_raters: 17<br />n_items: 13<br />phi: 0.67081724","n_raters: 18<br />n_items: 13<br />phi: 0.68223482","n_raters: 19<br />n_items: 13<br />phi: 0.69278511","n_raters: 20<br />n_items: 13<br />phi: 0.70256329"],["n_raters:  1<br />n_items: 14<br />phi: 0.11562011","n_raters:  2<br />n_items: 14<br />phi: 0.20644748","n_raters:  3<br />n_items: 14<br />phi: 0.27968448","n_raters:  4<br />n_items: 14<br />phi: 0.33999000","n_raters:  5<br />n_items: 14<br />phi: 0.39051117","n_raters:  6<br />n_items: 14<br />phi: 0.43345053","n_raters:  7<br />n_items: 14<br />phi: 0.47039567","n_raters:  8<br />n_items: 14<br />phi: 0.50251987","n_raters:  9<br />n_items: 14<br />phi: 0.53070896","n_raters: 10<br />n_items: 14<br />phi: 0.55564425","n_raters: 11<br />n_items: 14<br />phi: 0.57785838","n_raters: 12<br />n_items: 14<br />phi: 0.59777374","n_raters: 13<br />n_items: 14<br />phi: 0.61572960","n_raters: 14<br />n_items: 14<br />phi: 0.63200159","n_raters: 15<br />n_items: 14<br />phi: 0.64681596","n_raters: 16<br />n_items: 14<br />phi: 0.66036019","n_raters: 17<br />n_items: 14<br />phi: 0.67279090","n_raters: 18<br />n_items: 14<br />phi: 0.68423999","n_raters: 19<br />n_items: 14<br />phi: 0.69481931","n_raters: 20<br />n_items: 14<br />phi: 0.70462436"],["n_raters:  1<br />n_items: 15<br />phi: 0.11593071","n_raters:  2<br />n_items: 15<br />phi: 0.20699771","n_raters:  3<br />n_items: 15<br />phi: 0.28042511","n_raters:  4<br />n_items: 15<br />phi: 0.34088555","n_raters:  5<br />n_items: 15<br />phi: 0.39153519","n_raters:  6<br />n_items: 15<br />phi: 0.43458280","n_raters:  7<br />n_items: 15<br />phi: 0.47162040","n_raters:  8<br />n_items: 15<br />phi: 0.50382448","n_raters:  9<br />n_items: 15<br />phi: 0.53208325","n_raters: 10<br />n_items: 15<br />phi: 0.55707989","n_raters: 11<br />n_items: 15<br />phi: 0.57934842","n_raters: 12<br />n_items: 15<br />phi: 0.59931236","n_raters: 13<br />n_items: 15<br />phi: 0.61731185","n_raters: 14<br />n_items: 15<br />phi: 0.63362325","n_raters: 15<br />n_items: 15<br />phi: 0.64847341","n_raters: 16<br />n_items: 15<br />phi: 0.66205025","n_raters: 17<br />n_items: 15<br />phi: 0.67451082","n_raters: 18<br />n_items: 15<br />phi: 0.68598735","n_raters: 19<br />n_items: 15<br />phi: 0.69659198","n_raters: 20<br />n_items: 15<br />phi: 0.70642043"],["n_raters:  1<br />n_items: 16<br />phi: 0.11620386","n_raters:  2<br />n_items: 16<br />phi: 0.20748157","n_raters:  3<br />n_items: 16<br />phi: 0.28107640","n_raters:  4<br />n_items: 16<br />phi: 0.34167303","n_raters:  5<br />n_items: 16<br />phi: 0.39243562","n_raters:  6<br />n_items: 16<br />phi: 0.43557841","n_raters:  7<br />n_items: 16<br />phi: 0.47269729","n_raters:  8<br />n_items: 16<br />phi: 0.50497158","n_raters:  9<br />n_items: 16<br />phi: 0.53329162","n_raters: 10<br />n_items: 16<br />phi: 0.55834217","n_raters: 11<br />n_items: 16<br />phi: 0.58065852","n_raters: 12<br />n_items: 16<br />phi: 0.60066515","n_raters: 13<br />n_items: 16<br />phi: 0.61870300","n_raters: 14<br />n_items: 16<br />phi: 0.63504905","n_raters: 15<br />n_items: 16<br />phi: 0.64993065","n_raters: 16<br />n_items: 16<br />phi: 0.66353617","n_raters: 17<br />n_items: 16<br />phi: 0.67602299","n_raters: 18<br />n_items: 16<br />phi: 0.68752364","n_raters: 19<br />n_items: 16<br />phi: 0.69815050","n_raters: 20<br />n_items: 16<br />phi: 0.70799952"],["n_raters:  1<br />n_items: 17<br />phi: 0.11644594","n_raters:  2<br />n_items: 17<br />phi: 0.20791038","n_raters:  3<br />n_items: 17<br />phi: 0.28165358","n_raters:  4<br />n_items: 17<br />phi: 0.34237090","n_raters:  5<br />n_items: 17<br />phi: 0.39323357","n_raters:  6<br />n_items: 17<br />phi: 0.43646068","n_raters:  7<br />n_items: 17<br />phi: 0.47365157","n_raters:  8<br />n_items: 17<br />phi: 0.50598807","n_raters:  9<br />n_items: 17<br />phi: 0.53436238","n_raters: 10<br />n_items: 17<br />phi: 0.55946071","n_raters: 11<br />n_items: 17<br />phi: 0.58181942","n_raters: 12<br />n_items: 17<br />phi: 0.60186388","n_raters: 13<br />n_items: 17<br />phi: 0.61993571","n_raters: 14<br />n_items: 17<br />phi: 0.63631245","n_raters: 15<br />n_items: 17<br />phi: 0.65122191","n_raters: 16<br />n_items: 17<br />phi: 0.66485282","n_raters: 17<br />n_items: 17<br />phi: 0.67736289","n_raters: 18<br />n_items: 17<br />phi: 0.68888491","n_raters: 19<br />n_items: 17<br />phi: 0.69953147","n_raters: 20<br />n_items: 17<br />phi: 0.70939871"],["n_raters:  1<br />n_items: 18<br />phi: 0.11666198","n_raters:  2<br />n_items: 18<br />phi: 0.20829304","n_raters:  3<br />n_items: 18<br />phi: 0.28216862","n_raters:  4<br />n_items: 18<br />phi: 0.34299362","n_raters:  5<br />n_items: 18<br />phi: 0.39394559","n_raters:  6<br />n_items: 18<br />phi: 0.43724793","n_raters:  7<br />n_items: 18<br />phi: 0.47450306","n_raters:  8<br />n_items: 18<br />phi: 0.50689506","n_raters:  9<br />n_items: 18<br />phi: 0.53531780","n_raters: 10<br />n_items: 18<br />phi: 0.56045873","n_raters: 11<br />n_items: 18<br />phi: 0.58285524","n_raters: 12<br />n_items: 18<br />phi: 0.60293344","n_raters: 13<br />n_items: 18<br />phi: 0.62103558","n_raters: 14<br />n_items: 18<br />phi: 0.63743969","n_raters: 15<br />n_items: 18<br />phi: 0.65237400","n_raters: 16<br />n_items: 18<br />phi: 0.66602757","n_raters: 17<br />n_items: 18<br />phi: 0.67855838","n_raters: 18<br />n_items: 18<br />phi: 0.69009946","n_raters: 19<br />n_items: 18<br />phi: 0.70076359","n_raters: 20<br />n_items: 18<br />phi: 0.71064709"],["n_raters:  1<br />n_items: 19<br />phi: 0.11685595","n_raters:  2<br />n_items: 19<br />phi: 0.20863662","n_raters:  3<br />n_items: 19<br />phi: 0.28263104","n_raters:  4<br />n_items: 19<br />phi: 0.34355272","n_raters:  5<br />n_items: 19<br />phi: 0.39458484","n_raters:  6<br />n_items: 19<br />phi: 0.43795472","n_raters:  7<br />n_items: 19<br />phi: 0.47526753","n_raters:  8<br />n_items: 19<br />phi: 0.50770934","n_raters:  9<br />n_items: 19<br />phi: 0.53617554","n_raters: 10<br />n_items: 19<br />phi: 0.56135472","n_raters: 11<br />n_items: 19<br />phi: 0.58378515","n_raters: 12<br />n_items: 19<br />phi: 0.60389364","n_raters: 13<br />n_items: 19<br />phi: 0.62202299","n_raters: 14<br />n_items: 19<br />phi: 0.63845168","n_raters: 15<br />n_items: 19<br />phi: 0.65340829","n_raters: 16<br />n_items: 19<br />phi: 0.66708219","n_raters: 17<br />n_items: 19<br />phi: 0.67963162","n_raters: 18<br />n_items: 19<br />phi: 0.69118979","n_raters: 19<br />n_items: 19<br />phi: 0.70186970","n_raters: 20<br />n_items: 19<br />phi: 0.71176779"],["n_raters:  1<br />n_items: 20<br />phi: 0.11703108","n_raters:  2<br />n_items: 20<br />phi: 0.20894681","n_raters:  3<br />n_items: 20<br />phi: 0.28304853","n_raters:  4<br />n_items: 20<br />phi: 0.34405747","n_raters:  5<br />n_items: 20<br />phi: 0.39516195","n_raters:  6<br />n_items: 20<br />phi: 0.43859279","n_raters:  7<br />n_items: 20<br />phi: 0.47595765","n_raters:  8<br />n_items: 20<br />phi: 0.50844443","n_raters:  9<br />n_items: 20<br />phi: 0.53694986","n_raters: 10<br />n_items: 20<br />phi: 0.56216357","n_raters: 11<br />n_items: 20<br />phi: 0.58462462","n_raters: 12<br />n_items: 20<br />phi: 0.60476044","n_raters: 13<br />n_items: 20<br />phi: 0.62291434","n_raters: 14<br />n_items: 20<br />phi: 0.63936521","n_raters: 15<br />n_items: 20<br />phi: 0.65434195","n_raters: 16<br />n_items: 20<br />phi: 0.66803421","n_raters: 17<br />n_items: 20<br />phi: 0.68060044","n_raters: 18<br />n_items: 20<br />phi: 0.69217405","n_raters: 19<br />n_items: 20<br />phi: 0.70286819","n_raters: 20<br />n_items: 20<br />phi: 0.71277944"]],"colorscale":[[0,"#000004"],[0.027029795282273204,"#0F0517"],[0.038985213315580573,"#14071C"],[0.045726971919146986,"#16081F"],[0.050055007454382835,"#170921"],[0.053068767174327985,"#180A23"],[0.055287988538004491,"#180A24"],[0.056990281858214517,"#180B24"],[0.058337419854587159,"#190B25"],[0.05943004930441402,"#190B26"],[0.060334069834543029,"#190B26"],[0.061094437601715075,"#190B26"],[0.061742872924034908,"#190C27"],[0.062302397393835293,"#1A0C27"],[0.062790124401023495,"#1A0C27"],[0.063219040193770518,"#1A0C27"],[0.063599177282638447,"#1A0C28"],[0.063938409046012779,"#1A0C28"],[0.064243000917471024,"#1A0C28"],[0.064518000925450167,"#1A0C28"],[0.094256699394242,"#210F37"],[0.14234361504690132,"#2D1050"],[0.16357673405571346,"#32105C"],[0.17063136844090088,"#34105F"],[0.17554055527374246,"#351062"],[0.18321733394537615,"#371066"],[0.18856123689608498,"#380F6A"],[0.19249539697739335,"#390F6C"],[0.19551265162161294,"#3A0F6D"],[0.19790009041034465,"#3A0F6F"],[0.19983627666542111,"#3B0F70"],[0.20143810119024794,"#3C0F70"],[0.20278529169777276,"#3C0F70"],[0.20393409443636129,"#3D0F70"],[0.20492532605241937,"#3D1070"],[0.20578932488330978,"#3E1071"],[0.20654911061739825,"#3E1071"],[0.20722246565689076,"#3E1071"],[0.20782334440074413,"#3F1071"],[0.20836285070435792,"#3F1071"],[0.20884993038479563,"#3F1071"],[0.23377188636904231,"#4A1373"],[0.23558226483862515,"#4B1373"],[0.2642225450339496,"#571676"],[0.28034936455119575,"#5E1877"],[0.28684379855898251,"#601977"],[0.29069338723852994,"#621A78"],[0.29789214248713253,"#651B78"],[0.30319086724814831,"#671B79"],[0.30725410027447164,"#681C79"],[0.31046883913332851,"#6A1C79"],[0.31253095690291982,"#6A1D7A"],[0.31307573414557854,"#6B1D7A"],[0.31523229160327387,"#6B1D7A"],[0.31704592641376506,"#6C1D7A"],[0.31859240854693627,"#6D1D7A"],[0.31992671705811249,"#6D1E7A"],[0.32108971346114701,"#6E1E7A"],[0.32211239976740796,"#6E1E7A"],[0.32301872306372775,"#6E1E7B"],[0.32382747429282205,"#6F1E7B"],[0.32455360510682763,"#6F1E7B"],[0.32520916075217376,"#6F1E7B"],[0.33207762399835855,"#721F7B"],[0.34722074207571835,"#78217D"],[0.36674337055648704,"#7F247E"],[0.37109034567947335,"#81257F"],[0.37711580918822574,"#83267F"],[0.37926152291894716,"#84267F"],[0.38797148385861813,"#872780"],[0.3943815815333232,"#8A2881"],[0.39929649576064147,"#8C2981"],[0.40318472414159473,"#8D2981"],[0.40508278986541252,"#8E2A80"],[0.40633754354403417,"#8F2A80"],[0.40894556777068147,"#902A80"],[0.41113877476938793,"#912B80"],[0.41300884138471228,"#922B80"],[0.41462228327754053,"#922B7F"],[0.41602853269943862,"#932B7F"],[0.4168387870141681,"#932B7F"],[0.41726509206747836,"#942B7F"],[0.41836092807226855,"#942C7F"],[0.41933876939925963,"#952C7F"],[0.42021670014352674,"#952C7F"],[0.42100928854409997,"#952C7F"],[0.4320950932353349,"#9A2E7D"],[0.43496541356232948,"#9B2E7D"],[0.43918384651780995,"#9D2F7C"],[0.4535079375759058,"#A3317B"],[0.46144106825761599,"#A6327A"],[0.46347267700837147,"#A7327A"],[0.47080530200395271,"#AA3379"],[0.47607085842136471,"#AC3478"],[0.47642702760932304,"#AD3478"],[0.47946340662588804,"#AE3578"],[0.48087409283682714,"#AE3577"],[0.48447983991651739,"#B03677"],[0.48506098224942512,"#B03677"],[0.48746238398249314,"#B13677"],[0.48997044118333899,"#B23676"],[0.49210889629108534,"#B33776"],[0.49395384263928732,"#B43776"],[0.49556182694219569,"#B43776"],[0.49697574689881102,"#B53875"],[0.49822873500758547,"#B63875"],[0.49934678762593915,"#B63875"],[0.50035058805031096,"#B63875"],[0.50079866101564974,"#B73875"],[0.50125679787054189,"#B73875"],[0.50626355471591167,"#B93974"],[0.51664657423449634,"#BD3B73"],[0.52069885861208898,"#BF3B73"],[0.52540181866970015,"#C13C72"],[0.52707977460902267,"#C13D72"],[0.52766971593930367,"#C13D72"],[0.53578030182216851,"#C53E71"],[0.54199796841392822,"#C73F70"],[0.54276325479508591,"#C73F70"],[0.54691614490151708,"#C9406F"],[0.55090367648129501,"#CB416F"],[0.55384580958866714,"#CC416E"],[0.55420188388737357,"#CC416E"],[0.55692008247982805,"#CD426E"],[0.55697529155691283,"#CD426E"],[0.55858433145336661,"#CE426E"],[0.55933992524433518,"#CE426E"],[0.56137995604981716,"#CF426D"],[0.5631579303144465,"#D0436D"],[0.56472129513307556,"#D0436D"],[0.56610669538528058,"#D1436D"],[0.56734288234269248,"#D1436C"],[0.56845273049379741,"#D2446C"],[0.56945466606999351,"#D2446C"],[0.57099664835646735,"#D3446C"],[0.57146680775234882,"#D3446C"],[0.57306133897848366,"#D3446C"],[0.58292449997219675,"#D7466A"],[0.58635857522274271,"#D9476A"],[0.58898925273886737,"#DA476A"],[0.59169993948105304,"#DB4869"],[0.59842682422003324,"#DD4968"],[0.59861460826316992,"#DD4968"],[0.59999615125055361,"#DE4968"],[0.60374750590561999,"#DF4B68"],[0.60806119261640168,"#DF4D68"],[0.60994712338349832,"#E04E68"],[0.61044282263178096,"#E04E68"],[0.61162904704565169,"#E04F68"],[0.61462910832207218,"#E15069"],[0.61718692547411469,"#E15269"],[0.61758159602559648,"#E15269"],[0.61827374177578454,"#E15269"],[0.61939357366499825,"#E15369"],[0.62045671414769465,"#E25369"],[0.62131672661552306,"#E25469"],[0.62300771908211816,"#E25469"],[0.62450619721008205,"#E25569"],[0.62584326614261987,"#E25669"],[0.62704367247296422,"#E35669"],[0.62812735002465281,"#E35769"],[0.63098377567559261,"#E35869"],[0.64033392190652594,"#E55D69"],[0.64051259813849892,"#E55D69"],[0.64323345616244698,"#E55E69"],[0.64494042292204901,"#E65F6A"],[0.64750092083843847,"#E6606A"],[0.65316944877711969,"#E7626A"],[0.65776497606541284,"#E8646A"],[0.6597741930247647,"#E8656A"],[0.66156582465773295,"#E8666A"],[0.66476171949843654,"#E9686A"],[0.66637625519086219,"#E9686A"],[0.66748644319059947,"#E9696A"],[0.66983703938202221,"#EA6A6A"],[0.67188561398165547,"#EA6B6A"],[0.67316716345259076,"#EA6B6A"],[0.67368686205693173,"#EA6B6A"],[0.67528302374006177,"#EB6C6A"],[0.67568954029067219,"#EB6C6A"],[0.6763674555691862,"#EB6D6A"],[0.67670723850558467,"#EB6D6A"],[0.677985870830769,"#EB6D6B"],[0.6791401573510768,"#EB6E6B"],[0.68301901643858587,"#EC6F6B"],[0.68736095365316119,"#ED716B"],[0.69057018017863747,"#ED736B"],[0.69649578897790287,"#EE756B"],[0.69654230654556137,"#EE756B"],[0.70138380471588557,"#EF776B"],[0.70326965285330478,"#EF786B"],[0.70538798216806753,"#F0796B"],[0.70647597284163965,"#F0796B"],[0.70832146386503148,"#F07A6B"],[0.7087547680433427,"#F07A6B"],[0.7104901909873268,"#F07B6B"],[0.71162513386679305,"#F17B6B"],[0.71410133405637211,"#F17C6B"],[0.71625934374571998,"#F17D6B"],[0.71815679130901022,"#F27E6C"],[0.71983818111361719,"#F27F6C"],[0.7207838128732047,"#F27F6C"],[0.72133842827055505,"#F27F6C"],[0.72268530934185859,"#F2806C"],[0.72390119800921593,"#F2816C"],[0.72396053088474122,"#F2816C"],[0.72814664990093814,"#F3826C"],[0.72867321063904456,"#F3826C"],[0.72921903274363487,"#F3836C"],[0.73491261541700992,"#F4856C"],[0.73697837294543334,"#F5866C"],[0.73997064443605687,"#F5876C"],[0.74001470582301465,"#F5876C"],[0.74374711559201034,"#F6896C"],[0.74415380496199368,"#F6896C"],[0.74767101338000286,"#F68A6C"],[0.75066957221367081,"#F78B6C"],[0.75069936369973134,"#F78B6C"],[0.75325632444955415,"#F78C6C"],[0.75443269273922586,"#F78D6C"],[0.7548071260061946,"#F78D6C"],[0.75551065221184299,"#F78D6C"],[0.75749276661027409,"#F88E6C"],[0.75856323610357435,"#F88F6C"],[0.75924916554127098,"#F88F6C"],[0.76081632739382288,"#F88F6C"],[0.76222327188743655,"#F8906C"],[0.76262215746829876,"#F8906C"],[0.76282345226224457,"#F8906C"],[0.76349337369094117,"#F9916C"],[0.76848091580379452,"#F9936D"],[0.76909866320174358,"#F9936D"],[0.77123899651460293,"#FA946D"],[0.77356807599455735,"#FA956D"],[0.77434876420859633,"#FA956D"],[0.7786906827343042,"#FB976D"],[0.78115834158266761,"#FB986D"],[0.78234131068484181,"#FB986D"],[0.78460376241524765,"#FC996D"],[0.7850260885519913,"#FC996D"],[0.78545356842940939,"#FC996D"],[0.78625119502555163,"#FC9A6D"],[0.78813837036930035,"#FC9A6D"],[0.79002356765706006,"#FD9B6D"],[0.79047812145947394,"#FD9B6D"],[0.79253532421033157,"#FD9C6D"],[0.79306123593918798,"#FD9C6D"],[0.7943582450978397,"#FD9D6D"],[0.79598474933525887,"#FD9D6D"],[0.7974449594412989,"#FE9E6D"],[0.79876313802852972,"#FE9F6D"],[0.79974949779807292,"#FE9F6D"],[0.80045940020740636,"#FE9F6D"],[0.80517113041434751,"#FEA26F"],[0.80726880887787289,"#FEA370"],[0.80758559605304325,"#FEA370"],[0.8090121157876079,"#FEA371"],[0.80965482317121595,"#FEA471"],[0.81180970574391464,"#FFA572"],[0.81342459335035611,"#FFA572"],[0.81663837997473088,"#FFA774"],[0.81941073438770873,"#FFA875"],[0.82050800221977183,"#FFA975"],[0.82182676165947266,"#FFAA76"],[0.82315648666961772,"#FFAA76"],[0.82395101098050683,"#FFAB76"],[0.82483258997110243,"#FFAB77"],[0.82583332846070712,"#FFAB77"],[0.82709522641381217,"#FFAC78"],[0.82738652930338619,"#FFAC78"],[0.82751281793376952,"#FFAC78"],[0.82902058683596958,"#FFAD78"],[0.83038169078672408,"#FFAE79"],[0.83085350461430951,"#FFAE79"],[0.83296227776257403,"#FFAF7A"],[0.83646715614756639,"#FFB17B"],[0.83757334540381345,"#FFB17C"],[0.83784083357851968,"#FFB17C"],[0.84145015367702936,"#FFB37D"],[0.84475515199442053,"#FFB47F"],[0.84500459862387711,"#FFB57F"],[0.84538302307741142,"#FFB57F"],[0.84702552696935696,"#FFB680"],[0.8476061601309226,"#FFB680"],[0.85009070957111577,"#FFB781"],[0.85082558089503713,"#FFB781"],[0.85145357151670653,"#FFB881"],[0.85227518864655627,"#FFB882"],[0.85243343535304472,"#FFB882"],[0.85421086287156711,"#FFB983"],[0.85593794902659814,"#FFBA83"],[0.85748843950863185,"#FFBB84"],[0.85814840583358021,"#FFBB84"],[0.85888810244595482,"#FFBB84"],[0.85891818382849883,"#FFBB84"],[0.86150284536279587,"#FFBC85"],[0.86287453480721132,"#FFBD86"],[0.86684803082215101,"#FFBF88"],[0.86731823180674561,"#FFBF88"],[0.86803157872752357,"#FFBF88"],[0.86915847651040778,"#FFC089"],[0.87023541884443611,"#FFC189"],[0.87315747183283221,"#FFC28A"],[0.87523803469576911,"#FFC38B"],[0.87570391356011701,"#FFC38B"],[0.87675042449151241,"#FFC48C"],[0.8779427939781187,"#FFC48C"],[0.87944626177795759,"#FFC58D"],[0.87992666095822802,"#FFC58D"],[0.88107939117113065,"#FFC68D"],[0.8816967367411912,"#FFC68E"],[0.88328581319666588,"#FFC78E"],[0.88472030211833386,"#FFC78F"],[0.88590996972964731,"#FFC88F"],[0.88594474116716526,"#FFC88F"],[0.88604603690607309,"#FFC88F"],[0.88873978770406559,"#FFC991"],[0.88997123397053846,"#FFCA91"],[0.89088435491216456,"#FFCA91"],[0.89343340952253381,"#FFCB92"],[0.8960885378150254,"#FFCD94"],[0.89641995075773173,"#FFCD94"],[0.89828829775467567,"#FFCE94"],[0.89902257191222235,"#FFCE95"],[0.90131083153684111,"#FFCF96"],[0.90165270176869827,"#FFCF96"],[0.90204513991861823,"#FFCF96"],[0.9031021747120469,"#FFD096"],[0.90333844173177558,"#FFD096"],[0.90514753755352551,"#FFD197"],[0.90677163666329552,"#FFD298"],[0.90697095854813881,"#FFD298"],[0.90774675761623957,"#FFD298"],[0.90823773518663375,"#FFD298"],[0.91111225040513433,"#FFD49A"],[0.91464261630705657,"#FFD59B"],[0.91522579169531404,"#FFD69B"],[0.91564381852672283,"#FFD69C"],[0.91611887724295571,"#FFD69C"],[0.91768795610777742,"#FFD79C"],[0.9189577380466889,"#FFD79D"],[0.92034179930631099,"#FFD89D"],[0.92128790884216627,"#FFD89E"],[0.92267508022380651,"#FFD99E"],[0.9247425726532682,"#FFDA9F"],[0.92525385940261229,"#FFDAA0"],[0.92630092379037998,"#FFDBA0"],[0.92658724405386583,"#FFDBA0"],[0.92824327392706107,"#FFDCA1"],[0.92973819123340051,"#FFDCA1"],[0.93051548270476592,"#FFDDA2"],[0.93168206287355337,"#FFDDA2"],[0.93285262530992086,"#FFDEA3"],[0.93365418984351278,"#FFDEA3"],[0.93410827722002987,"#FFDEA3"],[0.93720744654678645,"#FFE0A4"],[0.93901170859470362,"#FFE1A5"],[0.93990818238816221,"#FFE1A6"],[0.94143188938817712,"#FFE2A6"],[0.94228267879858163,"#FFE2A7"],[0.9441048532021562,"#FFE3A7"],[0.94438668169340101,"#FFE3A7"],[0.94626392069179532,"#FFE4A8"],[0.94654751857130326,"#FFE4A8"],[0.94794918127420336,"#FFE5A9"],[0.94838674001894319,"#FFE5A9"],[0.949141066320488,"#FFE5A9"],[0.94947048025496406,"#FFE6AA"],[0.95203690159061694,"#FFE7AB"],[0.95518553535091499,"#FFE8AC"],[0.95538956473118375,"#FFE8AC"],[0.95642665984496078,"#FFE9AD"],[0.95792936071182422,"#FFE9AD"],[0.96034172950142249,"#FFEBAE"],[0.96055659742607336,"#FFEBAE"],[0.96247928105619085,"#FFECAF"],[0.96423797402687772,"#FEECB0"],[0.96438644543834873,"#FEECB0"],[0.96490056658241197,"#FEEDB0"],[0.96609856502751301,"#FEEDB1"],[0.96764410497221343,"#FEEEB1"],[0.96860362486496965,"#FEEEB2"],[0.97056918503378231,"#FEEFB2"],[0.97179786790738365,"#FEF0B3"],[0.97458142401510461,"#FEF1B4"],[0.97580456576448726,"#FEF2B5"],[0.97702871272026237,"#FEF2B5"],[0.97919719725917742,"#FEF3B6"],[0.98020596139429306,"#FDF4B7"],[0.98113195362052252,"#FDF4B7"],[0.98286883773038758,"#FDF5B8"],[0.98395794867899589,"#FDF6B8"],[0.98443672816418737,"#FDF6B8"],[0.98719437938315557,"#FDF7BA"],[0.9900146852252002,"#FDF8BB"],[0.99249427348309738,"#FDFABC"],[0.99469136957812465,"#FCFBBD"],[0.99665164703162135,"#FCFBBE"],[0.99841143683331024,"#FCFCBE"],[1,"#FCFDBF"]],"type":"heatmap","showscale":false,"autocolorscale":false,"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0],"y":[0],"name":"173e60b82f3dc7c82e01c1beefc97141","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#000004"],[0.003344481605351174,"#020107"],[0.006688963210702348,"#04010A"],[0.0100334448160535,"#06020D"],[0.013377926421404673,"#08020F"],[0.016722408026755849,"#0A0311"],[0.02006688963210702,"#0C0413"],[0.023411371237458196,"#0D0415"],[0.026755852842809368,"#0F0517"],[0.030100334448160543,"#100618"],[0.033444816053511718,"#12061A"],[0.036789297658862866,"#13071B"],[0.040133779264214041,"#14071D"],[0.043478260869565216,"#15081E"],[0.046822742474916391,"#160920"],[0.050167224080267539,"#170921"],[0.053511705685618714,"#180A23"],[0.05685618729096989,"#180B24"],[0.060200668896321065,"#190B26"],[0.06354515050167224,"#1A0C28"],[0.066889632107023408,"#1A0C29"],[0.070234113712374591,"#1B0D2B"],[0.073578595317725759,"#1C0D2C"],[0.076923076923076927,"#1D0E2E"],[0.080267558528428068,"#1D0E30"],[0.083612040133779236,"#1E0E31"],[0.086956521739130405,"#1F0E33"],[0.090301003344481587,"#200E35"],[0.093645484949832755,"#210F36"],[0.096989966555183937,"#220F38"],[0.10033444816053511,"#220F3A"],[0.10367892976588627,"#230F3C"],[0.10702341137123746,"#240F3D"],[0.11036789297658862,"#250F3F"],[0.11371237458193979,"#260F41"],[0.11705685618729098,"#260F43"],[0.12040133779264214,"#270F44"],[0.12374581939799333,"#281046"],[0.12709030100334451,"#291048"],[0.13043478260869568,"#2A104A"],[0.13377926421404684,"#2B104B"],[0.13712374581939801,"#2B104D"],[0.14046822742474915,"#2C104F"],[0.14381270903010032,"#2D1051"],[0.14715719063545149,"#2E1053"],[0.15050167224080266,"#2F1054"],[0.15384615384615385,"#301056"],[0.15719063545150502,"#301058"],[0.16053511705685614,"#31105A"],[0.16387959866220733,"#32105C"],[0.1672240802675585,"#33105E"],[0.17056856187290967,"#34105F"],[0.17391304347826084,"#351061"],[0.17725752508361201,"#351063"],[0.1806020066889632,"#361065"],[0.18394648829431437,"#371067"],[0.18729096989966554,"#380F69"],[0.19063545150501671,"#390F6B"],[0.19397993311036787,"#3A0F6D"],[0.19732441471571907,"#3A0F6E"],[0.20066889632107024,"#3B0F70"],[0.20401337792642144,"#3D0F70"],[0.2073578595317726,"#3E1071"],[0.21070234113712377,"#401071"],[0.21404682274247494,"#421071"],[0.21739130434782611,"#431172"],[0.2207357859531773,"#451172"],[0.22408026755852847,"#461272"],[0.22742474916387964,"#471272"],[0.23076923076923081,"#491273"],[0.23411371237458198,"#4A1373"],[0.23745819397993306,"#4C1373"],[0.24080267558528426,"#4D1474"],[0.24414715719063543,"#4F1474"],[0.2474916387959866,"#501474"],[0.25083612040133779,"#521574"],[0.25418060200668896,"#531575"],[0.25752508361204013,"#541675"],[0.2608695652173913,"#561675"],[0.26421404682274247,"#571676"],[0.26755852842809363,"#581776"],[0.2709030100334448,"#5A1776"],[0.27424749163879597,"#5B1876"],[0.27759197324414714,"#5C1877"],[0.28093645484949836,"#5E1877"],[0.28428093645484953,"#5F1977"],[0.2876254180602007,"#611978"],[0.29096989966555187,"#621A78"],[0.29431438127090304,"#631A78"],[0.2976588628762542,"#651B78"],[0.30100334448160537,"#661B79"],[0.30434782608695654,"#671C79"],[0.30769230769230771,"#681C79"],[0.31103678929765888,"#6A1C7A"],[0.31438127090301005,"#6B1D7A"],[0.31772575250836127,"#6C1D7A"],[0.32107023411371233,"#6E1E7A"],[0.3244147157190635,"#6F1E7B"],[0.32775919732441466,"#701F7B"],[0.33110367892976583,"#721F7B"],[0.33444816053511706,"#73207B"],[0.33779264214046822,"#74207C"],[0.34113712374581939,"#75217C"],[0.34448160535117056,"#77217C"],[0.34782608695652173,"#78217D"],[0.3511705685618729,"#79227D"],[0.35451505016722407,"#7B227D"],[0.35785953177257523,"#7C237D"],[0.3612040133779264,"#7D237E"],[0.36454849498327757,"#7E247E"],[0.36789297658862874,"#80247E"],[0.37123745819397996,"#81257F"],[0.37458193979933113,"#82257F"],[0.3779264214046823,"#84267F"],[0.38127090301003347,"#85267F"],[0.38461538461538464,"#862780"],[0.38795986622073581,"#872780"],[0.39130434782608697,"#892880"],[0.39464882943143809,"#8A2881"],[0.39799331103678925,"#8B2981"],[0.40133779264214042,"#8D2981"],[0.40468227424749159,"#8E2A80"],[0.40802675585284276,"#902A80"],[0.41137123745819393,"#912B80"],[0.4147157190635451,"#932B7F"],[0.41806020066889626,"#942C7F"],[0.42140468227424743,"#952C7F"],[0.42474916387959866,"#972D7E"],[0.42809364548494983,"#982D7E"],[0.43143812709030099,"#9A2D7D"],[0.43478260869565216,"#9B2E7D"],[0.43812709030100333,"#9D2E7D"],[0.4414715719063545,"#9E2F7C"],[0.44481605351170567,"#9F2F7C"],[0.44816053511705684,"#A1307B"],[0.451505016722408,"#A2307B"],[0.45484949832775917,"#A4317B"],[0.4581939799331104,"#A5327A"],[0.46153846153846156,"#A6327A"],[0.46488294314381273,"#A83379"],[0.4682274247491639,"#A93379"],[0.47157190635451496,"#AB3479"],[0.47491638795986613,"#AC3478"],[0.47826086956521735,"#AD3578"],[0.48160535117056852,"#AF3577"],[0.48494983277591969,"#B03677"],[0.48829431438127086,"#B23677"],[0.49163879598662202,"#B33776"],[0.49498327759197319,"#B43776"],[0.49832775919732436,"#B63875"],[0.50167224080267558,"#B73875"],[0.50501672240802675,"#B83974"],[0.50836120401337792,"#BA3974"],[0.51170568561872909,"#BB3A74"],[0.51505016722408026,"#BC3B73"],[0.51839464882943143,"#BE3B73"],[0.52173913043478259,"#BF3C72"],[0.52508361204013376,"#C03C72"],[0.52842809364548493,"#C23D72"],[0.5317725752508361,"#C33D71"],[0.53511705685618727,"#C43E71"],[0.53846153846153844,"#C63E70"],[0.5418060200668896,"#C73F70"],[0.54515050167224077,"#C8406F"],[0.54849498327759194,"#CA406F"],[0.55183946488294311,"#CB416F"],[0.55518394648829428,"#CC416E"],[0.55852842809364545,"#CE426E"],[0.56187290969899661,"#CF426D"],[0.56521739130434778,"#D0436D"],[0.56856187290969895,"#D2446C"],[0.57190635451505012,"#D3446C"],[0.57525083612040129,"#D4456B"],[0.57859531772575246,"#D6456B"],[0.58193979933110362,"#D7466A"],[0.58528428093645479,"#D8466A"],[0.58862876254180596,"#DA476A"],[0.59197324414715713,"#DB4869"],[0.5953177257525083,"#DC4869"],[0.59866220735785947,"#DD4968"],[0.60200668896321063,"#DE4A68"],[0.6053511705685618,"#DF4C68"],[0.60869565217391297,"#E04D68"],[0.61204013377926414,"#E04F68"],[0.61538461538461542,"#E15169"],[0.61872909698996659,"#E15269"],[0.62207357859531776,"#E25469"],[0.62541806020066892,"#E25669"],[0.62876254180602009,"#E35769"],[0.63210702341137126,"#E45969"],[0.63545150501672243,"#E45A69"],[0.6387959866220736,"#E55C69"],[0.64214046822742465,"#E55D69"],[0.64548494983277582,"#E65F6A"],[0.64882943143812699,"#E6606A"],[0.65217391304347816,"#E7626A"],[0.65551839464882933,"#E7636A"],[0.6588628762541805,"#E8656A"],[0.66220735785953166,"#E9666A"],[0.66555183946488283,"#E9686A"],[0.66889632107023411,"#EA696A"],[0.67224080267558528,"#EA6B6A"],[0.67558528428093645,"#EB6C6A"],[0.67892976588628762,"#EB6E6B"],[0.68227424749163879,"#EC6F6B"],[0.68561872909699006,"#EC716B"],[0.68896321070234112,"#ED726B"],[0.6923076923076924,"#ED736B"],[0.69565217391304346,"#EE756B"],[0.69899665551839474,"#EF766B"],[0.7023411371237458,"#EF786B"],[0.70568561872909707,"#F0796B"],[0.70903010033444813,"#F07A6B"],[0.71237458193979941,"#F17C6B"],[0.71571906354515047,"#F17D6B"],[0.71906354515050175,"#F27F6C"],[0.72240802675585281,"#F2806C"],[0.72575250836120409,"#F3816C"],[0.72909698996655514,"#F3836C"],[0.73244147157190631,"#F4846C"],[0.73578595317725748,"#F4856C"],[0.73913043478260865,"#F5876C"],[0.74247491638795993,"#F5886C"],[0.74581939799331098,"#F6896C"],[0.74916387959866226,"#F68B6C"],[0.75250836120401332,"#F78C6C"],[0.7558528428093646,"#F78D6C"],[0.75919732441471566,"#F88F6C"],[0.76254180602006694,"#F8906C"],[0.76588628762541799,"#F9916C"],[0.76923076923076927,"#F9936D"],[0.77257525083612033,"#FA946D"],[0.77591973244147161,"#FA956D"],[0.77926421404682267,"#FB976D"],[0.78260869565217395,"#FB986D"],[0.785953177257525,"#FC996D"],[0.78929765886287617,"#FC9B6D"],[0.79264214046822745,"#FD9C6D"],[0.79598662207357851,"#FD9D6D"],[0.79933110367892979,"#FE9F6D"],[0.80267558528428085,"#FEA06E"],[0.80602006688963213,"#FEA26F"],[0.80936454849498318,"#FEA471"],[0.81270903010033446,"#FFA572"],[0.81605351170568552,"#FFA773"],[0.8193979933110368,"#FFA875"],[0.82274247491638786,"#FFAA76"],[0.82608695652173914,"#FFAC77"],[0.82943143812709019,"#FFAD79"],[0.83277591973244147,"#FFAF7A"],[0.83612040133779253,"#FFB07B"],[0.83946488294314381,"#FFB27D"],[0.84280936454849487,"#FFB47E"],[0.84615384615384615,"#FFB57F"],[0.84949832775919731,"#FFB781"],[0.85284280936454848,"#FFB882"],[0.85618729096989965,"#FFBA83"],[0.85953177257525071,"#FFBB85"],[0.86287625418060199,"#FFBD86"],[0.86622073578595304,"#FFBF87"],[0.86956521739130432,"#FFC089"],[0.87290969899665538,"#FFC28A"],[0.87625418060200666,"#FFC38B"],[0.87959866220735772,"#FFC58D"],[0.882943143812709,"#FFC78E"],[0.88628762541806005,"#FFC890"],[0.88963210702341133,"#FFCA91"],[0.89297658862876239,"#FFCB92"],[0.89632107023411367,"#FFCD94"],[0.89966555183946484,"#FFCE95"],[0.90301003344481601,"#FFD096"],[0.90635451505016718,"#FFD198"],[0.90969899665551834,"#FFD399"],[0.91304347826086951,"#FFD59A"],[0.91638795986622079,"#FFD69C"],[0.91973244147157185,"#FFD89D"],[0.92307692307692313,"#FFD99F"],[0.92642140468227419,"#FFDBA0"],[0.92976588628762546,"#FFDCA1"],[0.93311036789297652,"#FFDEA3"],[0.9364548494983278,"#FFDFA4"],[0.93979933110367886,"#FFE1A6"],[0.94314381270902992,"#FFE3A7"],[0.9464882943143812,"#FFE4A8"],[0.94983277591973225,"#FFE6AA"],[0.95317725752508353,"#FFE7AB"],[0.9565217391304347,"#FFE9AD"],[0.95986622073578587,"#FFEAAE"],[0.96321070234113704,"#FEECAF"],[0.96655518394648832,"#FEEDB1"],[0.96989966555183937,"#FEEFB2"],[0.97324414715719065,"#FEF1B4"],[0.97658862876254171,"#FEF2B5"],[0.97993311036789299,"#FDF4B6"],[0.98327759197324405,"#FDF5B8"],[0.98662207357859533,"#FDF7B9"],[0.98996655518394638,"#FDF8BB"],[0.99331103678929766,"#FDFABC"],[0.99665551839464872,"#FCFBBE"],[1,"#FCFDBF"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"thickness":23.039999999999996,"title":"phi","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"tickmode":"array","ticktext":["0.2","0.4","0.6"],"tickvals":[0.1958184080813081,0.50882429859713951,0.82183018911297112],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":37.260273972602747},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.5,21.5],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[0,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Number of Raters","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.5,21.5],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[0,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Items","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176002,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"phi","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"5b0c287610d8":{"x":{},"y":{},"fill":{},"type":"heatmap"}},"cur_data":"5b0c287610d8","visdat":{"5b0c287610d8":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotly_phi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Dependability Coefficient Variation
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-plotly_epsilon" class="quarto-xref">Figure&nbsp;2</a> and <a href="#fig-plotly_phi" class="quarto-xref">Figure&nbsp;3</a> show that it could potentially achieve a higher generalisability coefficient by increasing raters and/or items, assuming variance components remain unchanged.</p>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-huebner2019" class="csl-entry" role="listitem">
+Huebner, A., &amp; Lucht, M. (2019). Generalizability theory in r. <em>University of Massachusetts Amherst</em>. <a href="https://doi.org/10.7275/5065-GC10">https://doi.org/10.7275/5065-GC10</a>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
